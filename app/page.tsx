@@ -1,65 +1,814 @@
-import Image from "next/image";
+"use client";
+import React, { useState, useEffect,useRef } from 'react';
 
-export default function Home() {
+export default function HeroSection() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState({
+    london: '',
+    istanbul: '',
+    ljubljana: ''
+  });
+  const [isVisible2, setIsVisible2] = useState(false);
+  const [activeService, setActiveService] = useState('sustainable-design');
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible2(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setIsVisible(true);
+    
+    // Update time every minute
+    const updateTime = () => {
+      const now = new Date();
+      setCurrentTime({
+        london: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }),
+        istanbul: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' }),
+        ljubljana: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Ljubljana', hour: '2-digit', minute: '2-digit' })
+      });
+    };
+    
+    updateTime();
+    const interval = setInterval(updateTime, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
+    const services = [
+    { id: 'sustainable-design', name: 'Sustainable Design', active: true },
+    { id: 'envisioning-investment', name: 'Envisioning Investment', active: false },
+    { id: 'urban-design', name: 'Urban Design', active: false },
+    { id: 'architecture', name: 'Architecture', active: false },
+    { id: 'interior-design', name: 'Interior Design', active: false },
+    { id: 'exhibition-design', name: 'Exhibition Design', active: false },
+    { id: 'construction', name: 'Construction', active: false }
+  ];
+
+  const navItems = [
+    { name: 'PROJECTS', href: '#projects' },
+    { name: 'EXPERTISE', href: '#expertise' },
+    { name: 'STUDIO', href: '#studio' },
+    { name: 'INSIGHT', href: '#insight' },
+    { name: 'CONTACT', href: '#contact' }
+  ];
+
+   const [isVisible3, setIsVisible3] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState();
+  const sectionRef2 = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible3(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef2.current) {
+      observer.observe(sectionRef2.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const sectors = [
+    {
+      id: 'offices',
+      title: 'Offices',
+      image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800',
+      size: 'large'
+    },
+    {
+      id: 'hospitality',
+      title: 'Hospitality',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600',
+      size: 'small'
+    },
+    {
+      id: 'retail',
+      title: 'Retail',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600',
+      size: 'small'
+    },
+    {
+      id: 'residential',
+      title: 'Residential',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600',
+      size: 'small'
+    },
+    {
+      id: 'master-planning',
+      title: 'Master Planning',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600',
+      size: 'small'
+    }
+  ];
+
+  //=================================
+
+   const [isVisible4, setIsVisible4] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('avci-feed');
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    description: ''
+  });
+  const sectionRef3 = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible4(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef3.current) {
+      observer.observe(sectionRef3.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const filters = [
+    { id: 'avci-feed', label: 'Avci Feed' },
+    { id: 'sustainability', label: 'Sustainability in Practice' },
+    { id: 'trends', label: 'Trends in Sectors' }
+  ];
+
+  const insights = [
+    {
+      id: 1,
+      title: 'RIMSKI VRELEC SPA HOTEL CONSTRUCTION PROGRESSES RAPIDLY!',
+      date: '26 Jul 2025',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
+      category: 'avci-feed'
+    },
+    {
+      id: 2,
+      title: 'ENVISIONING A CITY: FUTURE PERSPECTIVES FROM NORTH AND SOUTH',
+      date: '23 May 2025',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
+      category: 'avci-feed'
+    },
+    {
+      id: 3,
+      title: 'CONCRETE CONSTRUCTION TIPS FROM THE AVCI PROJECT',
+      date: '14 Mar 2025',
+      image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800',
+      category: 'avci-feed'
+    }
+  ];
+
+  const handleSubmit = () => {
+    console.log('Form submitted:', formData);
+    alert('Thank you for your message! We will get back to you soon.');
+    setFormData({ name: '', company: '', email: '', description: '' });
+  };
+
+  const handleChange = (e:any) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+    <div className="relative w-full h-screen overflow-hidden bg-black">
+      {/* Background Image with Parallax Effect */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center transform transition-transform duration-1000 scale-105 hover:scale-110"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600')`,
+        }}
+      />
+
+      {/* Navigation */}
+      <nav className={`relative z-20 flex justify-between items-center px-8 md:px-16 pt-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
+        <div className="text-white text-lg md:text-xl font-semibold tracking-widest hover:tracking-wide transition-all duration-300 cursor-pointer">
+          AVCI ARCHITECTS
+        </div>
+        
+        <div className="flex gap-6 md:gap-12 items-center">
+          {navItems.map((item, index) => (
+            <a
+              key={item.name}
+              href={item.href}
+              className={`group hidden md:flex items-center gap-2 text-white text-xs tracking-wider transition-all duration-500 hover:opacity-70 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
+              style={{ transitionDelay: `${index * 100}ms` }}
+            >
+              <span className="w-2 h-2 rounded-full bg-white transform group-hover:scale-150 transition-transform duration-300" />
+              {item.name}
+            </a>
+          ))}
+          <button className="text-white text-xl hover:rotate-90 transition-transform duration-300">
+            ⌕
+          </button>
+        </div>
+      </nav>
+
+      {/* Hero Content */}
+      <div className="relative z-10 flex flex-col justify-center h-full px-8 md:px-16 max-w-7xl">
+        <h1 className="text-white font-bold leading-none tracking-tight uppercase overflow-hidden">
+          <div className={`transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+            <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
+              BEYOND
+            </span>
+          </div>
+          <div className={`transition-all duration-1000 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+            <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
+              ARCHITECTURE
+            </span>
+          </div>
+        </h1>
+
+        {/* Animated Line */}
+        <div className={`mt-8 h-1 bg-white transition-all duration-1500 delay-700 ${isVisible ? 'w-32 opacity-100' : 'w-0 opacity-0'}`} />
+      </div>
+
+      {/* Bottom Time Info */}
+      <div className={`absolute bottom-8 right-8 md:right-16 flex flex-col md:flex-row gap-4 md:gap-8 text-white text-xs md:text-sm transition-all duration-1000 delay-900 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+          <span className="text-base">◷</span>
+          <span>LND {currentTime.london}</span>
+        </div>
+        <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+          <span className="text-base">◷</span>
+          <span>IST {currentTime.istanbul}</span>
+        </div>
+        <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
+          <span className="text-base">◷</span>
+          <span>LJU {currentTime.ljubljana}</span>
+        </div>
+      </div>
+
+      {/* Side Text */}
+      <div className={`hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 rotate-90 text-white text-xs tracking-widest transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        WELCOME
+      </div>
+
+      {/* Scroll Indicator */}
+      <div className={`absolute bottom-8 left-8 md:left-16 flex flex-col items-center gap-2 text-white transition-all duration-1000 delay-1100 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <span className="text-xs tracking-widest rotate-0 hover:tracking-wide transition-all duration-300">SCROLL</span>
+        <div className="w-px h-16 bg-white animate-pulse" />
+      </div>
+
+      {/* Floating Particles Effect */}
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-white rounded-full animate-float opacity-20"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${i * 0.5}s`,
+            animationDuration: `${3 + Math.random() * 2}s`
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+      ))}
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) translateX(0);
+            opacity: 0.2;
+          }
+          50% {
+            transform: translateY(-20px) translateX(10px);
+            opacity: 0.4;
+          }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
+    </div>
+     <div className="min-h-screen bg-white text-black" ref={sectionRef}>
+      {/* Navigation */}
+      {/* <nav className="flex justify-between items-center px-8 md:px-16 py-6 border-b border-gray-200">
+        <div className="text-black text-lg font-semibold tracking-wider hover:tracking-wide transition-all duration-300 cursor-pointer">
+          AVCI ARCHITECTS
+        </div>
+        
+        <div className="flex gap-6 md:gap-10 items-center">
+          {navItems.map((item, index) => (
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              key={item.name}
+              href={item.href}
+              className="hidden md:flex items-center gap-2 text-black text-xs tracking-wider transition-all duration-300 hover:opacity-50"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+              <span className="w-2 h-2 rounded-full bg-black" />
+              {item.name}
+            </a>
+          ))}
+          <button className="text-black text-xl hover:rotate-90 transition-transform duration-300">
+            ⌕
+          </button>
+        </div>
+      </nav> */}
+
+      {/* Main Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-8 md:px-16 py-16">
+        {/* Left Side - Icon and Text */}
+        <div className="flex flex-col justify-center">
+          <p className={`text-sm text-gray-500 mb-12 transition-all duration-700 ${isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            Expertise
+          </p>
+
+          {/* 3D Icon */}
+          <div className={`mb-16 transition-all duration-1000 delay-200 ${isVisible2 ? 'opacity-100 scale-100 rotate-0' : 'opacity-0 scale-90 rotate-12'}`}>
+            <div className="w-64 h-64 mx-auto perspective-1000">
+              <div className="relative w-full h-full transform-style-3d hover:rotate-y-12 transition-transform duration-700">
+                {/* Isometric Box */}
+                <svg viewBox="0 0 200 200" className="w-full h-full">
+                  {/* Top face */}
+                  <path
+                    d="M 60 60 L 100 40 L 140 60 L 100 80 Z"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="1.5"
+                    className="animate-draw"
+                  />
+                  {/* Left face */}
+                  <path
+                    d="M 60 60 L 60 120 L 100 140 L 100 80 Z"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="1.5"
+                    className="animate-draw"
+                    style={{ animationDelay: '0.3s' }}
+                  />
+                  {/* Right face */}
+                  <path
+                    d="M 100 80 L 100 140 L 140 120 L 140 60 Z"
+                    fill="none"
+                    stroke="#000"
+                    strokeWidth="1.5"
+                    className="animate-draw"
+                    style={{ animationDelay: '0.6s' }}
+                  />
+                  {/* Base diamond */}
+                  <path
+                    d="M 100 40 L 30 80 L 100 120 L 170 80 Z"
+                    fill="none"
+                    stroke="#ddd"
+                    strokeWidth="1"
+                    className="animate-draw"
+                    style={{ animationDelay: '0.9s' }}
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Services List */}
+        <div className="flex flex-col justify-center">
+          <h2 className={`text-4xl md:text-5xl font-bold mb-12 transition-all duration-700 delay-300 ${isVisible2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            Services
+          </h2>
+
+          <div className="border-t border-gray-300" />
+
+          {/* Active Service */}
+          <div className={`group flex items-center justify-between py-6 cursor-pointer transition-all duration-500 delay-400 ${isVisible2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <span className="text-lg font-medium">Sustainable Design</span>
+            <span className="flex items-center gap-2 text-sm hover:gap-4 transition-all duration-300">
+              Explore 
+              <span className="transform group-hover:translate-x-2 transition-transform duration-300">→</span>
+            </span>
+          </div>
+
+          {/* Main Headline */}
+          <div className={`my-12 transition-all duration-700 delay-500 ${isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            <h1 className="text-3xl md:text-4xl lg:text-4xl font-light leading-tight">
+              WE TURN SUSTAINABILITY<br />
+              INTO MEASURABLE IMPACT
+            </h1>
+            <div className="h-px bg-gradient-to-r from-black to-transparent w-full mt-8" />
+          </div>
+
+          {/* Other Services */}
+          <div className="space-y-0">
+            {services.slice(1).map((service, index) => (
+              <div
+                key={service.id}
+                className={`group flex items-center justify-between py-6 border-t border-gray-200 cursor-pointer hover:bg-gray-50 transition-all duration-300 ${isVisible2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}
+                style={{ transitionDelay: `${600 + index * 100}ms` }}
+                onMouseEnter={() => setActiveService(service.id)}
+              >
+                <span className="text-base text-gray-400 group-hover:text-black group-hover:font-medium transition-all duration-300">
+                  {service.name}
+                </span>
+                <span className="opacity-0 group-hover:opacity-100 transform group-hover:translate-x-0 translate-x-4 transition-all duration-300">
+                  →
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Project Showcase */}
+      <div className={`px-8 md:px-16 pb-16 transition-all duration-1000 delay-1000 ${isVisible2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+        <div className="relative group overflow-hidden rounded-lg cursor-pointer">
+          <img
+            src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1600"
+            alt="Turkish Airlines International Lounge"
+            className="w-full h-96 md:h-[600px] object-cover transform group-hover:scale-105 transition-transform duration-700"
+          />
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          
+          {/* Content */}
+          <div className="absolute inset-0 flex flex-col justify-between p-8 md:p-12">
+            <p className="text-white text-sm tracking-wider">Turkish Airlines International Lounge</p>
+            
+            <div className="flex items-end justify-between">
+              <h3 className="text-white text-3xl md:text-5xl lg:text-6xl font-light leading-tight max-w-3xl">
+                REDEFINING THE LOUNGE<br />
+                EXPERIENCE THROUGH<br />
+                TURKISH HOSPITALITY.
+              </h3>
+              
+              {/* Thumbnail */}
+              <div className="hidden md:block w-32 h-32 lg:w-40 lg:h-40 overflow-hidden rounded-lg border-2 border-white transform group-hover:scale-110 transition-transform duration-500">
+                <img
+                  src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=400"
+                  alt="Thumbnail"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes draw {
+          from {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+          }
+          to {
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 0;
+          }
+        }
+        .animate-draw {
+          animation: draw 1.5s ease-out forwards;
+        }
+        .perspective-1000 {
+          perspective: 1000px;
+        }
+        .transform-style-3d {
+          transform-style: preserve-3d;
+        }
+        .rotate-y-12:hover {
+          transform: rotateY(12deg) rotateX(-5deg);
+        }
+      `}</style>
+    </div>
+     <div className="min-h-screen bg-white" ref={sectionRef2}>
+      {/* Top Section */}
+      <div className="px-8 md:px-16 py-16">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
+          {/* Left - Label */}
+          <p className={`text-sm text-gray-500 uppercase tracking-wider transition-all duration-700 ${isVisible3 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            Expertise
+          </p>
+
+          {/* Center - Title */}
+          <h2 className={`text-4xl md:text-5xl font-light transition-all duration-700 delay-200 ${isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+            Sectors
+          </h2>
+
+          {/* Right - Spacer for balance */}
+          <div className="hidden md:block w-24" />
+        </div>
+
+        {/* Description */}
+        <div className={`max-w-4xl mx-auto mb-20 transition-all duration-700 delay-400 ${isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <p className="text-xl md:text-2xl lg:text-3xl font-light leading-relaxed text-gray-800">
+            A DYNAMIC AND COLLABORATIVE WORKPLACE DESIGNED FOR INNOVATION, EFFICIENCY, AND THE FUTURE OF WORK.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Sectors Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Large Card - Offices */}
+          <div 
+            className={`md:col-span-5 group relative overflow-hidden rounded-lg cursor-pointer transition-all duration-700 delay-500 ${isVisible3 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            // onMouseEnter={() => setHoveredCard('offices')}
+            // onMouseLeave={() => setHoveredCard(null)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
+            <div className="aspect-[4/5] md:aspect-[3/4] relative">
+              <img
+                src={sectors[0].image}
+                alt={sectors[0].title}
+                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+              />
+              <div className={`absolute inset-0 bg-black transition-opacity duration-500 ${hoveredCard === 'offices' ? 'opacity-30' : 'opacity-0'}`} />
+              
+              {/* Label */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                <h3 className="text-white text-2xl font-light tracking-wide">
+                  {sectors[0].title}
+                </h3>
+              </div>
+
+              {/* Hover Overlay */}
+              <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${hoveredCard === 'offices' ? 'opacity-100' : 'opacity-0'}`}>
+                <span className="text-white text-lg font-light border border-white px-8 py-3 hover:bg-white hover:text-black transition-all duration-300">
+                  View Projects
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Small Cards Grid */}
+          <div className="md:col-span-7 grid grid-cols-2 gap-6">
+            {sectors.slice(1).map((sector, index) => (
+              <div
+                key={sector.id}
+                className={`group relative overflow-hidden rounded-lg cursor-pointer transition-all duration-700 ${isVisible3 ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+                style={{ transitionDelay: `${600 + index * 100}ms` }}
+                // onMouseEnter={() => setHoveredCard(sector.id)}
+                // onMouseLeave={() => setHoveredCard(null)}
+              >
+                <div className="aspect-square relative">
+                  <img
+                    src={sector.image}
+                    alt={sector.title}
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className={`absolute inset-0 bg-black transition-opacity duration-500 ${hoveredCard === sector.id ? 'opacity-30' : 'opacity-0'}`} />
+                  
+                  {/* Label */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                    <h3 className="text-white text-lg font-light tracking-wide">
+                      {sector.title}
+                    </h3>
+                  </div>
+
+                  {/* Hover Overlay */}
+                  <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ${hoveredCard === sector.id ? 'opacity-100' : 'opacity-0'}`}>
+                    <span className="text-white text-sm font-light border border-white px-6 py-2 hover:bg-white hover:text-black transition-all duration-300">
+                      Explore
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Quote Section */}
+      <div className="bg-black text-white px-8 md:px-16 py-24 md:py-32">
+        <div className={`max-w-6xl mx-auto transition-all duration-1000 delay-300 ${isVisible3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <div className="flex items-start gap-4 mb-8">
+            <div className="w-3 h-3 rounded-full bg-white mt-3 flex-shrink-0 animate-pulse" />
+            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-tight">
+              <span className="block mb-4">OUR PEOPLE ARE OUR GREATEST STRENGTH...</span>
+              <span className="block text-gray-400 mb-4">CREATIVITY, COLLABORATION, AND INNOVATION</span>
+              <span className="block text-gray-500">THRIVE WHEN WE GROW TOGETHER.</span>
+            </h2>
+          </div>
+
+          {/* Animated Line */}
+          <div className="flex items-center gap-4 mt-16">
+            <div className={`h-px bg-white transition-all duration-1500 delay-500 ${isVisible3 ? 'w-32' : 'w-0'}`} />
+            <button className="group flex items-center gap-3 text-sm tracking-wider hover:gap-5 transition-all duration-300">
+              <span>Learn More About Us</span>
+              <span className="transform group-hover:translate-x-2 transition-transform duration-300">→</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
+            backgroundSize: '50px 50px'
+          }} />
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </div>
+
+    <div className="bg-white" ref={sectionRef3}>
+      {/* Insight Section */}
+      <div className="px-8 md:px-16 py-20">
+        {/* Header */}
+        <div className={`flex justify-between items-center mb-16 transition-all duration-700 ${isVisible4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h2 className="text-4xl md:text-5xl font-light">Insight</h2>
+          <a href="#" className="group flex items-center gap-2 text-sm hover:gap-4 transition-all duration-300">
+            <span>View All</span>
+            <span className="transform group-hover:translate-x-2 transition-transform duration-300">→</span>
           </a>
         </div>
-      </main>
+
+        {/* Filters */}
+        <div className={`flex flex-wrap gap-8 mb-12 border-b border-gray-200 transition-all duration-700 delay-200 ${isVisible4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+              className={`pb-4 text-sm transition-all duration-300 relative ${
+                activeFilter === filter.id
+                  ? 'text-black font-medium'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              {filter.label}
+              {activeFilter === filter.id && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-black" />
+              )}
+            </button>
+          ))}
+        </div>
+
+        {/* Insights Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {insights.map((insight, index) => (
+            <div
+              key={insight.id}
+              className={`group cursor-pointer transition-all duration-700 ${isVisible4 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+              style={{ transitionDelay: `${400 + index * 100}ms` }}
+            >
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-lg mb-6 aspect-[4/3]">
+                <img
+                  src={insight.image}
+                  alt={insight.title}
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
+              </div>
+
+              {/* Content */}
+              <div>
+                <p className="text-xs text-gray-400 mb-3">{insight.date}</p>
+                <h3 className="text-lg font-light leading-tight group-hover:text-gray-600 transition-colors duration-300">
+                  {insight.title}
+                </h3>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Contact Section */}
+      <div className="bg-black text-white relative overflow-hidden">
+        {/* Large AVCI Background Text */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
+          <p className="text-[20rem] md:text-[30rem] lg:text-[40rem] font-bold text-gray-900 opacity-30 select-none">
+            AVCI
+          </p>
+        </div>
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 px-8 md:px-16 py-24 md:py-32">
+          {/* Left Side - Text */}
+          <div className={`flex flex-col justify-center transition-all duration-1000 ${isVisible4 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
+            <div className="mb-8">
+              <p className="text-xs text-gray-400 uppercase tracking-wider mb-4">CONTACT US</p>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
+                Great architecture begins<br />with a conversation.
+              </h2>
+            </div>
+
+            <p className="text-gray-400 text-lg mb-8 max-w-md">
+              Reach out to discuss your vision and how we can bring it to life together.
+            </p>
+
+            {/* Contact Info */}
+            <div className="space-y-4 text-sm">
+              <div className="flex items-start gap-3">
+                <span className="text-gray-500">📍</span>
+                <div>
+                  <p className="text-gray-300">Ljubljana, Slovenia</p>
+                  <p className="text-gray-500">Dunajska cesta 156</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-gray-500">📧</span>
+                <p className="text-gray-300">info@avciarchitects.com</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-gray-500">📞</span>
+                <p className="text-gray-300">+386 1 234 5678</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Side - Contact Form */}
+          <div className={`transition-all duration-1000 delay-300 ${isVisible4 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+            <div className="space-y-6">
+              {/* Name & Company */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="Company"
+                    value={formData.company}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
+                  />
+                </div>
+              </div>
+
+              {/* Email */}
+              <div>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <textarea
+                  name="description"
+                  placeholder="Details about your description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  rows={6}
+                  className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300 resize-none"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-6">
+                <button
+                  onClick={handleSubmit}
+                  className="group relative px-12 py-4 border border-white text-white text-sm tracking-wider overflow-hidden transition-all duration-500 hover:text-black"
+                >
+                  <span className="relative z-10">SEND</span>
+                  <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Dot Pattern Overlay */}
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-10 pointer-events-none">
+          <div className="w-full h-full" style={{
+            backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
+            backgroundSize: '30px 30px'
+          }} />
+        </div>
+      </div>
     </div>
+    </>
   );
 }
