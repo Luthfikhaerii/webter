@@ -138,7 +138,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
-              <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
+              <span className="block text-6xl md:text-8xl hover:tracking-wider transition-all duration-500 cursor-default">
                 BUILD YOUR
               </span>
             </motion.div>
@@ -147,7 +147,7 @@ export default function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
+              <span className="block text-6xl md:text-8xl hover:tracking-wider transition-all duration-500 cursor-default">
                 DIGITAL FUTURE
               </span>
             </motion.div>
