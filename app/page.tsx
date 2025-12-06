@@ -1,262 +1,226 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { easeOut, motion, useInView } from 'framer-motion';
-import { Code, Database, MessageSquare, ChevronRight, Mail, Phone, MapPin } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
-export default function WebterLanding() {
+export default function HeroSection() {
   const [currentTime, setCurrentTime] = useState({
-    jakarta: '',
-    singapore: '',
-    tokyo: ''
-  });
-  const [activeService, setActiveService] = useState('website-development');
-  const [activeFilter, setActiveFilter] = useState('all-projects');
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    description: ''
+    london: '',
+    istanbul: '',
+    ljubljana: ''
   });
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date();
       setCurrentTime({
-        jakarta: now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit' }),
-        singapore: now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Singapore', hour: '2-digit', minute: '2-digit' }),
-        tokyo: now.toLocaleTimeString('en-GB', { timeZone: 'Asia/Tokyo', hour: '2-digit', minute: '2-digit' })
+        london: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }),
+        istanbul: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Istanbul', hour: '2-digit', minute: '2-digit' }),
+        ljubljana: now.toLocaleTimeString('en-GB', { timeZone: 'Europe/Ljubljana', hour: '2-digit', minute: '2-digit' })
       });
     };
-    
+
     updateTime();
     const interval = setInterval(updateTime, 60000);
     return () => clearInterval(interval);
   }, []);
 
   const services = [
-    { id: 'website-development', name: 'Website Development', icon: Code },
-    { id: 'information-system', name: 'Information System', icon: Database },
-    { id: 'consultation', name: 'IT Consultation', icon: MessageSquare }
+    { id: 'sustainable-design', name: 'Sustainable Design' },
+    { id: 'website-dev', name: 'Website Development' },
+    { id: 'custom-is', name: 'Custom Information System' },
+    { id: 'ui-ux', name: 'UI/UX Design' },
+    { id: 'consultation', name: 'Consultation' },
   ];
 
-  const navItems = [
-    { name: 'SERVICES', href: '#services' },
-    { name: 'PORTFOLIO', href: '#portfolio' },
-    { name: 'ABOUT', href: '#about' },
-    { name: 'CONTACT', href: '#contact' }
-  ];
-
-  const portfolios = [
+  const sectors = [
     {
-      id: 1,
-      title: 'LUPIC - UPI CMS Platform',
-      subtitle: 'Leading University Project for International Cooperation',
-      description: 'Content Management System for Chemistry/Science Education Program in Java and Northern Bali Islands',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-      category: 'all-projects',
-      tech: ['Next.js', 'PostgreSQL', 'CMS']
+      id: 'offices',
+      title: '',
+      image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800',
+      size: 'large'
     },
     {
-      id: 2,
-      title: 'Lab Kimia Instrumen UPI',
-      subtitle: 'Order Management System',
-      description: 'Comprehensive web platform for chemical testing service orders and laboratory management',
-      image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800',
-      category: 'all-projects',
-      tech: ['React', 'Node.js', 'MySQL']
+      id: 'hospitality',
+      title: '',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600',
+      size: 'small'
     },
     {
-      id: 3,
-      title: 'Langkahsana',
-      subtitle: 'Event Booking Platform',
-      description: 'Website booking system for hiking community events and outdoor activities',
-      image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800',
-      category: 'all-projects',
-      tech: ['Vue.js', 'Express', 'MongoDB']
+      id: 'retail',
+      title: '',
+      image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600',
+      size: 'small'
+    },
+    {
+      id: 'residential',
+      title: '',
+      image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600',
+      size: 'small'
+    },
+    {
+      id: 'master-planning',
+      title: '',
+      image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600',
+      size: 'small'
     }
   ];
 
-  const handleSubmit = () => {
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', company: '', email: '', description: '' });
-  };
-
-  const handleChange = (e:any) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const insights = [
+    {
+      id: 1,
+      title: 'RIMSKI VRELEC SPA HOTEL CONSTRUCTION PROGRESSES RAPIDLY!',
+      date: '26 Jul 2025',
+      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
+    },
+    {
+      id: 2,
+      title: 'ENVISIONING A CITY: FUTURE PERSPECTIVES FROM NORTH AND SOUTH',
+      date: '23 May 2025',
+      image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800',
+    },
+    {
+      id: 3,
+      title: 'CONCRETE CONSTRUCTION TIPS FROM THE AVCI PROJECT',
+      date: '14 Mar 2025',
+      image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800',
+    }
+  ];
 
   // Animation variants
   const fadeInUp = {
-    hidden: { opacity: 0, y: 60 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: easeOut } }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   const fadeInLeft = {
-    hidden: { opacity: 0, x: -60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: easeOut } }
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
   };
 
   const fadeInRight = {
-    hidden: { opacity: 0, x: 60 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: easeOut } }
+    hidden: { opacity: 0, x: 10 },
+    visible: { opacity: 1, x: 0 }
   };
 
-  const staggerContainer = {
+  const scaleIn = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 }
+  };
+
+  const container = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2
+        staggerChildren: 0.1
       }
     }
   };
 
-  const scaleIn = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: easeOut } }
-  };
-
   return (
     <>
-      {/* Hero Section */}
-      <div className="relative w-full h-screen overflow-hidden bg-gradient-to-br from-gray-900 via-gray-900 to-gray-900">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600')] bg-cover bg-center opacity-20" />
-        
-        {/* Navigation */}
-        <motion.nav 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-20 flex justify-between items-center px-8 md:px-16 pt-8"
-        >
-          <div className="text-white text-xl md:text-2xl font-bold tracking-wider">
-            WEBTER
-          </div>
-          
-          <div className="flex gap-6 md:gap-12 items-center">
-            {navItems.map((item, index) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="hidden md:flex items-center gap-2 text-white text-xs tracking-wider hover:text-gray-400 transition-colors duration-300"
-              >
-                <span className="w-2 h-2 rounded-full bg-gray-400" />
-                {item.name}
-              </motion.a>
-            ))}
-          </div>
-        </motion.nav>
+      {/* HERO SECTION */}
+      <div className="relative w-full h-screen overflow-hidden bg-black">
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1600')`,
+          }}
+        />
 
-        {/* Hero Content */}
         <div className="relative z-10 flex flex-col justify-center h-full px-8 md:px-16 max-w-7xl">
-          <motion.h1 
-            className="text-white font-bold leading-none tracking-tight uppercase"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
+          <h1 className="text-white font-light leading-none tracking-tight uppercase overflow-hidden">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+              transition={{ duration: 1, delay: 0.3 }}
             >
-              <span className="block text-6xl md:text-8xl lg:text-9xl">
+              <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
                 BUILD YOUR
               </span>
             </motion.div>
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 1, delay: 0.5 }}
             >
-              <span className="block text-6xl md:text-8xl lg:text-9xl text-gray-400">
+              <span className="block text-6xl md:text-8xl lg:text-9xl hover:tracking-wider transition-all duration-500 cursor-default">
                 DIGITAL FUTURE
               </span>
             </motion.div>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="text-white text-xl md:text-2xl mt-8 max-w-2xl"
-          >
-            Professional Website Development, Information Systems, and IT Consultation Services
-          </motion.p>
+          </h1>
 
           <motion.div
-            initial={{ opacity: 0, width: 0 }}
-            animate={{ opacity: 1, width: 128 }}
-            transition={{ duration: 1, delay: 0.9 }}
-            className="mt-8 h-1 bg-gray-400"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 128, opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.7 }}
+            className="mt-8 h-1 bg-white"
           />
         </div>
 
-        {/* Bottom Time Info */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
+          transition={{ duration: 1, delay: 0.9 }}
           className="absolute bottom-8 right-8 md:right-16 flex flex-col md:flex-row gap-4 md:gap-8 text-white text-xs md:text-sm"
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
             <span className="text-base">◷</span>
-            <span>JKT {currentTime.jakarta}</span>
+            <span>LND {currentTime.london}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
             <span className="text-base">◷</span>
-            <span>SGP {currentTime.singapore}</span>
+            <span>IST {currentTime.istanbul}</span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform duration-300">
             <span className="text-base">◷</span>
-            <span>TYO {currentTime.tokyo}</span>
+            <span>LJU {currentTime.ljubljana}</span>
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 rotate-90 text-white text-xs tracking-widest"
+        >
+          WELCOME
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 1.1 }}
           className="absolute bottom-8 left-8 md:left-16 flex flex-col items-center gap-2 text-white"
         >
           <span className="text-xs tracking-widest">SCROLL</span>
-          <motion.div 
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-px h-16 bg-white"
-          />
+          <div className="w-px h-16 bg-white animate-pulse" />
         </motion.div>
       </div>
 
-      {/* Services Section */}
-      <section id="services" className="min-h-screen bg-white text-black py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-8 md:px-16">
-          {/* Left Side - Icon and Text */}
+      {/* SERVICES SECTION */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="min-h-screen bg-white text-black"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 px-8 md:px-16 py-16">
           <div className="flex flex-col justify-center">
-            <motion.p 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            <motion.p
               variants={fadeInUp}
+              transition={{ duration: 0.7 }}
               className="text-sm text-gray-500 mb-12"
             >
-              Our Expertise
+              Expertise
             </motion.p>
 
-            {/* 3D Icon */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            <motion.div
               variants={scaleIn}
+              transition={{ duration: 1, delay: 0.2 }}
               className="mb-16"
             >
               <div className="w-64 h-64 mx-auto">
@@ -264,181 +228,154 @@ export default function WebterLanding() {
                   <motion.path
                     d="M 60 60 L 100 40 L 140 60 L 100 80 Z"
                     fill="none"
-                    stroke="#3b82f6"
-                    strokeWidth="2"
+                    stroke="#000"
+                    strokeWidth="1.5"
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.2 }}
+                    transition={{ duration: 1.5, ease: "easeInOut" }}
                   />
                   <motion.path
                     d="M 60 60 L 60 120 L 100 140 L 100 80 Z"
                     fill="none"
-                    stroke="#3b82f6"
-                    strokeWidth="2"
+                    stroke="#000"
+                    strokeWidth="1.5"
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.5 }}
+                    transition={{ duration: 1.5, delay: 0.3, ease: "easeInOut" }}
                   />
                   <motion.path
                     d="M 100 80 L 100 140 L 140 120 L 140 60 Z"
                     fill="none"
-                    stroke="#3b82f6"
-                    strokeWidth="2"
+                    stroke="#000"
+                    strokeWidth="1.5"
                     initial={{ pathLength: 0 }}
                     whileInView={{ pathLength: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.8 }}
+                    transition={{ duration: 1.5, delay: 0.6, ease: "easeInOut" }}
                   />
                 </svg>
               </div>
             </motion.div>
           </div>
 
-          {/* Right Side - Services List */}
           <div className="flex flex-col justify-center">
-            <motion.h2 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            <motion.h2
               variants={fadeInRight}
-              className="text-4xl md:text-5xl font-bold mb-12"
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="text-4xl text-gray-900 md:text-5xl font-bold mb-12"
             >
               Services
             </motion.h2>
 
             <div className="border-t border-gray-300" />
 
-            {/* Active Service */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            <motion.div
               variants={fadeInRight}
+              transition={{ duration: 0.5, delay: 0.4 }}
               className="group flex items-center justify-between py-6 cursor-pointer"
             >
-              <div className="flex items-center gap-4">
-                <Code className="w-6 h-6 text-gray-600" />
-                <span className="text-lg font-medium">Website Development</span>
-              </div>
-              <span className="flex items-center gap-2 text-sm group-hover:gap-4 transition-all duration-300">
-                Explore 
-                <ChevronRight className="w-4 h-4" />
+              <span className="text-lg font-medium">Sustainable Design</span>
+              <span className="flex items-center gap-2 text-sm hover:gap-4 transition-all duration-300">
+                Explore
+                <span className="transform group-hover:translate-x-2 transition-transform duration-300">→</span>
               </span>
             </motion.div>
 
-            {/* Main Headline */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
+            <motion.div
               variants={fadeInUp}
-              className="my-12"
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="mb-12"
             >
-              <h1 className="text-3xl md:text-4xl font-light leading-tight">
+              <h1 className="text-3xl text-gray-800 md:text-4xl lg:text-4xl font-light leading-tight">
                 WE TRANSFORM YOUR IDEAS<br />
                 INTO POWERFUL DIGITAL SOLUTIONS
               </h1>
-              <div className="h-px bg-gradient-to-r from-gray-600 to-transparent w-full mt-8" />
+              <div className="h-px bg-gradient-to-r from-black to-transparent w-full mt-8" />
             </motion.div>
 
-            {/* Other Services */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.3 }}
-              variants={staggerContainer}
+            <motion.div
+              variants={container}
               className="space-y-0"
             >
-              {services.slice(1).map((service) => {
-                const IconComponent = service.icon;
-                return (
-                  <motion.div
-                    key={service.id}
-                    variants={fadeInRight}
-                    className="group flex items-center justify-between py-6 border-t border-gray-200 cursor-pointer hover:bg-gray-50 transition-all duration-300"
-                    onMouseEnter={() => setActiveService(service.id)}
-                  >
-                    <div className="flex items-center gap-4">
-                      <IconComponent className="w-5 h-5 text-gray-400 group-hover:text-gray-600 transition-colors duration-300" />
-                      <span className="text-base text-gray-400 group-hover:text-black group-hover:font-medium transition-all duration-300">
-                        {service.name}
-                      </span>
-                    </div>
-                    <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </motion.div>
-                );
-              })}
+              {services.slice(1).map((service, index) => (
+                <motion.div
+                  key={service.id}
+                  variants={fadeInRight}
+                  transition={{ duration: 0.3 }}
+                  className="group flex items-center justify-between py-6 border-b border-gray-200 cursor-pointer hover:bg-gray-50 transition-all duration-300"
+                >
+                  <span className="text-base text-gray-400 group-hover:text-black group-hover:font-medium transition-all duration-300">
+                    {service.name}
+                  </span>
+                  <span className="opacity-0 group-hover:opacity-100 transform group-hover:translate-x-0 translate-x-4 transition-all duration-300">
+                    →
+                  </span>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
         </div>
 
-        {/* Featured Project */}
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={fadeInUp}
-          className="px-8 md:px-16 mt-20"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="px-8 md:px-16 pb-16"
         >
-          <div className="relative group overflow-hidden rounded-lg cursor-pointer">
+          <div className="relative group overflow-hidden rounded-sm cursor-pointer">
             <motion.img
               whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7 }}
               src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600"
-              alt="LUPIC Platform"
+              alt="Project showcase"
               className="w-full h-96 md:h-[600px] object-cover"
             />
-            
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-            
             <div className="absolute inset-0 flex flex-col justify-between p-8 md:p-12">
-              <p className="text-white text-sm tracking-wider">Featured Project</p>
-              
+              <p className="text-white text-sm tracking-wider">Software Development Service</p>
               <div className="flex items-end justify-between">
-                <motion.h3 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
-                  className="text-white text-3xl md:text-5xl lg:text-6xl font-light leading-tight max-w-3xl"
-                >
-                  LUPIC - EMPOWERING EDUCATION<br />
-                  THROUGH TECHNOLOGY
-                </motion.h3>
+                <h3 className="text-white text-3xl md:text-5xl lg:text-6xl font-light leading-tight max-w-5xl">
+                  ELEVATING EXPERIENCES<br />
+                  THROUGH INNOVATIVE<br />
+                  WEB DEVELOPMENT.
+                </h3>
               </div>
             </div>
           </div>
         </motion.div>
-      </section>
+      </motion.div>
 
-      {/* Portfolio Section */}
-      <section id="portfolio" className="min-h-screen bg-gray-50 py-20">
-        <div className="px-8 md:px-16">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={staggerContainer}
-            className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16"
-          >
-            <motion.p variants={fadeInLeft} className="text-sm text-gray-500 uppercase tracking-wider">
-              Our Work
+      {/* SECTORS SECTION */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="min-h-screen bg-white"
+      >
+        <div className="px-8 md:px-16 py-16">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
+            <motion.p
+              variants={fadeInLeft}
+              transition={{ duration: 0.7 }}
+              className="text-sm text-gray-500 uppercase tracking-wider"
+            >
+              Expertise
             </motion.p>
 
-            <motion.h2 variants={fadeInUp} className="text-4xl md:text-5xl font-light">
-              Portfolio
+            <motion.h2
+              variants={fadeInUp}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="text-4xl text-gray-800 md:text-5xl font-light"
+            >
+              Production
             </motion.h2>
 
             <div className="hidden md:block w-24" />
-          </motion.div>
+          </div>
 
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+          <motion.div
             variants={fadeInUp}
+            transition={{ duration: 0.7, delay: 0.4 }}
             className="max-w-4xl mx-auto mb-20"
           >
             <p className="text-xl md:text-2xl lg:text-3xl font-light leading-relaxed text-gray-800">
@@ -446,222 +383,146 @@ export default function WebterLanding() {
             </p>
           </motion.div>
 
-          {/* Portfolio Grid */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={staggerContainer}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <motion.div
+              variants={scaleIn}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="md:col-span-5 group relative overflow-hidden rounded-lg cursor-pointer"
+            >
+              <div className="aspect-[4/5] md:aspect-[3/4] relative">
+                <motion.img
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.7 }}
+                  src={sectors[0].image}
+                  alt={sectors[0].title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                  <h3 className="text-white text-2xl font-light tracking-wide">
+                    {sectors[0].title}
+                  </h3>
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              variants={container}
+              className="md:col-span-7 grid grid-cols-2 gap-6"
+            >
+              {sectors.slice(1).map((sector, index) => (
+                <motion.div
+                  key={sector.id}
+                  variants={scaleIn}
+                  transition={{ duration: 0.7 }}
+                  className="group relative overflow-hidden rounded-lg cursor-pointer"
+                >
+                  <div className="aspect-square relative">
+                    <motion.img
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.7 }}
+                      src={sector.image}
+                      alt={sector.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+                      <h3 className="text-white text-lg font-light tracking-wide">
+                        {sector.title}
+                      </h3>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
+
+        <div className="bg-black text-white px-8 md:px-16 py-24 md:py-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="flex items-start gap-4 mb-8">
+              <div className="w-3 h-3 rounded-full bg-white mt-3 flex-shrink-0 animate-pulse" />
+              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-tight">
+                <span className="block mb-4">WE ARE WEBTER...</span>
+                <span className="block text-gray-400 mb-4">YOUR PARTNER IN DIGITAL TRANSFORMATION</span>
+                <span className="block text-gray-500">BUILDING SOLUTIONS THAT DRIVE SUCCESS.</span>
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-4 mt-16">
+              <motion.div
+                initial={{ width: 0 }}
+                whileInView={{ width: 128 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.5, delay: 0.5 }}
+                className="h-px bg-white"
+              />
+              <button className="group flex items-center gap-3 text-sm tracking-wider hover:gap-5 transition-all duration-300">
+                <span>Learn More About Us</span>
+                <span className="transform group-hover:translate-x-2 transition-transform duration-300">→</span>
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* INSIGHTS SECTION */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="bg-white"
+      >
+        <div className="px-8 md:px-16 py-20">
+          <motion.div
+            variants={fadeInUp}
+            transition={{ duration: 0.7 }}
+            className="flex justify-between items-center mb-8"
+          >
+            <h2 className="text-4xl md:text-5xl font-light text-gray-800">Our Work</h2>
+            <a href="#" className="group flex items-center gap-2 text-sm hover:gap-4 transition-all duration-300">
+              <span className="text-gray-600">View All</span>
+              <span className="transform group-hover:translate-x-2 transition-transform duration-300 text-gray-600">→</span>
+            </a>
+          </motion.div>
+
+          <motion.div
+            variants={container}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
-            {portfolios.map((project, index) => (
+            {insights.map((insight, index) => (
               <motion.div
-                key={project.id}
-                variants={scaleIn}
-                whileHover={{ y: -10 }}
-                className="group cursor-pointer bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500"
+                key={insight.id}
+                variants={fadeInUp}
+                transition={{ duration: 0.7 }}
+                className="group cursor-pointer"
               >
-                <div className="relative overflow-hidden h-64">
+                <div className="relative overflow-hidden rounded-lg mb-6 aspect-[4/3]">
                   <motion.img
                     whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
-                    src={project.image}
-                    alt={project.title}
+                    transition={{ duration: 0.7 }}
+                    src={insight.image}
+                    alt={insight.title}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <h3 className="text-white text-xl font-semibold mb-1">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm">
-                      {project.subtitle}
-                    </p>
-                  </div>
+                  <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
                 </div>
 
-                <div className="p-6">
-                  <p className="text-gray-600 mb-4 line-clamp-2">
-                    {project.description}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
+                <div>
+                  <p className="text-xs text-gray-800 mb-3">{insight.date}</p>
+                  <h3 className="text-lg font-light text-gray-600 leading-tight group-hover:text-gray-600 transition-colors duration-300">
+                    {insight.title}
+                  </h3>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="bg-gradient-to-br from-gray-900 to-gray-900 text-white px-8 md:px-16 py-24 md:py-32">
-        <motion.div 
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={staggerContainer}
-          className="max-w-6xl mx-auto"
-        >
-          <div className="flex items-start gap-4 mb-8">
-            <motion.div 
-              variants={scaleIn}
-              className="w-3 h-3 rounded-full bg-gray-400 mt-3 flex-shrink-0"
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-            <motion.h2 variants={fadeInUp} className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-light leading-tight">
-              <span className="block mb-4">WE ARE WEBTER...</span>
-              <span className="block text-gray-400 mb-4">YOUR PARTNER IN DIGITAL TRANSFORMATION</span>
-              <span className="block text-gray-400">BUILDING SOLUTIONS THAT DRIVE SUCCESS</span>
-            </motion.h2>
-          </div>
-
-          <motion.div 
-            variants={fadeInUp}
-            className="flex items-center gap-4 mt-16"
-          >
-            <motion.div 
-              initial={{ width: 0 }}
-              whileInView={{ width: 128 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="h-px bg-gray-400"
-            />
-            <button className="group flex items-center gap-3 text-sm tracking-wider hover:gap-5 transition-all duration-300">
-              <span>Learn More About Us</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="bg-black text-white relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-          <motion.p 
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 0.1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="text-[20rem] md:text-[30rem] lg:text-[40rem] font-bold text-white select-none"
-          >
-            W
-          </motion.p>
-        </div>
-
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 px-8 md:px-16 py-24 md:py-32">
-          {/* Left Side */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={fadeInLeft}
-            className="flex flex-col justify-center"
-          >
-            <div className="mb-8">
-              <p className="text-xs text-gray-400 uppercase tracking-wider mb-4">CONTACT US</p>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
-                Let's build something<br />amazing together.
-              </h2>
-            </div>
-
-            <p className="text-gray-400 text-lg mb-8 max-w-md">
-              Ready to start your digital journey? Get in touch with us today.
-            </p>
-
-            <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-gray-400 mt-1" />
-                <div>
-                  <p className="text-gray-300">Cimahi, West Java</p>
-                  <p className="text-gray-500">Indonesia</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 text-gray-400 mt-1" />
-                <p className="text-gray-300">info@webter.id</p>
-              </div>
-              <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 text-gray-400 mt-1" />
-                <p className="text-gray-300">+62 812 3456 7890</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Side - Form */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={fadeInRight}
-          >
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-gray-400 focus:outline-none transition-colors duration-300"
-                  />
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                  <input
-                    type="text"
-                    name="company"
-                    placeholder="Company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-gray-400 focus:outline-none transition-colors duration-300"
-                  />
-                </motion.div>
-              </div>
-
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-gray-400 focus:outline-none transition-colors duration-300"
-                />
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <textarea
-                  name="description"
-                  placeholder="Tell us about your project"
-                  value={formData.description}
-                  onChange={handleChange}
-                  rows={6}
-                  className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-gray-400 focus:outline-none transition-colors duration-300 resize-none"
-                />
-              </motion.div>
-
-              <div className="pt-6">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleSubmit}
-                  className="px-12 py-4 bg-gray-600 text-white text-sm tracking-wider rounded-lg hover:bg-gray-700 transition-colors duration-300"
-                >
-                  SEND MESSAGE
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      </motion.div>
     </>
   );
 }
