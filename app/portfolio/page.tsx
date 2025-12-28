@@ -124,11 +124,11 @@ export default function PortfolioPage() {
                     Every project is a story of collaboration, innovation, and craftsmanship.
                 </h2>
                 <div className="max-w-7xl mx-auto">
-                    <div className="space-y-8">
+                    <div className="space-y-16">
                         {filteredProjects.map((project, idx) => (
                             <article
                                 key={project.id}
-                                className="group cursor-pointer bg-white rounded-sm overflow-hidden  transition-all duration-500 mb-16"
+                                className="group cursor-pointer bg-white rounded-sm overflow-hidden  transition-all duration-500"
                                 style={{
                                     animation: `fadeIn 0.6s ease-out ${idx * 0.1}s both`
                                 }}

@@ -184,15 +184,6 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1 }}
-          className="hidden lg:block fixed right-8 top-1/2 transform -translate-y-1/2 rotate-90 text-white text-xs tracking-widest"
-        >
-          WELCOME
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1.1 }}
           className="absolute bottom-8 left-8 md:left-16 flex flex-col items-center gap-2 text-white"
         >

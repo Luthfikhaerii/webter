@@ -73,8 +73,9 @@ export default function Navbar() {
 
     return (
         <nav className={`fixed w-full z-20 flex justify-between items-center px-8 md:px-16 py-6 transition-all duration-500 ${colors.bg} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <div className={`${colors.text} text-lg md:text-xl font-semibold tracking-widest hover:tracking-wide transition-all duration-300 cursor-pointer`}>
-                WEBTER
+            <div className={`${colors.text} flex items-center text-lg md:text-xl font-semibold tracking-widest hover:tracking-wide transition-all duration-300 cursor-pointer`}>
+                <img src={isScrolled ? "/icon1.png" : "/logo.png"} className="w-12" />
+                <p>WEBTER</p>
             </div>
 
             <div className="flex gap-6 md:gap-12 items-center">

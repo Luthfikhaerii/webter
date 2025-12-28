@@ -23,14 +23,14 @@ export default function ServicesPage() {
             img: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1400&auto=format&fit=crop",
             alt: "Custom information system",
         },
-        {
-            id: "ui-ux",
-            title: "UI / UX Design",
-            description:
-                "Creating intuitive interfaces and seamless user experiences grounded in research, aesthetics, and clarity — ensuring every interaction feels meaningful and effortless.",
-            img: "https://images.unsplash.com/photo-1559027615-3eaa1cfe5f5b?q=80&w=1400&auto=format&fit=crop",
-            alt: "UI UX Design",
-        },
+        // {
+        //     id: "ui-ux",
+        //     title: "UI / UX Design",
+        //     description:
+        //         "Creating intuitive interfaces and seamless user experiences grounded in research, aesthetics, and clarity — ensuring every interaction feels meaningful and effortless.",
+        //     img: "https://images.unsplash.com/photo-1559027615-3eaa1cfe5f5b?q=80&w=1400&auto=format&fit=crop",
+        //     alt: "UI UX Design",
+        // },
         {
             id: "consult",
             title: "Software Consultation",
@@ -101,7 +101,7 @@ export default function ServicesPage() {
             <section className="w-full py-16 md:py-32 px-6 md:px-20 bg-white">
                 
 
-                <div className="max-w-7xl mx-auto space-y-32">
+                <div className="max-w-7xl mx-auto space-y-16">
                     {/* Heading atas */}
                 <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-16 max-w-3xl">
                     Empowering your business through modern software craftsmanship.
