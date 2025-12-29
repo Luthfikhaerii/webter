@@ -380,7 +380,8 @@ export default function HeroSection() {
               transition={{ duration: 0.7, delay: 0.5 }}
               className="md:col-span-5 group relative overflow-hidden rounded-lg cursor-pointer"
             >
-              <div className="aspect-[4/5] md:aspect-[3/4] relative">
+              {/* Ganti aspect ratio agar tingginya match dengan 2 kotak di kanan */}
+              <div className="aspect-square md:aspect-[5/7] relative bg-black">
                 <motion.img
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.7 }}
@@ -388,11 +389,12 @@ export default function HeroSection() {
                   alt={sectors[0].title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
-                  <h3 className="text-white text-2xl font-light tracking-wide">
-                    {sectors[0].title}
-                  </h3>
-                </div>
+                {/* Uncomment jika mau tambahkan title */}
+                {/* <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+        <h3 className="text-white text-2xl font-light tracking-wide">
+          {sectors[0].title}
+        </h3>
+      </div> */}
               </div>
             </motion.div>
 
