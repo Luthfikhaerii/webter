@@ -35,11 +35,6 @@
     background: var(--white);
     color: var(--black);
     overflow-x: hidden;
-    cursor: none;
-  }
-
-  a {
-    cursor: none;
   }
 }
 

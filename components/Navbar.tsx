@@ -1,96 +1,145 @@
 "use client"
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-    { name: 'HOME', href: '/' },
-    { name: 'SERVICE', href: '/service' },
-    { name: 'PORTOFOLIO', href: '/portfolio' },
-    { name: 'ABOUT', href: '/about' },
-    { name: 'CONTACT', href: '/contact' },
+    { name: 'Home', href: 'home' },
+        { name: 'About', href: 'about' },
+    { name: 'Services', href: 'services' },
+    { name: 'Product', href: 'product' },
+    { name: 'Our Work', href: 'ourwork' },
+    { name: 'Contact', href: 'contact' },
 ];
 
+const socials = ['Instagram', 'TikTok', 'WhatsApp'];
+
 export default function Navbar() {
-    const [isVisible, setIsVisible] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const pathname = usePathname();
-    const isHomePage = pathname === '/';
-    const isContactPage = pathname === '/contact';
+    const [activeSection, setActiveSection] = useState('home');
+    const [menuOpen, setMenuOpen] = useState(false);
 
-    useEffect(() => {
-        setIsVisible(true);
-
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY;
-
-            if (isHomePage) {
-                // Di halaman home: berubah setelah melewati 100vh
-                setIsScrolled(scrollPosition > window.innerHeight);
-            } else if (isContactPage) {
-                setIsScrolled(false)
-            } else {
-                // Di halaman lain: berubah setelah melewati 60vh
-                setIsScrolled(scrollPosition > window.innerHeight * 0.6);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        // Check initial scroll position
-        handleScroll();
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isHomePage, isContactPage]);
-
-    // Determine colors based on page and scroll state
-    const getColors = () => {
-        if (isHomePage) {
-            // Home page: white text default, black text when scrolled
-            return {
-                bg: isScrolled ? 'bg-white shadow-md' : 'bg-transparent',
-                text: isScrolled ? 'text-gray-900' : 'text-white',
-                dot: isScrolled ? 'bg-gray-900' : 'bg-white'
-            };
-        } if (isContactPage) {
-            // Home page: white text default, black text when scrolled
-            return {
-                bg: 'bg-transparent',
-                text: 'text-white',
-                dot: 'bg-white'
-            };
+    const scrollToSection = (id: string) => {
+        const element = document.getElementById(id);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+            setActiveSection(id);
         }
-        else {
-            // Other pages: transparent default, white bg when scrolled past 60vh
-            return {
-                bg: isScrolled ? 'bg-white shadow-md' : 'bg-transparent',
-                text: isScrolled ? 'text-gray-900' : 'text-white',
-                dot: isScrolled ? 'bg-gray-900' : 'bg-white'
-            };
-        }
+        setMenuOpen(false);
     };
 
-    const colors = getColors();
+    useEffect(() => {
+        document.body.style.overflow = menuOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
+    }, [menuOpen]);
 
     return (
-        <nav className={`fixed w-full z-20 flex justify-between items-center px-8 md:px-16 py-6 transition-all duration-500 ${colors.bg} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <div className={`${colors.text} flex items-center text-lg md:text-xl font-semibold tracking-widest hover:tracking-wide transition-all duration-300 cursor-pointer`}>
-                <img src={isScrolled ? "/icon1.png" : "/logo.png"} className="w-12" />
-                <p>WEBTER</p>
+        <>
+            {/* ── NAVBAR ── */}
+            <div className="w-full fixed px-6 md:px-16 py-4 flex justify-between items-center z-50">
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onClick={() => scrollToSection('home')}
+                    className="flex items-center cursor-pointer group"
+                >
+                    <div className="w-16 h-16 flex items-center justify-center">
+                        <img src="icon.png" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-2xl font-bold tracking-tighter text-black group-hover:text-[#004aad] transition-colors">
+                        Webter
+                    </span>
+                </motion.div>
+
+                <motion.button
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    onClick={() => setMenuOpen(true)}
+                    className="w-12 h-12 bg-black flex flex-col items-center justify-center gap-1.5 cursor-pointer hover:bg-[#004aad] transition-all duration-300"
+                    aria-label="Open menu"
+                >
+                    <div className="w-5 h-[1.5px] bg-white" />
+                    <div className="w-5 h-[1.5px] bg-white" />
+                    <div className="w-5 h-[1.5px] bg-white" />
+                </motion.button>
             </div>
 
-            <div className="flex gap-6 md:gap-12 items-center">
-                {navItems.map((item, index) => (
-                    <a
-                        key={item.name}
-                        href={item.href}
-                        className={`group hidden md:flex items-center gap-2 ${colors.text} text-xs tracking-wider transition-all duration-500 hover:opacity-70 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
-                        style={{ transitionDelay: `${index * 100}ms` }}
-                    >
-                        <span className={`w-2 h-2 rounded-full ${colors.dot} transform group-hover:scale-150 transition-transform duration-300`} />
-                        {item.name}
-                    </a>
-                ))}
-            </div>
-        </nav>
+            {/* ── SIDEBAR OVERLAY ── */}
+            <AnimatePresence>
+                {menuOpen && (
+                    <>
+                        {/* Backdrop */}
+                        <motion.div
+                            key="backdrop"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                            onClick={() => setMenuOpen(false)}
+                            className="fixed inset-0 bg-black/20 z-[998]"
+                        />
+
+                        {/* Sidebar Panel */}
+                        <motion.div
+                            key="sidebar"
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+                            className="fixed top-0 right-0 h-full w-full md:w-[480px] bg-[#fcfcfc] z-[999] flex flex-col overflow-hidden border-l border-gray-200"
+                        >
+                            {/* Header — fixed, tidak ikut scroll */}
+                            <div className="flex-shrink-0 flex justify-between items-center px-10 pt-8 pb-4">
+                                <span className="text-xs font-bold tracking-[0.25em] uppercase text-gray-400">
+                                    Menu
+                                </span>
+                                <button
+                                    onClick={() => setMenuOpen(false)}
+                                    className="w-12 h-12 bg-black flex items-center justify-center hover:bg-[#004aad] transition-all duration-300"
+                                    aria-label="Close menu"
+                                >
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="flex-shrink-0 mx-10 h-px bg-gray-200" />
+
+                            {/* Scrollable area — nav + bottom */}
+                            <div className="flex-1 overflow-y-auto overscroll-contain">
+
+                                {/* Nav Items */}
+                                <nav className="flex flex-col px-10 py-4">
+                                    {navItems.map((item, idx) => (
+                                        <motion.div
+                                            key={item.href}
+                                            initial={{ opacity: 0, x: 40 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.1 + idx * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                            className="border-b border-gray-200 group"
+                                        >
+                                            <button
+                                                onClick={() => scrollToSection(item.href)}
+                                                className="w-full flex items-baseline justify-between py-6 text-left"
+                                            >
+                                                <span className="text-3xl font-black tracking-[-0.04em] leading-none text-black group-hover:text-[#004aad] transition-colors duration-300">
+                                                    {item.name}
+                                                </span>
+                                                <span className="text-xs font-mono text-gray-300 group-hover:text-[#004aad] transition-colors duration-300 ml-4 shrink-0">
+                                                    0{idx + 1}
+                                                </span>
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </nav>
+
+
+
+                            </div>{/* end scrollable */}
+                        </motion.div >
+                    </>
+                )
+                }
+            </AnimatePresence >
+        </>
     );
 }
