@@ -1,165 +1,201 @@
-"use client"
-import { useState, useEffect, useRef } from "react";
+"use client";
 
-export default function Contact() {
-    const [isVisible4, setIsVisible4] = useState(false);
-    const sectionRef3 = useRef(null);
-    const [formData, setFormData] = useState({
-        name: '',
-        company: '',
-        email: '',
-        description: ''
-    });
+import { useEffect, useRef } from "react";
+import { motion, useAnimation, useInView, Variants } from "framer-motion";
 
-    const handleSubmit = () => {
-        console.log('Form submitted:', formData);
-        alert('Thank you for your message! We will get back to you soon.');
-        setFormData({ name: '', company: '', email: '', description: '' });
-    };
+/* ── REVEAL WRAPPER ── */
+function Reveal({
+  children,
+  direction = "up",
+  delay = 0,
+  className = "",
+}: {
+  children: React.ReactNode;
+  direction?: "up" | "left" | "right" | "fade";
+  delay?: number;
+  className?: string;
+}) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -60px 0px" });
+  const controls = useAnimation();
 
-    const handleChange = (e: any) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const variants : Variants = {
+    hidden: {
+      opacity: 0,
+      ...(direction === "up" && { y: 50 }),
+      ...(direction === "left" && { x: -50 }),
+      ...(direction === "right" && { x: 50 }),
+      ...(direction === "fade" && {}),
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      transition: {
+        duration: 1,
+        delay,
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
 
+  useEffect(() => {
+    if (isInView) controls.start("visible");
+  }, [isInView, controls]);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setIsVisible4(true);
-                }
-            },
-            { threshold: 0.1 }
-        );
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={variants}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
-        if (sectionRef3.current) {
-            observer.observe(sectionRef3.current);
-        }
+/* ── HERO WORD ── */
+function HeroWord({ word, delay }: { word: string; delay: number }) {
+  return (
+    <span className="inline-block overflow-hidden align-bottom">
+      <motion.span
+        className="inline-block"
+        initial={{ opacity: 0, y: "100%" }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {word}
+      </motion.span>
+    </span>
+  );
+}
 
-        return () => observer.disconnect();
-    }, []);
+/* ── CONTACT ITEMS ── */
+const contactItems = [
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/6281234567890",
+    display: "+62 812 3456 7890",
+    delay: 0.1,
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com/webter.id",
+    display: "@webter.id",
+    delay: 0.22,
+  },
+  {
+    label: "TikTok",
+    href: "https://tiktok.com/@webter.id",
+    display: "@webter.id",
+    delay: 0.34,
+  },
+  {
+    label: "Email",
+    href: "mailto:hello@webter.id",
+    display: "hello@webter.id",
+    delay: 0.46,
+  },
+];
 
-    return (
-        <div ref={sectionRef3}>
-            {/* Contact Section */}
-            <div className="bg-black text-white relative overflow-hidden">
-                {/* Large AVCI Background Text */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-                    <p className="text-[20rem] md:text-[30rem] lg:text-[40rem] font-bold text-gray-900 opacity-30 select-none">
-                        AVCI
-                    </p>
-                </div>
+export default function ContactPage() {
+  return (
+    <main className="pt-[65px]">
 
-                <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 px-8 md:px-16 py-24 md:py-32">
-                    {/* Left Side - Text */}
-                    <div className={`flex flex-col justify-center transition-all duration-1000 ${isVisible4 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}>
-                        <div className="mb-8">
-                            <p className="text-xs text-gray-400 uppercase tracking-wider mb-4">CONTACT US</p>
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-light leading-tight">
-                                Great architecture begins<br />with a conversation.
-                            </h2>
-                        </div>
+      {/* ── Wrapper tunggal dengan overflowX clip ── */}
+      <div className="bg-[#F4F4F4] relative" style={{ overflowX: "clip" }}>
 
-                        <p className="text-gray-400 text-lg mb-8 max-w-md">
-                            Reach out to discuss your vision and how we can bring it to life together.
-                        </p>
+        {/* Floating circle 1 — pojok kanan atas */}
+        <motion.div
+          className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px]
+                     md:right-0 md:top-0 md:w-[400px] md:h-[400px]
+                     rounded-full border-[50px] md:border-[70px] border-gray-600 opacity-10 pointer-events-none"
+          style={{ zIndex: 0 }}
+          animate={{ y: [0, -20, 0], rotate: [0, 3, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-                        {/* Contact Info */}
-                        <div className="space-y-4 text-sm">
-                            <div className="flex items-start gap-3">
-                                <span className="text-gray-500">📍</span>
-                                <div>
-                                    <p className="text-gray-300">Ljubljana, Slovenia</p>
-                                    <p className="text-gray-500">Dunajska cesta 156</p>
-                                </div>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <span className="text-gray-500">📧</span>
-                                <p className="text-gray-300">info@avciarchitects.com</p>
-                            </div>
-                            <div className="flex items-start gap-3">
-                                <span className="text-gray-500">📞</span>
-                                <p className="text-gray-300">+386 1 234 5678</p>
-                            </div>
-                        </div>
-                    </div>
+        {/* ── HEADING ── */}
+        <section className="px-4 md:px-10 pt-10 md:pt-14 pb-10 relative">
+          <div className="max-w-7xl mx-auto w-full relative z-10">
 
-                    {/* Right Side - Contact Form */}
-                    <div className={`transition-all duration-1000 delay-300 ${isVisible4 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
-                        <div className="space-y-6">
-                            {/* Name & Company */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        placeholder="Name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type="text"
-                                        name="company"
-                                        placeholder="Company"
-                                        value={formData.company}
-                                        onChange={handleChange}
-                                        className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
-                                    />
-                                </div>
-                            </div>
+            {/* Badge */}
+            <motion.p
+              className="text-xs md:text-sm tracking-widest text-gray-400 mb-4 md:mb-6"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              (CONTACT)
+            </motion.p>
 
-                            {/* Email */}
-                            <div>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300"
-                                />
-                            </div>
+            {/* Heading */}
+            <h1
+              className="font-semibold text-black leading-none"
+              style={{
+                fontSize: "clamp(48px, 10vw, 110px)",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              <HeroWord word="Contact" delay={0.05} />
+            </h1>
 
-                            {/* Description */}
-                            <div>
-                                <textarea
-                                    name="description"
-                                    placeholder="Details about your description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    rows={6}
-                                    className="w-full bg-transparent border-b border-gray-700 py-3 text-white placeholder-gray-600 focus:border-white focus:outline-none transition-colors duration-300 resize-none"
-                                />
-                            </div>
+          </div>
+        </section>
 
-                            {/* Submit Button */}
-                            <div className="pt-6">
-                                <button
-                                    onClick={handleSubmit}
-                                    className="group relative px-12 py-4 border border-white text-white text-sm tracking-wider overflow-hidden transition-all duration-500 hover:text-black"
-                                >
-                                    <span className="relative z-10">SEND</span>
-                                    <div className="absolute inset-0 bg-white transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        {/* ── CONTACT CONTENT ── */}
+        <section className="px-4 md:px-10 py-10 md:py-14 relative">
 
-                {/* Dot Pattern Overlay */}
-                <div className="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-10 pointer-events-none">
-                    <div className="w-full h-full" style={{
-                        backgroundImage: `radial-gradient(circle, white 1px, transparent 1px)`,
-                        backgroundSize: '30px 30px'
-                    }} />
-                </div>
+          {/* Floating circle 2 — sisi kiri tengah */}
+          <motion.div
+            className="absolute left-[-120px] top-1/2 -translate-y-1/2
+                       w-[280px] h-[280px] border-[40px]
+                       md:left-[-250px] md:w-[600px] md:h-[600px] md:border-[60px]
+                       rounded-full border-gray-300 opacity-20 pointer-events-none"
+            animate={{ y: [0, -14, 0], rotate: [0, -2, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 relative z-10">
+
+            {/* ── Left: Contact Info ── */}
+            <div className="flex flex-col gap-6 md:gap-10">
+              {contactItems.map((item) => (
+                <Reveal key={item.label} delay={item.delay} className="border-b border-gray-100 pb-6 md:pb-8">
+                  <p className="text-xs tracking-widest text-gray-400 uppercase mb-2 md:mb-3">
+                    ({item.label})
+                  </p>
+                  
+                   <a href={item.href}
+                    target={item.href.startsWith("mailto") ? undefined : "_blank"}
+                    rel="noreferrer"
+                    className="text-lg md:text-2xl font-semibold text-black hover:text-gray-500 transition-colors duration-300"
+                  >
+                    {item.display}
+                  </a>
+                </Reveal>
+              ))}
             </div>
-        </div>
-    )
+
+            {/* ── Right: Maps ── */}
+            <Reveal direction="right" className="w-full h-[300px] md:h-[480px] overflow-hidden">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63436.23!2d108.2!3d-7.36!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f57b9c3a2e6a5%3A0x1234567890abcdef!2sBanjar%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0, filter: "grayscale(20%)" }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </Reveal>
+
+          </div>
+        </section>
+
+      </div>
+    </main>
+  );
 }

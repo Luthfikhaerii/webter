@@ -1,96 +1,78 @@
-"use client"
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+'use client'
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 
-const navItems = [
-    { name: 'HOME', href: '/' },
-    { name: 'SERVICE', href: '/service' },
-    { name: 'PORTOFOLIO', href: '/portfolio' },
-    { name: 'ABOUT', href: '/about' },
-    { name: 'CONTACT', href: '/contact' },
-];
+const links = [
+  { href: '/', label: 'Home', active: true },
+  { href: '/about', label: 'About' },
+  { href: '/service', label: 'Service' },
+  { href: '/ourwork', label: 'Our Works' },
+  { href: '/contact', label: 'Contact' },
+]
 
 export default function Navbar() {
-    const [isVisible, setIsVisible] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
-    const pathname = usePathname();
-    const isHomePage = pathname === '/';
-    const isContactPage = pathname === '/contact';
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
-    useEffect(() => {
-        setIsVisible(true);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-        const handleScroll = () => {
-            const scrollPosition = window.scrollY;
+  return (
+    <header>
+      <nav className={`fixed w-full md:px-10 px-4 md:py-4 py-3 z-50 transition-all duration-500 ${scrolled ? 'bg-[rgba(244,244,244,0.85)] backdrop-blur-lg' : ''}`}>
+        <div className="flex max-w-7xl mx-auto w-full justify-between items-center">
+          <Link href="/" className={`flex items-center text-xl font-semibold transition-colors duration-300 ${scrolled ? 'text-[#111]' : 'text-[#111]'}`}>
+            <img src={"icon2.png"} className='object-cover w-12'/>WEBTER
+          </Link>
 
-            if (isHomePage) {
-                // Di halaman home: berubah setelah melewati 100vh
-                setIsScrolled(scrollPosition > window.innerHeight);
-            } else if (isContactPage) {
-                setIsScrolled(false)
-            } else {
-                // Di halaman lain: berubah setelah melewati 60vh
-                setIsScrolled(scrollPosition > window.innerHeight * 0.6);
-            }
-        };
+          {/* Desktop */}
+          <div className="hidden md:flex space-x-8 text-sm">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href}
+                className={`relative font-semibold transition-colors duration-300 group ${scrolled ? 'text-[#111]' : 'text-[#111]'}`}>
+                {link.label}
+                <span className={`absolute -bottom-0.5 left-0 h-px bg-[#111] transition-all duration-300 ${link.active ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+              </Link>
+            ))}
+          </div>
 
-        window.addEventListener('scroll', handleScroll);
+          {/* Hamburger */}
+          <button className="md:hidden flex flex-col gap-[5px] p-1" onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
+            <span className="block w-5 h-[1.5px] bg-gray-900 transition-all duration-300 origin-center"
+              style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : '' }} />
+            <span className="block w-5 h-[1.5px] bg-gray-900 transition-all duration-300"
+              style={{ opacity: menuOpen ? 0 : 1 }} />
+            <span className="block w-5 h-[1.5px] bg-gray-900 transition-all duration-300 origin-center"
+              style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : '' }} />
+          </button>
+        </div>
 
-        // Check initial scroll position
-        handleScroll();
-
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, [isHomePage, isContactPage]);
-
-    // Determine colors based on page and scroll state
-    const getColors = () => {
-        if (isHomePage) {
-            // Home page: white text default, black text when scrolled
-            return {
-                bg: isScrolled ? 'bg-white shadow-md' : 'bg-transparent',
-                text: isScrolled ? 'text-gray-900' : 'text-white',
-                dot: isScrolled ? 'bg-gray-900' : 'bg-white'
-            };
-        } if (isContactPage) {
-            // Home page: white text default, black text when scrolled
-            return {
-                bg: 'bg-transparent',
-                text: 'text-white',
-                dot: 'bg-white'
-            };
-        }
-        else {
-            // Other pages: transparent default, white bg when scrolled past 60vh
-            return {
-                bg: isScrolled ? 'bg-white shadow-md' : 'bg-transparent',
-                text: isScrolled ? 'text-gray-900' : 'text-white',
-                dot: isScrolled ? 'bg-gray-900' : 'bg-white'
-            };
-        }
-    };
-
-    const colors = getColors();
-
-    return (
-        <nav className={`fixed w-full z-20 flex justify-between items-center px-8 md:px-16 py-6 transition-all duration-500 ${colors.bg} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}>
-            <div className={`${colors.text} flex items-center text-lg md:text-xl font-semibold tracking-widest hover:tracking-wide transition-all duration-300 cursor-pointer`}>
-                <img src={isScrolled ? "/icon1.png" : "/logo.png"} className="w-12" />
-                <p>WEBTER</p>
-            </div>
-
-            <div className="flex gap-6 md:gap-12 items-center">
-                {navItems.map((item, index) => (
-                    <a
-                        key={item.name}
-                        href={item.href}
-                        className={`group hidden md:flex items-center gap-2 ${colors.text} text-xs tracking-wider transition-all duration-500 hover:opacity-70 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
-                        style={{ transitionDelay: `${index * 100}ms` }}
-                    >
-                        <span className={`w-2 h-2 rounded-full ${colors.dot} transform group-hover:scale-150 transition-transform duration-300`} />
-                        {item.name}
-                    </a>
+        {/* Mobile drawer */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="md:hidden overflow-hidden max-w-7xl mx-auto"
+            >
+              <div className="flex flex-col gap-6 py-6 text-2xl font-semibold border-t border-gray-200 mt-3">
+                {links.map((link) => (
+                  <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
+                    className={`cursor-pointer ${link.active ? 'underline underline-offset-4 decoration-1' : ''}`}>
+                    {link.label}
+                  </Link>
                 ))}
-            </div>
-        </nav>
-    );
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+    </header>
+  )
 }
