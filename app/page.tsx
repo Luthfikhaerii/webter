@@ -230,6 +230,12 @@ export default function Home() {
               <div className="service-arrow flex justify-end text-gray-400">→</div>
             </div>
           </div>
+
+          <RevealOnScroll delay={300} className="text-center mt-16">
+             <button className="inline-flex items-center gap-2 border border-white/30 rounded-full px-6 py-3 text-sm font-medium hover:bg-white hover:text-black transition-colors">
+               Have other idea? <span className="font-bold">Explore Our Custom Solutions</span> <ArrowRight className="w-4 h-4" />
+             </button>
+          </RevealOnScroll>
         </div>
       </section>
 
