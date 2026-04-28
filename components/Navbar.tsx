@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useLoaded } from '@/providers/LoadingProvider'
 
 const links = [
   { href: '/', label: 'Home', active: true },
@@ -12,6 +13,7 @@ const links = [
 ]
 
 export default function Navbar() {
+  const { loaded } = useLoaded()
   const [scrolled, setScrolled] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -21,23 +23,15 @@ export default function Navbar() {
     const onScroll = () => {
       const currentY = window.scrollY
       const prev = lastScrollY.current
-
-      // scrolled styling
       setScrolled(currentY > 50)
-
-      // hide/show logic
       if (currentY > prev && currentY > 80) {
-        // scroll ke bawah → sembunyikan
         setHidden(true)
-        setMenuOpen(false) // tutup menu saat navbar hilang
+        setMenuOpen(false)
       } else {
-        // scroll ke atas → tampilkan
         setHidden(false)
       }
-
       lastScrollY.current = currentY
     }
-
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -47,20 +41,20 @@ export default function Navbar() {
       <motion.nav
         animate={{ y: hidden ? '-100%' : '0%' }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed w-full md:px-10 px-4 md:py-4 py-3 z-50 transition-colors duration-500 ${
+        className={`fixed w-full md:px-10 px-4 md:py-3 py-3 z-[99999] transition-colors duration-500 ${
           scrolled ? 'bg-[rgba(244,244,244,0.85)] backdrop-blur-lg' : ''
-        }`}
+        } ${!loaded ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
       >
         <div className="flex max-w-7xl mx-auto w-full justify-between items-center">
-          <Link href="/" className="flex items-center text-xl font-semibold text-[#111] transition-colors duration-300">
-            <img src={"icon2.png"} className='object-cover w-12'/>WEBTER
+          <Link href="/" className="flex items-center text-[20px] font-semibold text-[#111] transition-colors duration-300">
+            <img src={"icon2.png"} className='object-cover w-12'/>Webter
           </Link>
 
           {/* Desktop */}
           <div className="hidden md:flex space-x-8 text-sm">
             {links.map((link) => (
               <Link key={link.href} href={link.href}
-                className="relative font-semibold text-[#111] transition-colors duration-300 group">
+                className="relative font-medium text-[#111] transition-colors duration-300 group">
                 {link.label}
                 <span className={`absolute -bottom-0.5 left-0 h-px bg-[#111] transition-all duration-300 ${
                   link.active ? 'w-full' : 'w-0 group-hover:w-full'

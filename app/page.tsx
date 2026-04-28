@@ -1,6 +1,7 @@
 'use client'
 import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView, Variants } from 'framer-motion'
+import { useLoaded } from '@/providers/LoadingProvider'
 
 /* ── helpers ── */
 function RevealDiv({ children, className, delay = 0, direction = 'up' }: {
@@ -80,9 +81,8 @@ function ScrollFadeSection({ children, className, style }: {
     target: ref,
     offset: ['start start', 'end start'],
   })
-  // Fade out saat scroll meninggalkan section (mulai fade di 55%, selesai di 100%)
-const opacity = useTransform(scrollYProgress, [0.3, 0.85], [1, 0])
-const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
+  const opacity = useTransform(scrollYProgress, [0.3, 0.85], [1, 0])
+  const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
 
   return (
     <motion.section
@@ -95,15 +95,19 @@ const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
   )
 }
 
-/* ── HERO WORD ── */
-function HeroWord({ word, delay }: { word: string; delay: number }) {
+function HeroWord({ word, delay, pb, isLoaded }: {
+  word: string
+  delay: number
+  pb: number
+  isLoaded: boolean
+}) {
   return (
-    <span className="inline-block overflow-hidden align-bottom">
+    <span className={`inline-block overflow-hidden align-bottom pb-${pb}`}>
       <motion.span
         custom={delay}
         variants={wordVariants}
         initial="hidden"
-        animate="visible"
+        animate={isLoaded ? 'visible' : 'hidden'}
         className="inline-block"
       >
         {word}
@@ -113,6 +117,8 @@ function HeroWord({ word, delay }: { word: string; delay: number }) {
 }
 
 export default function Home() {
+  const { loaded } = useLoaded()
+
   /* ── Hero parallax ── */
   const heroRef = useRef(null)
   const { scrollY } = useScroll()
@@ -146,69 +152,63 @@ export default function Home() {
   }, [])
 
   return (
-    <main style={{ overflowX: 'clip' }}>
-
+    <motion.main
+      style={{ overflowX: 'clip' }}
+      initial={{ opacity: 0 }}
+      animate={loaded ? { opacity: 1 } : { opacity: 0 }}
+      transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+    >
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip' }}
-        className="md:px-8 px-4 md:min-h-screen min-h-[50vh] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[75vh] min-h-[50vh] flex items-end relative"
       >
-        {/* Floating circle */}
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
 
-        <motion.div style={{ y: heroY }} className="relative z-50 max-w-7xl mx-auto w-full pb-10 md:pb-16">
-
-          {/* Mobile badge */}
+        <motion.div style={{ y: heroY }} className="relative z-50 max-w-7xl mx-auto w-full">
           <motion.p
             variants={badgeVariants}
             initial="hidden"
-            animate="visible"
+            animate={loaded ? 'visible' : 'hidden'}
             className="md:hidden text-[10px] text-gray-500 leading-relaxed mb-6 max-w-[180px]"
           >
             Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
           </motion.p>
 
-          {/* Heading */}
           <h1
             className="font-semibold leading-[0.92]"
-            style={{ fontSize: 'clamp(40px, 10vw, 120px)', letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(50px, 10vw, 120px)', letterSpacing: '-0.03em' }}
           >
-            {/* Baris 1 */}
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
-              <HeroWord word="BUILD" delay={0.05} />
-              <HeroWord word="YOUR" delay={0.18} />
-              {/* Desktop badge — sejajar bawah dengan teks */}
+              <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
+              <HeroWord word="Your" delay={0.18} pb={0} isLoaded={loaded} />
               <motion.span
                 variants={badgeVariants}
                 initial="hidden"
-                animate="visible"
+                animate={loaded ? 'visible' : 'hidden'}
                 className="hidden md:inline-block font-normal leading-relaxed text-gray-500 pb-[0.15em]"
-                style={{ fontSize: '13px', letterSpacing: '0', width: '11rem', marginLeft: '0.3em' }}
+                style={{ fontSize: '10px', letterSpacing: '0', width: '11rem', marginLeft: '0.3em' }}
               >
                 Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
               </motion.span>
             </div>
 
-            {/* Baris 2 */}
             <div className="flex items-baseline flex-wrap" style={{ gap: '0 0.2em' }}>
-              <HeroWord word="DIGITAL" delay={0.32} />
-              <HeroWord word="FUTURE" delay={0.46} />
+              <HeroWord word="Digital" delay={0.32} pb={6} isLoaded={loaded} />
+              <HeroWord word="Future" delay={0.46} pb={6} isLoaded={loaded} />
             </div>
           </h1>
-
         </motion.div>
       </motion.section>
 
       {/* ── GALLERY STRIP ── */}
-      {/* Gallery tidak pakai ScrollFadeSection karena sticky & height khusus */}
       <section ref={stripSectionRef} style={{ height: '400vh', position: 'relative' }}>
-        <div className="sticky top-0 md:h-screen h-[70vh] flex flex-col justify-center overflow-hidden">
-          <p className="text-base tracking-widest text-gray-400 mb-6 md:px-8 px-4">(GALLERY)</p>
+        <div className="sticky top-0 md:pt-14 pt-8 md:h-screen h-[90vh] flex flex-col justify-start overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img) => (
               <div key={img.src} className="strip-img-item">
-                <img src={img.src} alt={img.alt} className="w-full h-[55vh] object-cover" />
+                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[90vh] object-cover" />
               </div>
             ))}
           </div>
@@ -240,27 +240,23 @@ export default function Home() {
       <ScrollFadeSection className="md:pt-40 pt-12">
         <div className="md:px-8 px-4 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8">
-
             <div className="hidden md:flex col-span-2 items-start pt-8">
               <p className="text-base tracking-widest text-gray-400">(SERVICES)</p>
             </div>
-
             <div className="col-span-12 md:col-span-10">
               <p className="text-xs tracking-widest text-gray-400 mb-2 md:hidden">(SERVICES)</p>
-
               {services.map((s, i) => (
                 <RevealDiv key={s.num} delay={i * 0.07}>
                   <div className="grid grid-cols-12 items-center py-8 border-b border-gray-300 group cursor-pointer">
                     <p className="md:col-span-4 col-span-3 text-gray-400 md:text-3xl text-base font-normal">+</p>
                     <p className="md:col-span-7 col-span-8 text-xl md:text-3xl font-semibold text-gray-900">{s.label}</p>
-                    <div className="col-span-1 text-light  flex justify-end text-gray-700 text-3xl group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                    <div className="col-span-1 text-light flex justify-end text-gray-700 text-3xl group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
                       {'>'}
                     </div>
                   </div>
                 </RevealDiv>
               ))}
             </div>
-
           </div>
         </div>
       </ScrollFadeSection>
@@ -279,7 +275,6 @@ export default function Home() {
       <ScrollFadeSection className="md:px-8 px-4 md:pt-40 pt-12 relative overflow-hidden">
         <div className="max-w-7xl relative z-20 mx-auto w-full">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-
             <div className="hidden md:block md:col-span-5">
               <RevealDiv direction="left">
                 <img
@@ -289,13 +284,11 @@ export default function Home() {
                 />
               </RevealDiv>
             </div>
-
             <div className="md:col-span-7">
               <div className='md:grid grid-cols-12'>
                 <div className=''></div>
                 <div className='col-span-11'>
                   <p className="text-base tracking-widest text-gray-400 mb-8">(VALUES)</p>
-
                   <div className="w-full">
                     {values.map((v, i) => (
                       <RevealDiv key={v.title} delay={i * 0.08}>
@@ -307,7 +300,6 @@ export default function Home() {
                       </RevealDiv>
                     ))}
                   </div>
-
                   <RevealDiv delay={0.35} className="mt-8">
                     <p className="text-xs md:text-base text-gray-800 leading-relaxed max-w-lg">
                       Menggabungkan teknologi modern untuk menghadirkan solusi digital
@@ -318,7 +310,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
         <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
@@ -328,14 +319,11 @@ export default function Home() {
       <ScrollFadeSection className="relative md:pt-40 pt-16">
         <div className="max-w-7xl mx-auto md:px-8 px-4">
           <div className="grid grid-cols-12 gap-4 md:gap-8 relative z-10">
-
             <div className="hidden md:flex col-span-2 items-start pt-2">
               <p className="text-base tracking-widest text-gray-400">(SERVICES)</p>
             </div>
-
             <div className="col-span-12 md:col-span-10">
               <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(SERVICES)</p>
-
               <RevealDiv delay={0.1}>
                 <blockquote className="text-gray-900 font-normal leading-[1.5] text-justify text-3xl">
                   "Kami Adalah Agency Digital Yang Berfokus Pada
@@ -343,12 +331,10 @@ export default function Home() {
                   Dan Terstruktur Yang"
                 </blockquote>
               </RevealDiv>
-
               <RevealDiv delay={0.2} className="mt-10 md:mt-14">
                 <p className="font-bold text-sm md:text-lg text-gray-900">Luthfi Khaeri Ihsan</p>
                 <p className="text-gray-400 text-xs md:text-sm mt-1">Founder Webter</p>
               </RevealDiv>
-
             </div>
           </div>
         </div>
@@ -358,10 +344,7 @@ export default function Home() {
       {/* ── OUR WORKS ── */}
       <ScrollFadeSection className="relative md:pt-40 pt-16 pb-20">
         <div className="max-w-7xl mx-auto md:px-8 px-4">
-
           <p className="text-base tracking-widest text-gray-400 mb-6">(OUR WORKS)</p>
-
-          {/* Row 1 */}
           <div className="border-t border-gray-300 pt-8 pb-8">
             <div className="md:grid grid-cols-2 gap-6 md:gap-8">
               {[
@@ -371,11 +354,7 @@ export default function Home() {
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
                     <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img
-                        src={w.img}
-                        alt={w.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <p className="text-sm md:text-base font-normal text-gray-900 leading-snug">{w.title}</p>
                   </div>
@@ -383,8 +362,6 @@ export default function Home() {
               ))}
             </div>
           </div>
-
-          {/* Row 2 */}
           <div className="border-t border-gray-200 pt-8 pb-8">
             <div className="md:grid grid-cols-2 gap-6 md:gap-8">
               {[
@@ -394,11 +371,7 @@ export default function Home() {
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
                     <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img
-                        src={w.img}
-                        alt={w.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     </div>
                     <p className="text-sm md:text-base font-normal text-gray-900 leading-snug">{w.title}</p>
                   </div>
@@ -406,12 +379,10 @@ export default function Home() {
               ))}
             </div>
           </div>
-
           <div className="border-b border-gray-200" />
-
         </div>
       </ScrollFadeSection>
 
-    </main>
+    </motion.main>
   )
 }
