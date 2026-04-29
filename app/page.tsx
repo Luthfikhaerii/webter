@@ -12,70 +12,66 @@ function QuoteSection() {
   })
 
   const x = useTransform(scrollYProgress, [0, 0.5], ['-100%', '0%'])
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
   const authorOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1])
   const authorY = useTransform(scrollYProgress, [0.6, 0.85], [24, 0])
 
   return (
-    // height besar = ruang scroll untuk efek sticky
-    <div ref={sectionRef} style={{ height: '250vh' }} className="relative">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+    <div
+      ref={sectionRef}
+      style={{ height: '250vh', isolation: 'isolate', position: 'relative', zIndex: 20 }}
+    >
+      <div
+        className="sticky top-0 h-screen flex items-center overflow-hidden bg-[#F4F4F4]"
+        style={{ pointerEvents: 'auto' }}
+      >
         <div className="max-w-7xl mx-auto md:px-8 px-4 w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8 relative z-10">
-
             <div className="hidden md:flex col-span-2 items-start self-start pt-2">
-              <p className="text-base tracking-widest text-gray-400">(QUOTES)</p>
+              <p className="text-xs tracking-widest text-gray-400">(QUOTES)</p>
             </div>
-
             <div className="col-span-12 md:col-span-10 overflow-hidden">
               <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(QUOTES)</p>
-
-              {/* Quote slide dari kiri */}
               <div className="overflow-hidden">
                 <motion.blockquote
-                  style={{ x }}
-                  className="text-gray-900 font-normal leading-[1.5] text-justify md:text-3xl text-xl"
+                  style={{ x, pointerEvents: 'auto' }}
+                  className="text-gray-900 font-normal leading-[1.5] md:text-3xl text-2xl"
                 >
                   "Kami Adalah Agency Digital Yang Berfokus Pada
                   Pengembangan Website Dengan Pendekatan Strategis
                   Dan Terstruktur Yang"
                 </motion.blockquote>
               </div>
-
-              {/* Author fade in setelah quote selesai */}
               <motion.div
-                style={{ opacity: authorOpacity, y: authorY }}
+                style={{ opacity: authorOpacity, y: authorY, pointerEvents: 'auto' }}
                 className="mt-10 md:mt-14"
               >
-                <p className="font-bold text-sm md:text-lg text-gray-900">Luthfi Khaeri Ihsan</p>
-                <p className="text-gray-400 text-xs md:text-sm mt-1">Founder Webter</p>
+                <p className="font-semibold text-base text-gray-900">Luthfi Khaeri Ihsan</p>
+                <p className="text-gray-400 text-sm mt-1">Founder Webter</p>
               </motion.div>
-
             </div>
           </div>
         </div>
-
         <div className="float-2 absolute left-[-200px] bottom-0 w-[500px] h-[500px] border-[60px] border-gray-300 rounded-full opacity-30 pointer-events-none" />
       </div>
     </div>
   )
 }
 
+/* ── IMAGE → VALUES TRANSITION ── */
 function ImageToValuesTransition() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const valuesRef = useRef<HTMLDivElement>(null)
-  const imageWrapRef = useRef<HTMLDivElement>(null)
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
     offset: ['start start', 'end end'],
   })
 
-  const imageScale = useTransform(scrollYProgress, [0.3, 0.65], [1, 0.88])
-  const imageBrightness = useTransform(scrollYProgress, [0.3, 0.65], [1, 0.4])
-  const imageY = useTransform(scrollYProgress, [0.3, 0.65], ['0%', '-6%'])
-  const valuesY = useTransform(scrollYProgress, [0.3, 0.65], [100, 0])
-  const valuesOpacity = useTransform(scrollYProgress, [0.3, 0.45], [0, 1])
+  const imageScale = useTransform(scrollYProgress, [0.25, 0.6], [1, 0.88])
+  const imageBrightness = useTransform(scrollYProgress, [0.25, 0.6], [1, 0.4])
+  const imageY = useTransform(scrollYProgress, [0.25, 0.6], ['0%', '-6%'])
+  const valuesY = useTransform(scrollYProgress, [0.25, 0.6], [100, 0])
+  const valuesOpacity = useTransform(scrollYProgress, [0.25, 0.4], [0, 1])
 
   const { scrollYProgress: pxProgress } = useScroll({
     target: wrapperRef,
@@ -85,11 +81,11 @@ function ImageToValuesTransition() {
   const textY = useTransform(pxProgress, [0.2, 0.6], ['60px', '-60px'])
   const textOpacity = useTransform(pxProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
 
-  // Animasi values via DOM langsung — hindari Framer transform stacking context
   useEffect(() => {
     const unsubY = valuesY.on('change', (v) => {
       if (valuesRef.current) {
         valuesRef.current.style.transform = `translateY(${v}%)`
+        valuesRef.current.style.pointerEvents = v < 50 ? 'auto' : 'none'
       }
     })
     const unsubO = valuesOpacity.on('change', (v) => {
@@ -101,23 +97,17 @@ function ImageToValuesTransition() {
   }, [valuesY, valuesOpacity])
 
   return (
-    <div ref={wrapperRef} style={{ height: '220vh' }} className="relative md:mt-32 mt-28">
+    <div ref={wrapperRef} style={{ height: '280vh' }} className="relative md:mt-32 mt-28">
 
-      {/* ── IMAGE — z-index rendah ── */}
+      {/* IMAGE */}
       <div
         className="sticky top-0 w-full overflow-hidden"
         style={{ height: '100vh', zIndex: 1 }}
       >
-        <motion.div
-          style={{ scale: imageScale, y: imageY }}
-          className="w-full h-full"
-        >
+        <motion.div style={{ scale: imageScale, y: imageY }} className="w-full h-full">
           <BrightnessWrapper brightness={imageBrightness}>
             <div className="w-full h-full flex items-center">
-              <div
-                className="w-full relative"
-                style={{ height: 'clamp(90vh, 80vh, 90vh)' }}
-              >
+              <div className="w-full relative" style={{ height: 'clamp(90vh, 80vh, 90vh)' }}>
                 <div className="w-full h-full overflow-hidden relative">
                   <motion.img
                     src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
@@ -130,10 +120,8 @@ function ImageToValuesTransition() {
                     style={{ y: textY, opacity: textOpacity }}
                     className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10"
                   >
-                    <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
-                    <p
-                      className="font-semibold text-white leading-[1] text-3xl"
-                    >
+                    <p className="text-xs tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
+                    <p className="font-semibold text-white leading-[1] md:text-3xl text-2xl">
                       Crafting Digital <br className="hidden md:block" />
                       Experiences That Matter.
                     </p>
@@ -141,7 +129,7 @@ function ImageToValuesTransition() {
                 </div>
                 <motion.div
                   style={{ opacity: textOpacity }}
-                  className="flex justify-between items-start mt-4 px-1"
+                  className="flex justify-between items-start mt-4 px-1 pointer-events-none"
                 >
                   <p className="text-xs tracking-widest text-gray-400">Webter Digital Solution</p>
                   <p className="text-xs tracking-widest text-gray-400 text-right max-w-[200px]">
@@ -154,82 +142,72 @@ function ImageToValuesTransition() {
         </motion.div>
       </div>
 
-      {/* ── VALUES — z-index tinggi, animasi via DOM bukan motion ── */}
+      {/* VALUES */}
       <div
-        className="sticky top-0 w-full bg-[#F4F4F4] md:px-8 px-4 md:pt-40 pt-12 pb-20 overflow-hidden"
+        className="sticky top-0 w-full bg-[#F4F4F4] md:px-8 px-4 md:pt-16 pt-12 pb-20"
         style={{
           zIndex: 10,
-          // initial state — akan di-override useEffect
           transform: 'translateY(100%)',
           opacity: 0,
-          // pastikan tidak ada transform dari parent yang override
           willChange: 'transform, opacity',
+          minHeight: '100vh',
+          pointerEvents: 'none',
         }}
         ref={valuesRef}
       >
         <div className="max-w-7xl relative mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 justify-items-start items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
             <div className="hidden md:block md:col-span-6">
+              <RevealDiv direction="left">
+                <img
+                  src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80"
+                  alt="Values"
+                  className="w-full h-[520px] object-cover"
+                />
+              </RevealDiv>
+            </div>
+            <div className="md:col-span-6">
+              <p className="text-xs tracking-widest text-gray-400 mb-8">(VALUES)</p>
+              <div className="w-full">
+                {values.map((v, i) => (
+                  <RevealDiv key={v.title} delay={i * 0.08}>
+                    <div className="py-4 border-b border-gray-300">
+                      <h3 className={`leading-tight text-2xl md:text-3xl transition-colors ${i === 0 ? 'text-gray-900 font-semibold' : 'text-gray-500 font-normal'}`}>
+                        {v.title}
+                      </h3>
+                    </div>
+                  </RevealDiv>
+                ))}
+              </div>
               <RevealDiv delay={0.35} className="mt-8">
-                <p className="max-w-sm text-xs md:text-xs text-gray-800 tracking-tight leading-relaxed max-w-lg">
+                <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
                   Menggabungkan teknologi modern untuk menghadirkan solusi digital
                   yang relevan Menggabungkan teknologi modern untuk menghadirkan
                   solusi digital yang relevan
                 </p>
               </RevealDiv>
             </div>
-            <div className="md:col-span-6">
-              <div className=''>
-                <div className=''>
-                  <p className="text-base tracking-widest text-gray-400 mb-8">(VALUES)</p>
-                  <div className="w-full">
-                    {values.map((v, i) => (
-                      <RevealDiv key={v.title} delay={i * 0.08}>
-                        <div className="py-6 md:py-6 border-b border-gray-300">
-                          <h3 className={`leading-tight font-normal text-2xl md:text-3xl transition-colors ${i === 0 ? 'text-gray-900 font-semibold' : 'text-gray-500'}`}>
-                            {v.title}
-                          </h3>
-                        </div>
-                      </RevealDiv>
-                    ))}
-                  </div>
-
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
       </div>
-
     </div>
   )
 }
 
-/* helper: terapkan CSS filter brightness via style */
-function BrightnessWrapper({
-  brightness,
-  children,
-}: {
-  brightness: any
-  children: React.ReactNode
-}) {
+/* ── BRIGHTNESS WRAPPER ── */
+function BrightnessWrapper({ brightness, children }: { brightness: any; children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null)
-
   useEffect(() => {
     const unsub = brightness.on('change', (v: number) => {
       if (ref.current) {
         ref.current.style.filter = `brightness(${v})`
+        ref.current.style.pointerEvents = v < 0.3 ? 'none' : 'auto'
       }
     })
     return unsub
   }, [brightness])
-
-  return (
-    <div ref={ref} className="w-full h-full">
-      {children}
-    </div>
-  )
+  return <div ref={ref} className="w-full h-full">{children}</div>
 }
 
 /* ── PARALLAX IMAGE SECTION ── */
@@ -239,7 +217,6 @@ function ParallaxImageSection() {
     target: ref,
     offset: ['start end', 'end start'],
   })
-
   const y = useTransform(scrollYProgress, [0, 1], ['-20%', '20%'])
   const textY = useTransform(scrollYProgress, [0.2, 0.6], ['60px', '-60px'])
   const textOpacity = useTransform(scrollYProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
@@ -247,42 +224,25 @@ function ParallaxImageSection() {
   return (
     <div ref={ref} className="md:pt-32 pt-28">
       <div className="w-full relative">
-
-        {/* Image container */}
-        <div
-          className="w-full overflow-hidden relative"
-          style={{ height: 'clamp(90vh, 80vh, 90vh)' }}
-        >
-          {/* gambar lebih tinggi dari container, bergerak naik/turun */}
+        <div className="w-full overflow-hidden relative" style={{ height: 'clamp(90vh, 80vh, 90vh)' }}>
           <motion.img
             src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
             alt="Monitor workspace"
-            className="absolute inset-x-0 w-full object-cover"
-            /* tinggi 140% agar ada ruang gerak tanpa perlu scale */
+            className="absolute inset-x-0 w-full object-cover pointer-events-none"
             style={{ y, height: '140%', top: '-20%' }}
           />
-
-          {/* Gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
-
-          {/* Text overlay */}
           <motion.div
             style={{ y: textY, opacity: textOpacity }}
-            className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10"
+            className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10 pointer-events-none"
           >
-            <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">
-              Our Approach
-            </p>
-            <p
-              className="font-semibold text-white leading-[0.95]"
-              style={{ fontSize: 'clamp(20px, 4.5vw, 35px)', letterSpacing: '-0.02em' }}
-            >
+            <p className="text-xs tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
+            <p className="font-semibold text-white leading-[0.95] md:text-3xl text-2xl">
               Crafting Digital <br className="hidden md:block" />
               Experiences That Matter.
             </p>
           </motion.div>
         </div>
-
       </div>
     </div>
   )
@@ -298,8 +258,6 @@ function HighlightText() {
 
   const fullText = 'Kami Adalah Agency Digital Yang Berfokus Pada Pengembangan Website Dengan Pendekatan Strategis Dan Terstruktur, Yang Dirancang Untuk Membantu Membangun Kehadiran Digital Yang Jelas Dan Efektif Bagi Bisnis Anda.'
   const boldEnd = 'Pengembangan Website '
-
-  // pisah jadi array kata dengan info bold/tidak
   const words = fullText.split(' ')
   const boldWords = boldEnd.trim().split(' ')
   let boldCount = 0
@@ -308,12 +266,11 @@ function HighlightText() {
     if (isBold) boldCount++
     return { word, bold: isBold, index: i }
   })
-
   const total = wordList.length
 
   return (
-    <div ref={containerRef}>
-      <p className="leading-[1.45] font-normal md:text-4xl text-xl text-start">
+    <div ref={containerRef} style={{ pointerEvents: 'auto' }}>
+      <p className="leading-[1.55] font-normal md:text-3xl text-2xl text-start">
         {wordList.map(({ word, bold, index }) => (
           <WordHighlight
             key={index}
@@ -329,23 +286,15 @@ function HighlightText() {
   )
 }
 
-function WordHighlight({
-  word, bold, index, total, scrollYProgress
-}: {
-  word: string
-  bold: boolean
-  index: number
-  total: number
-  scrollYProgress: any
+function WordHighlight({ word, bold, index, total, scrollYProgress }: {
+  word: string; bold: boolean; index: number; total: number; scrollYProgress: any
 }) {
   const start = index / total
   const end = Math.min(start + 2 / total, 1)
-
   const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1])
-
   return (
     <motion.span
-      style={{ opacity }}
+      style={{ opacity, pointerEvents: 'auto' }}
       className={`inline ${bold ? 'font-bold text-gray-900' : 'text-gray-600'}`}
     >
       {word}{' '}
@@ -354,9 +303,7 @@ function WordHighlight({
 }
 
 /* ── SERVICE ITEM ── */
-function ServiceItem({
-  s, i, total
-}: {
+function ServiceItem({ s, i, total }: {
   s: { num: string; label: string; img: string; desc: string }
   i: number
   total: number
@@ -366,64 +313,45 @@ function ServiceItem({
     target: ref,
     offset: ['start start', 'end start'],
   })
-
-  // item makin ke bawah, makin lambat mulai sticky-nya
   const yLabel = useTransform(scrollYProgress, [0, 1], ['0%', '-12%'])
   const yImage = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
   const opacityImage = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.6, 0])
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96])
 
-  // z-index tiap item naik agar yang bawah menimpa yang atas
-  const zIndex = i + 1
-
   return (
     <div
       ref={ref}
       className="relative"
-      style={{
-        position: 'sticky',
-        top: `${60 + i * 0}px`,
-        zIndex,
-      }}
+      style={{ position: 'sticky', top: '60px', zIndex: i + 1 }}
     >
-      <motion.div
-        style={{ scale }}
-        className="bg-[#F4F4F4] border-t border-gray-300 overflow-hidden"
-      >
-        {/* Label row */}
+      <motion.div style={{ scale }} className="bg-[#F4F4F4] border-t border-gray-300 overflow-hidden">
         <motion.div
-          style={{ y: yLabel }}
+          style={{ y: yLabel, pointerEvents: 'auto' }}
           className="grid grid-cols-12 items-center py-6 md:py-8 group cursor-pointer"
         >
-          <p className="md:col-span-4 col-span-3 text-gray-400 md:text-3xl text-lg font-normal">
+          <p className="md:col-span-4 col-span-3 text-gray-400 text-base font-normal">
             {i + 1 < 10 ? `0${i + 1}` : i + 1}
           </p>
           <div className="md:col-span-7 col-span-8">
-            <p className="text-xl md:text-3xl font-medium text-gray-900">{s.label}</p>
-            <p className="text-xs md:text-sm text-gray-400 mt-1">{s.desc}</p>
+            <p className="text-2xl md:text-3xl font-medium text-gray-900">{s.label}</p>
+            <p className="text-sm text-gray-400 mt-1">{s.desc}</p>
           </div>
-          <div className="col-span-1 flex justify-end text-gray-700 md:text-3xl text-lg group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+          <div className="col-span-1 flex justify-end text-gray-700 text-xl group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
             {'>'}
           </div>
         </motion.div>
-
-        {/* Image */}
         <motion.div
           style={{ opacity: opacityImage, y: yImage }}
-          className="w-full overflow-hidden"
+          className="w-full overflow-hidden pointer-events-none"
         >
-          <img
-            src={s.img}
-            alt={s.label}
-            className="w-full h-[40vh] md:h-[55vh] object-cover"
-          />
+          <img src={s.img} alt={s.label} className="w-full h-[40vh] md:h-[55vh] object-cover" />
         </motion.div>
       </motion.div>
     </div>
   )
 }
 
-/* ── helpers ── */
+/* ── REVEAL DIV ── */
 function RevealDiv({ children, className, delay = 0, direction = 'up' }: {
   children: React.ReactNode
   className?: string
@@ -438,13 +366,38 @@ function RevealDiv({ children, className, delay = 0, direction = 'up' }: {
         : direction === 'fade' ? { opacity: 0 }
           : { opacity: 0, y: 30 }
   const animate = inView ? { opacity: 1, x: 0, y: 0 } : initial
-
   return (
-    <motion.div ref={ref} initial={initial} animate={animate}
+    <motion.div
+      ref={ref}
+      initial={initial}
+      animate={animate}
       transition={{ duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94], delay }}
-      className={className}>
+      style={{ pointerEvents: 'auto' }}
+      className={className}
+    >
       {children}
     </motion.div>
+  )
+}
+
+/* ── SCROLL FADE SECTION ── */
+function ScrollFadeSection({ children, className, style }: {
+  children: React.ReactNode
+  className?: string
+  style?: React.CSSProperties
+}) {
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  const opacity = useTransform(scrollYProgress, [0.3, 0.85], [1, 0])
+  const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
+  return (
+    <motion.section
+      ref={ref}
+      style={{ opacity, y, pointerEvents: 'auto', ...style }}
+      className={className}
+    >
+      {children}
+    </motion.section>
   )
 }
 
@@ -459,6 +412,25 @@ const wordVariants: Variants = {
 const badgeVariants: Variants = {
   hidden: { y: 16, opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { duration: 0.45, ease: 'easeOut', delay: 0.6 } }
+}
+
+function HeroWord({ word, delay, pb, isLoaded }: {
+  word: string; delay: number; pb: number; isLoaded: boolean
+}) {
+  return (
+    <span className={`inline-block overflow-hidden align-bottom pb-${pb}`} style={{ pointerEvents: 'auto' }}>
+      <motion.span
+        custom={delay}
+        variants={wordVariants}
+        initial="hidden"
+        animate={isLoaded ? 'visible' : 'hidden'}
+        className="inline-block"
+        style={{ pointerEvents: 'auto' }}
+      >
+        {word}
+      </motion.span>
+    </span>
+  )
 }
 
 const services = [
@@ -490,62 +462,14 @@ const galleryImages = [
   { src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', alt: 'Web development' },
 ]
 
-/* ── SCROLL FADE SECTION ── */
-function ScrollFadeSection({ children, className, style }: {
-  children: React.ReactNode
-  className?: string
-  style?: React.CSSProperties
-}) {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  })
-  const opacity = useTransform(scrollYProgress, [0.3, 0.85], [1, 0])
-  const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
-
-  return (
-    <motion.section
-      ref={ref}
-      style={{ opacity, y, ...style }}
-      className={className}
-    >
-      {children}
-    </motion.section>
-  )
-}
-
-function HeroWord({ word, delay, pb, isLoaded }: {
-  word: string
-  delay: number
-  pb: number
-  isLoaded: boolean
-}) {
-  return (
-    <span className={`inline-block overflow-hidden align-bottom pb-${pb}`}>
-      <motion.span
-        custom={delay}
-        variants={wordVariants}
-        initial="hidden"
-        animate={isLoaded ? 'visible' : 'hidden'}
-        className="inline-block"
-      >
-        {word}
-      </motion.span>
-    </span>
-  )
-}
-
 export default function Home() {
   const { loaded } = useLoaded()
 
-  /* ── Hero parallax ── */
   const heroRef = useRef(null)
   const { scrollY } = useScroll()
   const heroOpacity = useTransform(scrollY, [0, 600], [1, 0])
   const heroY = useTransform(scrollY, [0, 600], [0, 132])
 
-  /* ── Gallery strip ── */
   const stripSectionRef = useRef<HTMLElement>(null)
   const stripTrackRef = useRef<HTMLDivElement>(null)
 
@@ -573,33 +497,32 @@ export default function Home() {
 
   return (
     <motion.main
-      style={{ overflowX: 'clip' }}
+      style={{ overflowX: 'clip', pointerEvents: loaded ? 'auto' : 'none' }}
       initial={{ opacity: 0 }}
       animate={loaded ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
-      className='tracking-tighter'
+      className="tracking-tighter"
     >
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
-        style={{ opacity: heroOpacity, overflowX: 'clip' }}
+        style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
         className="md:px-8 px-4 md:min-h-[75vh] min-h-[60vh] md:mb-0 mb-[-10vh] flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
-
-        <motion.div style={{ y: heroY }} className="relative z-50 max-w-7xl mx-auto w-full">
+        <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
           <motion.p
             variants={badgeVariants}
             initial="hidden"
             animate={loaded ? 'visible' : 'hidden'}
-            className="md:hidden text-[10px] text-gray-500 leading-relaxed mb-6 max-w-[180px]"
+            className="md:hidden text-xs text-gray-500 leading-relaxed mb-6 max-w-[180px]"
+            style={{ pointerEvents: 'auto' }}
           >
             Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
           </motion.p>
-
           <h1
             className="font-semibold leading-[0.92]"
-            style={{ fontSize: 'clamp(50px, 10vw, 120px)', letterSpacing: '-0.03em' }}
+            style={{ fontSize: 'clamp(50px, 10vw, 120px)', letterSpacing: '-0.03em', pointerEvents: 'auto' }}
           >
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
@@ -609,12 +532,11 @@ export default function Home() {
                 initial="hidden"
                 animate={loaded ? 'visible' : 'hidden'}
                 className="hidden md:inline-block font-normal leading-relaxed text-gray-500 pb-[0.15em]"
-                style={{ fontSize: '10px', letterSpacing: '0', width: '11rem', marginLeft: '0.3em' }}
+                style={{ fontSize: '10px', letterSpacing: '0', width: '11rem', marginLeft: '0.3em', pointerEvents: 'auto' }}
               >
                 Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
               </motion.span>
             </div>
-
             <div className="flex items-baseline flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Digital" delay={0.32} pb={6} isLoaded={loaded} />
               <HeroWord word="Future" delay={0.46} pb={6} isLoaded={loaded} />
@@ -629,7 +551,7 @@ export default function Home() {
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img) => (
               <div key={img.src} className="strip-img-item">
-                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[60vh] object-cover" />
+                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[60vh] object-cover pointer-events-none" />
               </div>
             ))}
           </div>
@@ -643,7 +565,7 @@ export default function Home() {
           <RevealDiv>
             <div className="md:gap-8">
               <div className="hidden mb-12 md:block col-span-2">
-                <p className="text-base tracking-widest text-gray-400 pt-1">(ABOUT)</p>
+                <p className="text-xs tracking-widest text-gray-400 pt-1">(ABOUT)</p>
               </div>
               <div className="col-span-12 md:col-span-10">
                 <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(ABOUT)</p>
@@ -659,7 +581,7 @@ export default function Home() {
         <div className="md:px-8 px-4 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8">
             <div className="hidden md:flex col-span-2 items-start pt-8 sticky top-8 self-start h-fit">
-              <p className="text-base tracking-widest text-gray-400">(SERVICES)</p>
+              <p className="text-xs tracking-widest text-gray-400">(SERVICES)</p>
             </div>
             <div className="col-span-12 md:col-span-10">
               <p className="text-xs tracking-widest text-gray-400 mb-2 md:hidden sticky top-4 bg-[#F4F4F4] py-2 z-[100]">(SERVICES)</p>
@@ -699,9 +621,9 @@ export default function Home() {
       <QuoteSection />
 
       {/* ── OUR WORKS ── */}
-      <ScrollFadeSection className="relative md:pt-28 pt-28 pb-20">
+      <ScrollFadeSection className="relative md:pt-32 pt-28 pb-20">
         <div className="max-w-7xl mx-auto md:px-8 px-4">
-          <p className="text-base tracking-widest text-gray-400 mb-6">(OUR WORKS)</p>
+          <p className="text-xs tracking-widest text-gray-400 mb-6">(OUR WORKS)</p>
           <div className="border-t border-gray-300 pt-8 pb-8">
             <div className="md:grid grid-cols-2 gap-6 md:gap-8">
               {[
@@ -711,9 +633,9 @@ export default function Home() {
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
                     <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
                     </div>
-                    <p className="text-sm md:text-base font-normal text-gray-900 leading-snug">{w.title}</p>
+                    <p className="text-sm font-normal text-gray-900 leading-snug">{w.title}</p>
                   </div>
                 </RevealDiv>
               ))}
@@ -728,9 +650,9 @@ export default function Home() {
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
                     <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
                     </div>
-                    <p className="text-sm md:text-base font-normal text-gray-900 leading-snug">{w.title}</p>
+                    <p className="text-sm font-normal text-gray-900 leading-snug">{w.title}</p>
                   </div>
                 </RevealDiv>
               ))}
