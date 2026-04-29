@@ -3,6 +3,17 @@ import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView, Variants } from 'framer-motion'
 import { useLoaded } from '@/providers/LoadingProvider'
 
+/* ── DESIGN TOKENS (mental model)
+   Label     : text-[10px] tracking-[0.3em] uppercase text-gray-400
+   Body sm   : text-sm (14px) text-gray-500 leading-relaxed
+   Body base : text-base (16px) text-gray-600 leading-relaxed
+   Heading S : text-2xl md:text-3xl font-medium
+   Heading M : text-3xl md:text-4xl font-medium
+   Heading L : text-4xl md:text-5xl font-medium
+   Section gap mobile  : pt-24
+   Section gap desktop : md:pt-32
+─────────────────────────────────── */
+
 /* ── QUOTE SECTION ── */
 function QuoteSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -26,15 +37,15 @@ function QuoteSection() {
       >
         <div className="max-w-7xl mx-auto md:px-8 px-4 w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8 relative z-10">
-            <div className="hidden md:flex col-span-2 items-start self-start pt-2">
-              <p className="text-xs tracking-widest text-gray-400">(QUOTES)</p>
+            <div className="hidden md:flex col-span-2 items-start self-start pt-1">
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">(QUOTES)</p>
             </div>
             <div className="col-span-12 md:col-span-10 overflow-hidden">
-              <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(QUOTES)</p>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-8 md:hidden">(QUOTES)</p>
               <div className="overflow-hidden">
                 <motion.blockquote
                   style={{ x, pointerEvents: 'auto' }}
-                  className="text-gray-900 font-medium leading-[1.5] md:text-3xl text-2xl"
+                  className="text-gray-900 font-medium leading-[1.45] text-2xl md:text-4xl"
                 >
                   "Kami Adalah Agency Digital Yang Berfokus Pada
                   Pengembangan Website Dengan Pendekatan Strategis
@@ -45,8 +56,8 @@ function QuoteSection() {
                 style={{ opacity: authorOpacity, y: authorY, pointerEvents: 'auto' }}
                 className="mt-10 md:mt-14"
               >
-                <p className="font-semibold text-base text-gray-900">Luthfi Khaeri Ihsan</p>
-                <p className="text-gray-400 text-sm mt-1">Founder Webter</p>
+                <p className="font-medium text-sm text-gray-900 tracking-wide">Luthfi Khaeri Ihsan</p>
+                <p className="text-gray-400 text-xs tracking-[0.2em] uppercase mt-1">Founder Webter</p>
               </motion.div>
             </div>
           </div>
@@ -97,7 +108,7 @@ function ImageToValuesTransition() {
   }, [valuesY, valuesOpacity])
 
   return (
-    <div ref={wrapperRef} style={{ height: '280vh' }} className="relative md:mt-32 mt-28">
+    <div ref={wrapperRef} style={{ height: '280vh' }} className="relative md:mt-32 mt-24">
 
       {/* IMAGE */}
       <div
@@ -120,8 +131,8 @@ function ImageToValuesTransition() {
                     style={{ y: textY, opacity: textOpacity }}
                     className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10"
                   >
-                    <p className="text-xs tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
-                    <p className="font-semibold text-white leading-[1] md:text-3xl text-2xl">
+                    <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
+                    <p className="font-medium text-white leading-[1.1] text-2xl md:text-3xl">
                       Crafting Digital <br className="hidden md:block" />
                       Experiences That Matter.
                     </p>
@@ -131,8 +142,8 @@ function ImageToValuesTransition() {
                   style={{ opacity: textOpacity }}
                   className="flex justify-between items-start mt-4 px-1 pointer-events-none"
                 >
-                  <p className="text-xs tracking-widest text-gray-400">Webter Digital Solution</p>
-                  <p className="text-xs tracking-widest text-gray-400 text-right max-w-[200px]">
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">Webter Digital Solution</p>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 text-right max-w-[200px]">
                     Teknologi modern untuk masa depan digital Anda
                   </p>
                 </motion.div>
@@ -156,39 +167,65 @@ function ImageToValuesTransition() {
         ref={valuesRef}
       >
         <div className="max-w-7xl relative mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-            <div className="hidden md:block md:col-span-6">
-              <RevealDiv direction="left">
-                <img
-                  src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80"
-                  alt="Values"
-                  className="w-full h-[450px] object-cover"
-                />
-              </RevealDiv>
-            </div>
-            <div className="md:col-span-6">
-              <p className="text-xs tracking-widest text-gray-400 mb-8">(VALUES)</p>
-              <div className="w-full">
-                {values.map((v, i) => (
-                  <RevealDiv key={v.title} delay={i * 0.08}>
-                    <div className="py-4 border-b border-gray-300">
-                      <h3 className={`leading-tight text-2xl md:text-3xl transition-colors ${i === 0 ? 'text-gray-900 font-semibold' : 'text-gray-500 font-normal'}`}>
-                        {v.title}
-                      </h3>
-                    </div>
-                  </RevealDiv>
-                ))}
+
+          {/* Label */}
+          <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-10">(VALUES)</p>
+
+          {/* Header row */}
+          <RevealDiv direction="up">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-0 pb-8 border-b border-gray-300">
+              <div>
+                <div className="w-8 h-[1.5px] bg-gray-900 mb-3" />
+                <h2 className="text-3xl md:text-4xl font-medium text-gray-900 leading-[1.15]">
+                  Hal yang kami<br />
+                  pegang teguh<br />
+                  dalam setiap kerja.
+                </h2>
               </div>
-              <RevealDiv delay={0.35} className="mt-8">
-                <p className="text-sm text-gray-900 leading-relaxed max-w-sm relative z-10">
-                  Menggabungkan teknologi modern untuk menghadirkan solusi digital
-                  yang relevan Menggabungkan teknologi modern untuk menghadirkan
-                  solusi digital yang relevan
-                </p>
-              </RevealDiv>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-[220px] md:text-right">
+                Prinsip-prinsip ini bukan sekadar kata — melainkan fondasi dari setiap
+                solusi digital yang kami hadirkan.
+              </p>
             </div>
+          </RevealDiv>
+
+          {/* Value list */}
+          <div className="flex flex-col">
+            {values.map((v, i) => (
+              <RevealDiv key={v.title} delay={i * 0.08}>
+                <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-0 py-6 border-b border-gray-300 group">
+
+                  {/* Title */}
+                  <h3 className={`text-2xl md:text-3xl leading-tight transition-colors duration-300 group-hover:text-gray-900 ${
+                    i === 0 ? 'text-gray-900 font-medium' : 'text-gray-400 font-normal'
+                  }`}>
+                    {v.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="hidden md:block text-sm text-gray-500 leading-relaxed pl-6 border-l border-gray-300 max-w-[260px]">
+                    {v.desc}
+                  </p>
+
+                </div>
+              </RevealDiv>
+            ))}
           </div>
+
+          {/* Footer row */}
+          <RevealDiv delay={0.45}>
+            <div className="flex items-center justify-between mt-10">
+              <div className="flex items-center gap-3">
+                <div className="w-5 h-[0.5px] bg-gray-400" />
+                <span className="text-[10px] tracking-[0.3em] uppercase text-gray-400">Webter Digital Solution</span>
+              </div>
+              <span className="text-[10px] tracking-[0.2em] uppercase text-gray-400">{values.length} core values</span>
+            </div>
+          </RevealDiv>
+
         </div>
+
+        {/* Decorative circle */}
         <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
       </div>
     </div>
@@ -222,7 +259,7 @@ function ParallaxImageSection() {
   const textOpacity = useTransform(scrollYProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
 
   return (
-    <div ref={ref} className="md:pt-32 pt-28">
+    <div ref={ref} className="md:pt-32 pt-24">
       <div className="w-full relative">
         <div className="w-full overflow-hidden relative" style={{ height: 'clamp(90vh, 80vh, 90vh)' }}>
           <motion.img
@@ -236,8 +273,8 @@ function ParallaxImageSection() {
             style={{ y: textY, opacity: textOpacity }}
             className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10 pointer-events-none"
           >
-            <p className="text-xs tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
-            <p className="font-semibold text-white leading-[0.95] md:text-3xl text-2xl">
+            <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
+            <p className="font-medium text-white leading-[1.1] text-2xl md:text-3xl">
               Crafting Digital <br className="hidden md:block" />
               Experiences That Matter.
             </p>
@@ -270,7 +307,7 @@ function HighlightText() {
 
   return (
     <div ref={containerRef} style={{ pointerEvents: 'auto' }}>
-      <p className="leading-[1.55] font-normal md:text-3xl text-2xl text-start">
+      <p className="leading-[1.55] font-normal text-2xl md:text-3xl text-start">
         {wordList.map(({ word, bold, index }) => (
           <WordHighlight
             key={index}
@@ -295,7 +332,7 @@ function WordHighlight({ word, bold, index, total, scrollYProgress }: {
   return (
     <motion.span
       style={{ opacity, pointerEvents: 'auto' }}
-      className={`inline ${bold ? 'font-bold text-gray-900' : 'text-gray-600'}`}
+      className={`inline ${bold ? 'font-medium text-gray-900' : 'text-gray-600'}`}
     >
       {word}{' '}
     </motion.span>
@@ -329,15 +366,15 @@ function ServiceItem({ s, i, total }: {
           style={{ y: yLabel, pointerEvents: 'auto' }}
           className="grid grid-cols-12 items-center py-6 md:py-8 group cursor-pointer"
         >
-          <p className="md:col-span-4 col-span-3 text-gray-400 text-base font-normal">
+          <p className="md:col-span-4 col-span-3 text-[10px] tracking-[0.3em] uppercase text-gray-400">
             {i + 1 < 10 ? `0${i + 1}` : i + 1}
           </p>
           <div className="md:col-span-7 col-span-8">
             <p className="text-2xl md:text-3xl font-medium text-gray-900">{s.label}</p>
-            <p className="text-sm text-gray-400 mt-1">{s.desc}</p>
+            <p className="text-sm text-gray-400 mt-1.5 leading-relaxed">{s.desc}</p>
           </div>
-          <div className="col-span-1 flex justify-end text-gray-700 text-xl group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-            {'>'}
+          <div className="col-span-1 flex justify-end text-gray-400 text-sm group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform tracking-widest">
+            {'↗'}
           </div>
         </motion.div>
         <motion.div
@@ -565,10 +602,10 @@ export default function Home() {
           <RevealDiv>
             <div className="md:gap-8">
               <div className="hidden mb-12 md:block col-span-2">
-                <p className="text-xs tracking-widest text-gray-400 pt-1">(ABOUT)</p>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 pt-1">(ABOUT)</p>
               </div>
               <div className="col-span-12 md:col-span-10">
-                <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(ABOUT)</p>
+                <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-8 md:hidden">(ABOUT)</p>
                 <HighlightText />
               </div>
             </div>
@@ -577,14 +614,14 @@ export default function Home() {
       </ScrollFadeSection>
 
       {/* ── SERVICE ── */}
-      <section className="md:pt-32 pt-28">
+      <section className="md:pt-32 pt-24">
         <div className="md:px-8 px-4 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8">
             <div className="hidden md:flex col-span-2 items-start pt-8 sticky top-8 self-start h-fit">
-              <p className="text-xs tracking-widest text-gray-400">(SERVICES)</p>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">(SERVICES)</p>
             </div>
             <div className="col-span-12 md:col-span-10">
-              <p className="text-xs tracking-widest text-gray-400 mb-2 md:hidden sticky top-4 bg-[#F4F4F4] py-2 z-[100]">(SERVICES)</p>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-2 md:hidden sticky top-4 bg-[#F4F4F4] py-2 z-[100]">(SERVICES)</p>
               {[
                 {
                   num: 'a.', label: 'Company Profile',
@@ -621,9 +658,9 @@ export default function Home() {
       <QuoteSection />
 
       {/* ── OUR WORKS ── */}
-      <ScrollFadeSection className="relative md:pt-32 pt-28 pb-20">
+      <ScrollFadeSection className="relative md:pt-32 pt-24 pb-20">
         <div className="max-w-7xl mx-auto md:px-8 px-4">
-          <p className="text-xs tracking-widest text-gray-400 mb-6">(OUR WORKS)</p>
+          <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-8">(OUR WORKS)</p>
           <div className="border-t border-gray-300 pt-8 pb-8">
             <div className="md:grid grid-cols-2 gap-6 md:gap-8">
               {[
