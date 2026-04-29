@@ -34,7 +34,7 @@ function QuoteSection() {
               <div className="overflow-hidden">
                 <motion.blockquote
                   style={{ x, pointerEvents: 'auto' }}
-                  className="text-gray-900 font-normal leading-[1.5] md:text-3xl text-2xl"
+                  className="text-gray-900 font-medium leading-[1.5] md:text-3xl text-2xl"
                 >
                   "Kami Adalah Agency Digital Yang Berfokus Pada
                   Pengembangan Website Dengan Pendekatan Strategis
@@ -180,7 +180,7 @@ function ImageToValuesTransition() {
                 ))}
               </div>
               <RevealDiv delay={0.35} className="mt-8">
-                <p className="text-sm text-gray-500 leading-relaxed max-w-sm">
+                <p className="text-sm text-gray-900 leading-relaxed max-w-sm relative z-10">
                   Menggabungkan teknologi modern untuk menghadirkan solusi digital
                   yang relevan Menggabungkan teknologi modern untuk menghadirkan
                   solusi digital yang relevan
