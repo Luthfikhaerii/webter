@@ -162,7 +162,7 @@ function ImageToValuesTransition() {
                 <img
                   src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80"
                   alt="Values"
-                  className="w-full h-[520px] object-cover"
+                  className="w-full h-[450px] object-cover"
                 />
               </RevealDiv>
             </div>
