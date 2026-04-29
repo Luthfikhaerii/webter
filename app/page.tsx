@@ -3,6 +3,426 @@ import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView, Variants } from 'framer-motion'
 import { useLoaded } from '@/providers/LoadingProvider'
 
+/* ── QUOTE SECTION ── */
+function QuoteSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  })
+
+  const x = useTransform(scrollYProgress, [0, 0.5], ['-100%', '0%'])
+  const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1])
+  const authorOpacity = useTransform(scrollYProgress, [0.6, 0.85], [0, 1])
+  const authorY = useTransform(scrollYProgress, [0.6, 0.85], [24, 0])
+
+  return (
+    // height besar = ruang scroll untuk efek sticky
+    <div ref={sectionRef} style={{ height: '250vh' }} className="relative">
+      <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        <div className="max-w-7xl mx-auto md:px-8 px-4 w-full">
+          <div className="grid grid-cols-12 gap-4 md:gap-8 relative z-10">
+
+            <div className="hidden md:flex col-span-2 items-start self-start pt-2">
+              <p className="text-base tracking-widest text-gray-400">(QUOTES)</p>
+            </div>
+
+            <div className="col-span-12 md:col-span-10 overflow-hidden">
+              <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(QUOTES)</p>
+
+              {/* Quote slide dari kiri */}
+              <div className="overflow-hidden">
+                <motion.blockquote
+                  style={{ x }}
+                  className="text-gray-900 font-normal leading-[1.5] text-justify md:text-3xl text-xl"
+                >
+                  "Kami Adalah Agency Digital Yang Berfokus Pada
+                  Pengembangan Website Dengan Pendekatan Strategis
+                  Dan Terstruktur Yang"
+                </motion.blockquote>
+              </div>
+
+              {/* Author fade in setelah quote selesai */}
+              <motion.div
+                style={{ opacity: authorOpacity, y: authorY }}
+                className="mt-10 md:mt-14"
+              >
+                <p className="font-bold text-sm md:text-lg text-gray-900">Luthfi Khaeri Ihsan</p>
+                <p className="text-gray-400 text-xs md:text-sm mt-1">Founder Webter</p>
+              </motion.div>
+
+            </div>
+          </div>
+        </div>
+
+        <div className="float-2 absolute left-[-200px] bottom-0 w-[500px] h-[500px] border-[60px] border-gray-300 rounded-full opacity-30 pointer-events-none" />
+      </div>
+    </div>
+  )
+}
+
+function ImageToValuesTransition() {
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const valuesRef = useRef<HTMLDivElement>(null)
+  const imageWrapRef = useRef<HTMLDivElement>(null)
+
+  const { scrollYProgress } = useScroll({
+    target: wrapperRef,
+    offset: ['start start', 'end end'],
+  })
+
+  const imageScale = useTransform(scrollYProgress, [0.3, 0.65], [1, 0.88])
+  const imageBrightness = useTransform(scrollYProgress, [0.3, 0.65], [1, 0.4])
+  const imageY = useTransform(scrollYProgress, [0.3, 0.65], ['0%', '-6%'])
+  const valuesY = useTransform(scrollYProgress, [0.3, 0.65], [100, 0])
+  const valuesOpacity = useTransform(scrollYProgress, [0.3, 0.45], [0, 1])
+
+  const { scrollYProgress: pxProgress } = useScroll({
+    target: wrapperRef,
+    offset: ['start end', 'center start'],
+  })
+  const imgY = useTransform(pxProgress, [0, 1], ['-20%', '20%'])
+  const textY = useTransform(pxProgress, [0.2, 0.6], ['60px', '-60px'])
+  const textOpacity = useTransform(pxProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
+
+  // Animasi values via DOM langsung — hindari Framer transform stacking context
+  useEffect(() => {
+    const unsubY = valuesY.on('change', (v) => {
+      if (valuesRef.current) {
+        valuesRef.current.style.transform = `translateY(${v}%)`
+      }
+    })
+    const unsubO = valuesOpacity.on('change', (v) => {
+      if (valuesRef.current) {
+        valuesRef.current.style.opacity = String(v)
+      }
+    })
+    return () => { unsubY(); unsubO() }
+  }, [valuesY, valuesOpacity])
+
+  return (
+    <div ref={wrapperRef} style={{ height: '220vh' }} className="relative md:mt-32 mt-28">
+
+      {/* ── IMAGE — z-index rendah ── */}
+      <div
+        className="sticky top-0 w-full overflow-hidden"
+        style={{ height: '100vh', zIndex: 1 }}
+      >
+        <motion.div
+          style={{ scale: imageScale, y: imageY }}
+          className="w-full h-full"
+        >
+          <BrightnessWrapper brightness={imageBrightness}>
+            <div className="w-full h-full flex items-center">
+              <div
+                className="w-full relative"
+                style={{ height: 'clamp(90vh, 80vh, 90vh)' }}
+              >
+                <div className="w-full h-full overflow-hidden relative">
+                  <motion.img
+                    src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
+                    alt="Monitor workspace"
+                    style={{ y: imgY, height: '140%', top: '-20%' }}
+                    className="absolute inset-x-0 w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+                  <motion.div
+                    style={{ y: textY, opacity: textOpacity }}
+                    className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10"
+                  >
+                    <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
+                    <p
+                      className="font-semibold text-white leading-[1] text-3xl"
+                    >
+                      Crafting Digital <br className="hidden md:block" />
+                      Experiences That Matter.
+                    </p>
+                  </motion.div>
+                </div>
+                <motion.div
+                  style={{ opacity: textOpacity }}
+                  className="flex justify-between items-start mt-4 px-1"
+                >
+                  <p className="text-xs tracking-widest text-gray-400">Webter Digital Solution</p>
+                  <p className="text-xs tracking-widest text-gray-400 text-right max-w-[200px]">
+                    Teknologi modern untuk masa depan digital Anda
+                  </p>
+                </motion.div>
+              </div>
+            </div>
+          </BrightnessWrapper>
+        </motion.div>
+      </div>
+
+      {/* ── VALUES — z-index tinggi, animasi via DOM bukan motion ── */}
+      <div
+        className="sticky top-0 w-full bg-[#F4F4F4] md:px-8 px-4 md:pt-40 pt-12 pb-20 overflow-hidden"
+        style={{
+          zIndex: 10,
+          // initial state — akan di-override useEffect
+          transform: 'translateY(100%)',
+          opacity: 0,
+          // pastikan tidak ada transform dari parent yang override
+          willChange: 'transform, opacity',
+        }}
+        ref={valuesRef}
+      >
+        <div className="max-w-7xl relative mx-auto w-full">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 justify-items-start items-start">
+            <div className="hidden md:block md:col-span-6">
+              <RevealDiv delay={0.35} className="mt-8">
+                <p className="max-w-sm text-xs md:text-xs text-gray-800 tracking-tight leading-relaxed max-w-lg">
+                  Menggabungkan teknologi modern untuk menghadirkan solusi digital
+                  yang relevan Menggabungkan teknologi modern untuk menghadirkan
+                  solusi digital yang relevan
+                </p>
+              </RevealDiv>
+            </div>
+            <div className="md:col-span-6">
+              <div className=''>
+                <div className=''>
+                  <p className="text-base tracking-widest text-gray-400 mb-8">(VALUES)</p>
+                  <div className="w-full">
+                    {values.map((v, i) => (
+                      <RevealDiv key={v.title} delay={i * 0.08}>
+                        <div className="py-6 md:py-6 border-b border-gray-300">
+                          <h3 className={`leading-tight font-normal text-2xl md:text-3xl transition-colors ${i === 0 ? 'text-gray-900 font-semibold' : 'text-gray-500'}`}>
+                            {v.title}
+                          </h3>
+                        </div>
+                      </RevealDiv>
+                    ))}
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
+      </div>
+
+    </div>
+  )
+}
+
+/* helper: terapkan CSS filter brightness via style */
+function BrightnessWrapper({
+  brightness,
+  children,
+}: {
+  brightness: any
+  children: React.ReactNode
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const unsub = brightness.on('change', (v: number) => {
+      if (ref.current) {
+        ref.current.style.filter = `brightness(${v})`
+      }
+    })
+    return unsub
+  }, [brightness])
+
+  return (
+    <div ref={ref} className="w-full h-full">
+      {children}
+    </div>
+  )
+}
+
+/* ── PARALLAX IMAGE SECTION ── */
+function ParallaxImageSection() {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'end start'],
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], ['-20%', '20%'])
+  const textY = useTransform(scrollYProgress, [0.2, 0.6], ['60px', '-60px'])
+  const textOpacity = useTransform(scrollYProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
+
+  return (
+    <div ref={ref} className="md:pt-32 pt-28">
+      <div className="w-full relative">
+
+        {/* Image container */}
+        <div
+          className="w-full overflow-hidden relative"
+          style={{ height: 'clamp(90vh, 80vh, 90vh)' }}
+        >
+          {/* gambar lebih tinggi dari container, bergerak naik/turun */}
+          <motion.img
+            src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
+            alt="Monitor workspace"
+            className="absolute inset-x-0 w-full object-cover"
+            /* tinggi 140% agar ada ruang gerak tanpa perlu scale */
+            style={{ y, height: '140%', top: '-20%' }}
+          />
+
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
+
+          {/* Text overlay */}
+          <motion.div
+            style={{ y: textY, opacity: textOpacity }}
+            className="absolute bottom-8 md:bottom-14 left-6 md:left-10 right-6 md:right-10"
+          >
+            <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">
+              Our Approach
+            </p>
+            <p
+              className="font-semibold text-white leading-[0.95]"
+              style={{ fontSize: 'clamp(20px, 4.5vw, 35px)', letterSpacing: '-0.02em' }}
+            >
+              Crafting Digital <br className="hidden md:block" />
+              Experiences That Matter.
+            </p>
+          </motion.div>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+/* ── HIGHLIGHT TEXT ── */
+function HighlightText() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start 0.85', 'start 0.1'],
+  })
+
+  const fullText = 'Kami Adalah Agency Digital Yang Berfokus Pada Pengembangan Website Dengan Pendekatan Strategis Dan Terstruktur, Yang Dirancang Untuk Membantu Membangun Kehadiran Digital Yang Jelas Dan Efektif Bagi Bisnis Anda.'
+  const boldEnd = 'Pengembangan Website '
+
+  // pisah jadi array kata dengan info bold/tidak
+  const words = fullText.split(' ')
+  const boldWords = boldEnd.trim().split(' ')
+  let boldCount = 0
+  const wordList = words.map((word, i) => {
+    const isBold = boldCount < boldWords.length
+    if (isBold) boldCount++
+    return { word, bold: isBold, index: i }
+  })
+
+  const total = wordList.length
+
+  return (
+    <div ref={containerRef}>
+      <p className="leading-[1.45] font-normal md:text-4xl text-xl text-start">
+        {wordList.map(({ word, bold, index }) => (
+          <WordHighlight
+            key={index}
+            word={word}
+            bold={bold}
+            index={index}
+            total={total}
+            scrollYProgress={scrollYProgress}
+          />
+        ))}
+      </p>
+    </div>
+  )
+}
+
+function WordHighlight({
+  word, bold, index, total, scrollYProgress
+}: {
+  word: string
+  bold: boolean
+  index: number
+  total: number
+  scrollYProgress: any
+}) {
+  const start = index / total
+  const end = Math.min(start + 2 / total, 1)
+
+  const opacity = useTransform(scrollYProgress, [start, end], [0.15, 1])
+
+  return (
+    <motion.span
+      style={{ opacity }}
+      className={`inline ${bold ? 'font-bold text-gray-900' : 'text-gray-600'}`}
+    >
+      {word}{' '}
+    </motion.span>
+  )
+}
+
+/* ── SERVICE ITEM ── */
+function ServiceItem({
+  s, i, total
+}: {
+  s: { num: string; label: string; img: string; desc: string }
+  i: number
+  total: number
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  })
+
+  // item makin ke bawah, makin lambat mulai sticky-nya
+  const yLabel = useTransform(scrollYProgress, [0, 1], ['0%', '-12%'])
+  const yImage = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
+  const opacityImage = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.6, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96])
+
+  // z-index tiap item naik agar yang bawah menimpa yang atas
+  const zIndex = i + 1
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      style={{
+        position: 'sticky',
+        top: `${60 + i * 0}px`,
+        zIndex,
+      }}
+    >
+      <motion.div
+        style={{ scale }}
+        className="bg-[#F4F4F4] border-t border-gray-300 overflow-hidden"
+      >
+        {/* Label row */}
+        <motion.div
+          style={{ y: yLabel }}
+          className="grid grid-cols-12 items-center py-6 md:py-8 group cursor-pointer"
+        >
+          <p className="md:col-span-4 col-span-3 text-gray-400 md:text-3xl text-lg font-normal">
+            {i + 1 < 10 ? `0${i + 1}` : i + 1}
+          </p>
+          <div className="md:col-span-7 col-span-8">
+            <p className="text-xl md:text-3xl font-medium text-gray-900">{s.label}</p>
+            <p className="text-xs md:text-sm text-gray-400 mt-1">{s.desc}</p>
+          </div>
+          <div className="col-span-1 flex justify-end text-gray-700 md:text-3xl text-lg group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+            {'>'}
+          </div>
+        </motion.div>
+
+        {/* Image */}
+        <motion.div
+          style={{ opacity: opacityImage, y: yImage }}
+          className="w-full overflow-hidden"
+        >
+          <img
+            src={s.img}
+            alt={s.label}
+            className="w-full h-[40vh] md:h-[55vh] object-cover"
+          />
+        </motion.div>
+      </motion.div>
+    </div>
+  )
+}
+
 /* ── helpers ── */
 function RevealDiv({ children, className, delay = 0, direction = 'up' }: {
   children: React.ReactNode
@@ -157,12 +577,13 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={loaded ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+      className='tracking-tighter'
     >
       {/* ── HERO ── */}
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip' }}
-        className="md:px-8 px-4 md:min-h-[75vh] min-h-[50vh] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[75vh] min-h-[60vh] md:mb-0 mb-[-10vh] flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
 
@@ -204,11 +625,11 @@ export default function Home() {
 
       {/* ── GALLERY STRIP ── */}
       <section ref={stripSectionRef} style={{ height: '400vh', position: 'relative' }}>
-        <div className="sticky top-0 md:pt-14 pt-8 md:h-screen h-[90vh] flex flex-col justify-start overflow-hidden">
+        <div className="sticky top-0 md:pt-2 pt-6 md:h-screen h-[90vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img) => (
               <div key={img.src} className="strip-img-item">
-                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[90vh] object-cover" />
+                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[60vh] object-cover" />
               </div>
             ))}
           </div>
@@ -218,18 +639,15 @@ export default function Home() {
       {/* ── ABOUT TEXT ── */}
       <ScrollFadeSection className="relative z-20 overflow-visible">
         <div className="float-2 absolute left-[-250px] w-[600px] h-[600px] rounded-full border-[60px] border-gray-300 opacity-20 pointer-events-none" />
-        <div className="md:px-8 px-4 max-w-7xl mx-auto w-full md:pt-4 pt-8 relative z-50">
+        <div className="md:px-8 px-4 max-w-7xl mx-auto w-full md:pt-28 pt-6 relative z-50">
           <RevealDiv>
             <div className="md:gap-8">
               <div className="hidden mb-12 md:block col-span-2">
                 <p className="text-base tracking-widest text-gray-400 pt-1">(ABOUT)</p>
               </div>
               <div className="col-span-12 md:col-span-10">
-                <p className="text-xs tracking-widest text-gray-400 mb-4 md:hidden">(ABOUT)</p>
-                <p className="indent-16 leading-[1.55] font-normal text-gray-600 md:text-4xl text-xl text-start">
-                  <span className="font-bold text-gray-900">Kami Adalah Agency Digital Yang Berfokus Pada Pengembangan Website </span> Dengan Pendekatan Strategis Dan Terstruktur, Yang Dirancang Untuk Membantu
-                  Membangun Kehadiran Digital Yang Jelas Dan Efektif Bagi Bisnis Anda.
-                </p>
+                <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(ABOUT)</p>
+                <HighlightText />
               </div>
             </div>
           </RevealDiv>
@@ -237,112 +655,51 @@ export default function Home() {
       </ScrollFadeSection>
 
       {/* ── SERVICE ── */}
-      <ScrollFadeSection className="md:pt-40 pt-12">
+      <section className="md:pt-32 pt-28">
         <div className="md:px-8 px-4 max-w-7xl mx-auto w-full">
           <div className="grid grid-cols-12 gap-4 md:gap-8">
-            <div className="hidden md:flex col-span-2 items-start pt-8">
+            <div className="hidden md:flex col-span-2 items-start pt-8 sticky top-8 self-start h-fit">
               <p className="text-base tracking-widest text-gray-400">(SERVICES)</p>
             </div>
             <div className="col-span-12 md:col-span-10">
-              <p className="text-xs tracking-widest text-gray-400 mb-2 md:hidden">(SERVICES)</p>
-              {services.map((s, i) => (
-                <RevealDiv key={s.num} delay={i * 0.07}>
-                  <div className="grid grid-cols-12 items-center py-8 border-b border-gray-300 group cursor-pointer">
-                    <p className="md:col-span-4 col-span-3 text-gray-400 md:text-3xl text-base font-normal">+</p>
-                    <p className="md:col-span-7 col-span-8 text-xl md:text-3xl font-semibold text-gray-900">{s.label}</p>
-                    <div className="col-span-1 text-light flex justify-end text-gray-700 text-3xl group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                      {'>'}
-                    </div>
-                  </div>
-                </RevealDiv>
+              <p className="text-xs tracking-widest text-gray-400 mb-2 md:hidden sticky top-4 bg-[#F4F4F4] py-2 z-[100]">(SERVICES)</p>
+              {[
+                {
+                  num: 'a.', label: 'Company Profile',
+                  img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+                  desc: 'Representasi digital terbaik untuk bisnis Anda.'
+                },
+                {
+                  num: 'b.', label: 'Portfolio Personal',
+                  img: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200&q=80',
+                  desc: 'Tampilkan karya dan identitas Anda secara profesional.'
+                },
+                {
+                  num: 'c.', label: 'Information System',
+                  img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80',
+                  desc: 'Sistem informasi terstruktur untuk efisiensi operasional.'
+                },
+                {
+                  num: 'd.', label: 'Custom Website',
+                  img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80',
+                  desc: 'Website unik sesuai kebutuhan dan visi Anda.'
+                },
+              ].map((s, i, arr) => (
+                <ServiceItem key={s.num} s={s} i={i} total={arr.length} />
               ))}
             </div>
           </div>
         </div>
-      </ScrollFadeSection>
+      </section>
 
-      {/* ── IMAGE STRIP ── */}
-      <ScrollFadeSection className="md:px-8 px-4 md:pt-40 pt-12 overflow-hidden">
-        <div className="max-w-7xl mx-auto w-full">
-          <RevealDiv delay={0.1} className="col-span-4">
-            <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80"
-              alt="Programming" className="w-full h-[600px] object-cover" />
-          </RevealDiv>
-        </div>
-      </ScrollFadeSection>
-
-      {/* ── VALUES ── */}
-      <ScrollFadeSection className="md:px-8 px-4 md:pt-40 pt-12 relative overflow-hidden">
-        <div className="max-w-7xl relative z-20 mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-            <div className="hidden md:block md:col-span-5">
-              <RevealDiv direction="left">
-                <img
-                  src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&q=80"
-                  alt="Values"
-                  className="w-full h-[520px] object-cover"
-                />
-              </RevealDiv>
-            </div>
-            <div className="md:col-span-7">
-              <div className='md:grid grid-cols-12'>
-                <div className=''></div>
-                <div className='col-span-11'>
-                  <p className="text-base tracking-widest text-gray-400 mb-8">(VALUES)</p>
-                  <div className="w-full">
-                    {values.map((v, i) => (
-                      <RevealDiv key={v.title} delay={i * 0.08}>
-                        <div className="py-6 md:py-6 border-b border-gray-300">
-                          <h3 className={`leading-tight font-normal text-xl md:text-4xl transition-colors ${i === 0 ? 'text-gray-900 font-semibold' : 'text-gray-500'}`}>
-                            {v.title}
-                          </h3>
-                        </div>
-                      </RevealDiv>
-                    ))}
-                  </div>
-                  <RevealDiv delay={0.35} className="mt-8">
-                    <p className="text-xs md:text-base text-gray-800 leading-relaxed max-w-lg">
-                      Menggabungkan teknologi modern untuk menghadirkan solusi digital
-                      yang relevan Menggabungkan teknologi modern untuk menghadirkan
-                      solusi digital yang relevan
-                    </p>
-                  </RevealDiv>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
-      </ScrollFadeSection>
+      {/* ── IMAGE STRIP + VALUES OVERLAP ── */}
+      <ImageToValuesTransition />
 
       {/* ── QUOTE ── */}
-      <ScrollFadeSection className="relative md:pt-40 pt-16">
-        <div className="max-w-7xl mx-auto md:px-8 px-4">
-          <div className="grid grid-cols-12 gap-4 md:gap-8 relative z-10">
-            <div className="hidden md:flex col-span-2 items-start pt-2">
-              <p className="text-base tracking-widest text-gray-400">(SERVICES)</p>
-            </div>
-            <div className="col-span-12 md:col-span-10">
-              <p className="text-xs tracking-widest text-gray-400 mb-6 md:hidden">(SERVICES)</p>
-              <RevealDiv delay={0.1}>
-                <blockquote className="text-gray-900 font-normal leading-[1.5] text-justify text-3xl">
-                  "Kami Adalah Agency Digital Yang Berfokus Pada
-                  Pengembangan Website Dengan Pendekatan Strategis
-                  Dan Terstruktur Yang"
-                </blockquote>
-              </RevealDiv>
-              <RevealDiv delay={0.2} className="mt-10 md:mt-14">
-                <p className="font-bold text-sm md:text-lg text-gray-900">Luthfi Khaeri Ihsan</p>
-                <p className="text-gray-400 text-xs md:text-sm mt-1">Founder Webter</p>
-              </RevealDiv>
-            </div>
-          </div>
-        </div>
-        <div className="float-2 absolute left-[-200px] bottom-0 w-[500px] h-[500px] border-[60px] border-gray-300 rounded-full opacity-30 pointer-events-none" />
-      </ScrollFadeSection>
+      <QuoteSection />
 
       {/* ── OUR WORKS ── */}
-      <ScrollFadeSection className="relative md:pt-40 pt-16 pb-20">
+      <ScrollFadeSection className="relative md:pt-28 pt-28 pb-20">
         <div className="max-w-7xl mx-auto md:px-8 px-4">
           <p className="text-base tracking-widest text-gray-400 mb-6">(OUR WORKS)</p>
           <div className="border-t border-gray-300 pt-8 pb-8">
