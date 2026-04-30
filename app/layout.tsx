@@ -12,7 +12,7 @@ export const metadata: Metadata = { title: 'Webter' }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-[#F4F4F4] overflow-x-hidden`}>
+      <body className={`${inter.className} bg-white overflow-x-hidden`}>
         <LoadingProvider>
           <Navbar />
           {children}

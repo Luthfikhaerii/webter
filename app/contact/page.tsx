@@ -105,7 +105,7 @@ export default function ContactPage() {
     <main className="pt-[65px]">
 
       {/* ── Wrapper tunggal dengan overflowX clip ── */}
-      <div className="bg-[#F4F4F4] relative" style={{ overflowX: "clip" }}>
+      <div className="bg-white relative" style={{ overflowX: "clip" }}>
 
         {/* Floating circle 1 — pojok kanan atas */}
         <motion.div

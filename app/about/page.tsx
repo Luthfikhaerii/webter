@@ -79,7 +79,7 @@ export default function AboutPage() {
     <main className="pt-[72px]">
 
       {/* ── Wrapper tunggal dengan overflowX clip agar dekorasi tidak bikin horizontal scroll ── */}
-      <div className="bg-[#F4F4F4] relative" style={{ overflowX: "clip" }}>
+      <div className="bg-white relative" style={{ overflowX: "clip" }}>
 
         {/* Floating circle 1 — pojok kanan atas, sama seperti Service */}
         <motion.div
@@ -120,9 +120,8 @@ export default function AboutPage() {
 
             {/* Sub text */}
             <Reveal delay={0}>
-              <p className="mt-6 md:mt-8 text-xs md:text-sm text-gray-500 max-w-lg leading-relaxed">
-                Kami adalah tim yang berdedikasi membangun solusi digital strategis dan terstruktur
-                untuk mendorong pertumbuhan bisnis Anda di era modern.
+              <p className="mt-6 md:mt-8 text-xs md:text-sm text-gray-500 max-w-4xl leading-relaxed tracking-tight">
+                Webter merupakan digital agency yang berfokus pada pembuatan website dan sistem informasi dengan pendekatan yang strategis dan terukur. Kami tidak hanya membangun tampilan visual, tetapi menciptakan solusi digital yang mampu meningkatkan efisiensi operasional, memperkuat identitas brand, serta memberikan pengalaman pengguna yang optimal.
               </p>
             </Reveal>
 
@@ -130,7 +129,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── IMAGE GRID ── */}
-        <section className="px-4 md:px-8 pt-8 md:pt-12 pb-16 relative">
+        <section className="px-4 md:px-8 pt-8 md:pt-4 pb-16 relative">
 
           {/* Floating circle 2 — sisi kiri tengah, sama seperti Service */}
           <motion.div

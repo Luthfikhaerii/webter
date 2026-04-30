@@ -1,10 +1,12 @@
+// LoadingScreen.tsx
 'use client'
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [count, setCount] = useState(0)
   const [done, setDone] = useState(false)
+  const [shouldRemove, setShouldRemove] = useState(false) // ← Tambahkan state baru
 
   useEffect(() => {
     let start: number | null = null
@@ -21,18 +23,28 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         setCount(100)
         setTimeout(() => {
           setDone(true)
-          setTimeout(onComplete, 900)
+          // Tunggu animasi exit selesai sebelum memanggil onComplete
+          setTimeout(() => {
+            setShouldRemove(true) // ← Tandai untuk dihapus
+            setTimeout(onComplete, 100)
+          }, 800) // ← Sesuaikan dengan durasi animasi
         }, 300)
       }
     }
     requestAnimationFrame(step)
   }, [onComplete])
 
+  // Jangan render apapun jika harus dihapus
+  if (shouldRemove) return null
+
   return (
     <motion.div
       className="fixed inset-0 z-[9999] bg-white flex flex-col justify-between overflow-hidden"
+      initial={{ opacity: 1, y: 0 }}
       animate={done ? { opacity: 0, y: -24 } : { opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -24 }} // ← Tambahkan exit animation
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+      // ← Hapus pointerEvents jika ada
     >
       <div className="flex items-center justify-between px-6 md:px-10 pt-8 md:pt-10">
         <motion.p

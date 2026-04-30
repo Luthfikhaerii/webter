@@ -115,7 +115,7 @@ export default function ServicePage() {
     <main className="pt-[65px]">
 
       {/* ── HEADING + SERVICE LIST dalam satu wrapper dengan overflow-hidden hanya horizontal ── */}
-      <div className="bg-[#F4F4F4] relative" style={{ overflowX: "clip" }}>
+      <div className="bg-white relative" style={{ overflowX: "clip" }}>
 
         {/* Floating circle 1 — pojok kanan atas, overflow ke kanan saja */}
         <motion.div
@@ -185,10 +185,10 @@ export default function ServicePage() {
                   <p className="text-gray-400 text-xs md:text-sm">{item.number}</p>
                 </div>
                 <div className="md:col-span-4">
-                  <h2 className="text-xl md:text-3xl font-semibold text-black mb-2 md:mb-4">
+                  <h2 className="text-xl md:text-3xl tracking-tight font-semibold text-black mb-2 md:mb-4">
                     {item.title}
                   </h2>
-                  <p className="text-xs md:text-sm text-gray-500 leading-relaxed max-w-xl">
+                  <p className="text-xs md:text-sm text-gray-500 tracking-tight leading-relaxed max-w-xl">
                     {item.description}
                   </p>
                 </div>

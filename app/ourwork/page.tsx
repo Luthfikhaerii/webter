@@ -77,46 +77,55 @@ function HeroWord({ word, delay }: { word: string; delay: number }) {
 
 /* ── PROJECT ITEMS ── */
 const projects = [
-  {
-    title: "Company Profile",
+    {
+    title: "Lab Kimia Instrument Universitas Komputer Indonesia",
     description:
-      "Here's A Detailed Design Breakdown + Structured Reference Of The Website Style You Shared, Translated Into A Clear System You (Or AI) Can Use To Generate A Digital Agency",
-    image: "/image/gbi.jpg",
+      "Platform digital untuk mengelola dan melacak pemesanan jasa analisis kimia secara terintegrasi, dilengkapi dengan sistem inventory untuk mendukung kebutuhan operasional laboratorium dan penelitian secara efisien.",
+    image: "/image/lki.jpg",
     alt: "Project 1",
     imageLeft: true,
     delay: 0.1,
   },
   {
-    title: "Company Profile",
+    title: "Langkahsana Community",
     description:
-      "Here's A Detailed Design Breakdown + Structured Reference Of The Website Style You Shared, Translated Into A Clear System You (Or AI) Can Use To Generate A Digital Agency",
-    image: "/image/lki.jpg",
+      "Website komunitas outdoor yang berfungsi sebagai media profil komunitas sekaligus dokumentasi perjalanan, memperkuat identitas dan interaksi antar anggota.",
+    image: "/image/langkahsana.jpg",
     alt: "Project 2",
     imageLeft: false,
     delay: 0.22,
   },
   {
-    title: "Company Profile",
+    title: "Leading University Project for International Cooperation",
     description:
-      "Here's A Detailed Design Breakdown + Structured Reference Of The Website Style You Shared, Translated Into A Clear System You (Or AI) Can Use To Generate A Digital Agency",
+      "Website berbasis CMS untuk mendukung program peningkatan pendidikan kimia/sains di wilayah Jawa dan Bali Utara, serta publikasi kegiatan kolaborasi internasional dan pengabdian masyarakat.",
     image: "/image/lupic.jpg",
     alt: "Project 3",
     imageLeft: true,
     delay: 0.34,
   },
   {
-    title: "Company Profile",
+    title: "Gudang Belanja Indonesia",
     description:
-      "Here's A Detailed Design Breakdown + Structured Reference Of The Website Style You Shared, Translated Into A Clear System You (Or AI) Can Use To Generate A Digital Agency",
-    image: "/image/langkahsana.jpg",
+      "Pembuatan sistem inventory untuk membantu pengelolaan stok barang secara lebih terstruktur, akurat, dan mudah diakses.",
+    image: "/image/gbi.jpg",
     alt: "Project 4",
     imageLeft: false,
     delay: 0.46,
   },
   {
-    title: "Company Profile",
+    title: "Cabang Dinas Pendidikan Wilayah III Provinsi Jawa Tengah",
     description:
-      "Here's A Detailed Design Breakdown + Structured Reference Of The Website Style You Shared, Translated Into A Clear System You (Or AI) Can Use To Generate A Digital Agency",
+      "Sistem Informasi Cabang Dinas Pendidikan Wilayah III Provinsi Jawa Tengah untuk mendukung pengelolaan data, administrasi, dan operasional secara terpusat dan efisien.",
+    image: "/image/gbi.jpg",
+    alt: "Project 5",
+    imageLeft: true,
+    delay: 0.58,
+  },
+    {
+    title: "Gudang Tani",
+    description:
+      "Pengembangan dan optimalisasi konten landing page untuk meningkatkan kejelasan pesan brand serta efektivitas konversi pengunjung.",
     image: "/image/gbi.jpg",
     alt: "Project 5",
     imageLeft: true,
@@ -129,7 +138,7 @@ export default function OurWorkPage() {
     <main className="pt-[65px]">
 
       {/* ── Wrapper tunggal dengan overflowX clip ── */}
-      <div className="bg-[#F4F4F4] relative" style={{ overflowX: "clip" }}>
+      <div className="bg-white relative" style={{ overflowX: "clip" }}>
 
         {/* Floating circle 1 — pojok kanan atas */}
         <motion.div
@@ -214,10 +223,10 @@ export default function OurWorkPage() {
                       !project.imageLeft ? "md:order-1" : "md:order-2"
                     }`}
                   >
-                    <h2 className="text-lg md:text-2xl font-semibold text-black mb-2 md:mb-3">
+                    <h2 className="text-lg md:text-3xl font-semibold tracking-tight text-black mb-2 md:mb-3">
                       {project.title}
                     </h2>
-                    <p className="text-xs md:text-sm text-gray-500 leading-relaxed">
+                    <p className="text-xs md:text-sm text-gray-500 tracking-tight leading-relaxed">
                       {project.description}
                     </p>
                   </div>

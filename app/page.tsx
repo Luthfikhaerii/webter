@@ -14,6 +14,18 @@ import { useLoaded } from '@/providers/LoadingProvider'
    Section gap desktop : md:pt-32
 ─────────────────────────────────── */
 
+/* ── FLOATING CIRCLE ── */
+function FloatingCircle({ className, style }: { className?: string; style?: React.CSSProperties }) {
+  return (
+    <motion.div
+      className={className}
+      style={style}
+      animate={{ y: [0, -40, 0], x: [0, 25, 0] }}
+      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+    />
+  )
+}
+
 /* ── QUOTE SECTION ── */
 function QuoteSection() {
   const sectionRef = useRef<HTMLDivElement>(null)
@@ -32,7 +44,7 @@ function QuoteSection() {
       style={{ height: '250vh', isolation: 'isolate', position: 'relative', zIndex: 20 }}
     >
       <div
-        className="sticky top-0 h-screen flex items-center overflow-hidden bg-[#F4F4F4]"
+        className="sticky top-0 h-screen flex items-center overflow-hidden bg-white"
         style={{ pointerEvents: 'auto' }}
       >
         <div className="max-w-7xl mx-auto md:px-8 px-4 w-full">
@@ -47,9 +59,7 @@ function QuoteSection() {
                   style={{ x, pointerEvents: 'auto' }}
                   className="text-gray-900 font-medium leading-[1.45] text-2xl md:text-4xl"
                 >
-                  "Kami Adalah Agency Digital Yang Berfokus Pada
-                  Pengembangan Website Dengan Pendekatan Strategis
-                  Dan Terstruktur Yang"
+                  "Solusi digital yang baik bukan hanya terlihat menarik, tapi mampu menyelesaikan masalah dan menciptakan peluang baru"
                 </motion.blockquote>
               </div>
               <motion.div
@@ -62,7 +72,7 @@ function QuoteSection() {
             </div>
           </div>
         </div>
-        <div className="float-2 absolute left-[-200px] bottom-0 w-[500px] h-[500px] border-[60px] border-gray-300 rounded-full opacity-30 pointer-events-none" />
+        <FloatingCircle className="float-2 absolute left-[-200px] bottom-0 w-[500px] h-[500px] border-[60px] border-gray-300 rounded-full opacity-15 pointer-events-none" />
       </div>
     </div>
   )
@@ -121,9 +131,9 @@ function ImageToValuesTransition() {
               <div className="w-full relative" style={{ height: 'clamp(90vh, 80vh, 90vh)' }}>
                 <div className="w-full h-full overflow-hidden relative">
                   <motion.img
-                    src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
+                    src="/section/section.png"
                     alt="Monitor workspace"
-                    style={{ y: imgY, height: '140%', top: '-20%' }}
+                    style={{ y: imgY, height: '145%', top: '-20%' }}
                     className="absolute inset-x-0 w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
@@ -138,15 +148,6 @@ function ImageToValuesTransition() {
                     </p>
                   </motion.div>
                 </div>
-                <motion.div
-                  style={{ opacity: textOpacity }}
-                  className="flex justify-between items-start mt-4 px-1 pointer-events-none"
-                >
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">Webter Digital Solution</p>
-                  <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 text-right max-w-[200px]">
-                    Teknologi modern untuk masa depan digital Anda
-                  </p>
-                </motion.div>
               </div>
             </div>
           </BrightnessWrapper>
@@ -155,7 +156,7 @@ function ImageToValuesTransition() {
 
       {/* VALUES */}
       <div
-        className="sticky top-0 w-full bg-[#F4F4F4] md:px-8 px-4 md:pt-16 pt-12 pb-20"
+        className="sticky top-0 w-full bg-white md:px-8 px-4 md:pt-16 pt-12 pb-20"
         style={{
           zIndex: 10,
           transform: 'translateY(100%)',
@@ -182,7 +183,7 @@ function ImageToValuesTransition() {
                   dalam setiap kerja.
                 </h2>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-[220px] md:text-right">
+              <p className="text-sm text-gray-500 leading-relaxed max-w-[220px] md:text-right tracking-tight">
                 Prinsip-prinsip ini bukan sekadar kata — melainkan fondasi dari setiap
                 solusi digital yang kami hadirkan.
               </p>
@@ -196,14 +197,14 @@ function ImageToValuesTransition() {
                 <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-0 py-6 border-b border-gray-300 group">
 
                   {/* Title */}
-                  <h3 className={`text-2xl md:text-3xl leading-tight transition-colors duration-300 group-hover:text-gray-900 ${
+                  <h3 className={`text-2xl md:text-3xl leading-tight transition-colors duration-300 group-hover:text-gray-900 relative z-10 ${
                     i === 0 ? 'text-gray-900 font-medium' : 'text-gray-400 font-normal'
                   }`}>
                     {v.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="hidden md:block text-sm text-gray-500 leading-relaxed pl-6 border-l border-gray-300 max-w-[260px]">
+                  <p className="hidden md:block text-sm text-gray-500 leading-relaxed pl-6 border-l border-gray-300 max-w-[260px] tracking-tight">
                     {v.desc}
                   </p>
 
@@ -212,21 +213,10 @@ function ImageToValuesTransition() {
             ))}
           </div>
 
-          {/* Footer row */}
-          <RevealDiv delay={0.45}>
-            <div className="flex items-center justify-between mt-10">
-              <div className="flex items-center gap-3">
-                <div className="w-5 h-[0.5px] bg-gray-400" />
-                <span className="text-[10px] tracking-[0.3em] uppercase text-gray-400">Webter Digital Solution</span>
-              </div>
-              <span className="text-[10px] tracking-[0.2em] uppercase text-gray-400">{values.length} core values</span>
-            </div>
-          </RevealDiv>
-
         </div>
 
         {/* Decorative circle */}
-        <div className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-40 pointer-events-none" />
+        <FloatingCircle className="float-1 absolute right-[-150px] bottom-0 w-[400px] h-[400px] border-[60px] border-gray-200 rounded-full opacity-20 pointer-events-none" />
       </div>
     </div>
   )
@@ -293,7 +283,7 @@ function HighlightText() {
     offset: ['start 0.85', 'start 0.1'],
   })
 
-  const fullText = 'Kami Adalah Agency Digital Yang Berfokus Pada Pengembangan Website Dengan Pendekatan Strategis Dan Terstruktur, Yang Dirancang Untuk Membantu Membangun Kehadiran Digital Yang Jelas Dan Efektif Bagi Bisnis Anda.'
+  const fullText = 'Webter adalah digital agency yang berfokus pada pengembangan website dan sistem informasi yang terstruktur, strategis, dan dirancang untuk membantu bisnis tumbuh secara efektif di era digital.'
   const boldEnd = 'Pengembangan Website '
   const words = fullText.split(' ')
   const boldWords = boldEnd.trim().split(' ')
@@ -332,7 +322,7 @@ function WordHighlight({ word, bold, index, total, scrollYProgress }: {
   return (
     <motion.span
       style={{ opacity, pointerEvents: 'auto' }}
-      className={`inline ${bold ? 'font-medium text-gray-900' : 'text-gray-600'}`}
+      className={`inline ${bold ? 'font-semibold text-gray-900' : ' text-gray-600'}`}
     >
       {word}{' '}
     </motion.span>
@@ -352,7 +342,7 @@ function ServiceItem({ s, i, total }: {
   })
   const yLabel = useTransform(scrollYProgress, [0, 1], ['0%', '-12%'])
   const yImage = useTransform(scrollYProgress, [0, 1], ['0%', '-30%'])
-  const opacityImage = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.6, 0])
+  const opacityImage = useTransform(scrollYProgress, [1, 1, 1], [1, 1, 1])
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96])
 
   return (
@@ -361,7 +351,7 @@ function ServiceItem({ s, i, total }: {
       className="relative"
       style={{ position: 'sticky', top: '60px', zIndex: i + 1 }}
     >
-      <motion.div style={{ scale }} className="bg-[#F4F4F4] border-t border-gray-300 overflow-hidden">
+      <motion.div style={{ scale }} className="bg-white border-t border-gray-300 overflow-hidden">
         <motion.div
           style={{ y: yLabel, pointerEvents: 'auto' }}
           className="grid grid-cols-12 items-center py-6 md:py-8 group cursor-pointer"
@@ -492,11 +482,11 @@ const works = [
 ]
 
 const galleryImages = [
-  { src: 'https://images.unsplash.com/photo-1559028012-481c04fa702d?w=1200&q=80', alt: 'Programming' },
-  { src: 'https://images.unsplash.com/photo-1586717799252-bd134ad00e26?w=800&q=80', alt: 'UI UX' },
-  { src: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=800&q=80', alt: 'Developer workspace' },
-  { src: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=800&q=80', alt: 'Software' },
-  { src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', alt: 'Web development' },
+  { src: '/strip/lki_strip.png', alt: 'lki' },
+  { src: '/strip/langkahsana_strip.png', alt: 'langkahsana' },
+  { src: '/strip/gbi_strip.png', alt: 'gbi' },
+  { src: '/strip/lupic_strip.png', alt: 'lupic' },
+  { src: '/strip/sicabdin_strip.png', alt: 'sicabdin' },
 ]
 
 export default function Home() {
@@ -534,7 +524,7 @@ export default function Home() {
 
   return (
     <motion.main
-      style={{ overflowX: 'clip', pointerEvents: loaded ? 'auto' : 'none' }}
+      style={{ overflowX: 'clip'}}
       initial={{ opacity: 0 }}
       animate={loaded ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
@@ -544,15 +534,15 @@ export default function Home() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
-        className="md:px-8 px-4 md:min-h-[75vh] min-h-[60vh] md:mb-0 mb-[-10vh] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] md:mb-[-2vh] mb-[-12vh] flex items-end relative"
       >
-        <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
+        <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-5 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
           <motion.p
             variants={badgeVariants}
             initial="hidden"
             animate={loaded ? 'visible' : 'hidden'}
-            className="md:hidden text-xs text-gray-500 leading-relaxed mb-6 max-w-[180px]"
+            className="md:hidden text-[9px] text-gray-500 leading-relaxed mb-6 max-w-[180px] tracking-tighter"
             style={{ pointerEvents: 'auto' }}
           >
             Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
@@ -584,7 +574,7 @@ export default function Home() {
 
       {/* ── GALLERY STRIP ── */}
       <section ref={stripSectionRef} style={{ height: '400vh', position: 'relative' }}>
-        <div className="sticky top-0 md:pt-2 pt-6 md:h-screen h-[90vh] flex flex-col justify-center overflow-hidden">
+        <div className="sticky top-0 md:h-screen h-[90vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img) => (
               <div key={img.src} className="strip-img-item">
@@ -597,7 +587,7 @@ export default function Home() {
 
       {/* ── ABOUT TEXT ── */}
       <ScrollFadeSection className="relative z-20 overflow-visible">
-        <div className="float-2 absolute left-[-250px] w-[600px] h-[600px] rounded-full border-[60px] border-gray-300 opacity-20 pointer-events-none" />
+        <FloatingCircle className="float-2 absolute left-[-250px] w-[600px] h-[600px] rounded-full border-[60px] border-gray-300 opacity-20 pointer-events-none" />
         <div className="md:px-8 px-4 max-w-7xl mx-auto w-full md:pt-28 pt-6 relative z-50">
           <RevealDiv>
             <div className="md:gap-8">
@@ -621,26 +611,26 @@ export default function Home() {
               <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">(SERVICES)</p>
             </div>
             <div className="col-span-12 md:col-span-10">
-              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-2 md:hidden sticky top-4 bg-[#F4F4F4] py-2 z-[100]">(SERVICES)</p>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-2 md:hidden sticky top-4 bg-white py-2 z-[100]">(SERVICES)</p>
               {[
                 {
                   num: 'a.', label: 'Company Profile',
-                  img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80',
+                  img: '/service/compro_service.png',
                   desc: 'Representasi digital terbaik untuk bisnis Anda.'
                 },
                 {
                   num: 'b.', label: 'Portfolio Personal',
-                  img: 'https://images.unsplash.com/photo-1545235617-9465d2a55698?w=1200&q=80',
+                  img: '/service/portfolio_service.png',
                   desc: 'Tampilkan karya dan identitas Anda secara profesional.'
                 },
                 {
                   num: 'c.', label: 'Information System',
-                  img: 'https://images.unsplash.com/photo-1558655146-d09347e92766?w=1200&q=80',
+                  img: '/service/system_service.png',
                   desc: 'Sistem informasi terstruktur untuk efisiensi operasional.'
                 },
                 {
                   num: 'd.', label: 'Custom Website',
-                  img: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80',
+                  img: '/service/custom_service.png',
                   desc: 'Website unik sesuai kebutuhan dan visi Anda.'
                 },
               ].map((s, i, arr) => (
@@ -662,34 +652,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto md:px-8 px-4">
           <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-8">(OUR WORKS)</p>
           <div className="border-t border-gray-300 pt-8 pb-8">
-            <div className="md:grid grid-cols-2 gap-6 md:gap-8">
-              {[
-                { title: 'Lab Kimia Instrumeny UPI', img: '/image/gbi.jpg' },
-                { title: 'Lab Kimia Instrumeny UPI', img: '/image/lki.jpg' },
-              ].map((w, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+              {works.map((w, i) => (
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
                     <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
+                      <img
+                        src={w.img}
+                        alt={w.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
+                      />
                     </div>
-                    <p className="text-sm font-normal text-gray-900 leading-snug">{w.title}</p>
-                  </div>
-                </RevealDiv>
-              ))}
-            </div>
-          </div>
-          <div className="border-t border-gray-200 pt-8 pb-8">
-            <div className="md:grid grid-cols-2 gap-6 md:gap-8">
-              {[
-                { title: 'Lab Kimia Instrumeny UPI', img: '/image/lupic.jpg' },
-                { title: 'Lab Kimia Instrumeny UPI', img: '/image/langkahsana.jpg' },
-              ].map((w, i) => (
-                <RevealDiv key={i} delay={i * 0.08}>
-                  <div className="flex flex-col gap-3 cursor-pointer group">
-                    <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
-                      <img src={w.img} alt={w.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none" />
-                    </div>
-                    <p className="text-sm font-normal text-gray-900 leading-snug">{w.title}</p>
+                    <p className="text-xl font-semibold text-gray-900 leading-snug">{w.title}</p>
                   </div>
                 </RevealDiv>
               ))}
