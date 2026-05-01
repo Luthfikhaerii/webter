@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import LoadingProvider from '@/providers/LoadingProvider'
+import { LenisProvider } from '@/providers/LenisProvider'
 
 const inter = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['400', '500', '600'] })
 
@@ -15,7 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${inter.className} bg-white overflow-x-hidden`}>
         <LoadingProvider>
           <Navbar />
+          <LenisProvider>
           {children}
+          </LenisProvider>
           <Footer />
         </LoadingProvider>
       </body>

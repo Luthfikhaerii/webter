@@ -367,12 +367,6 @@ function ServiceItem({ s, i, total }: {
             {'↗'}
           </div>
         </motion.div>
-        <motion.div
-          style={{ opacity: opacityImage, y: yImage }}
-          className="w-full overflow-hidden pointer-events-none"
-        >
-          <img src={s.img} alt={s.label} className="w-full h-[40vh] md:h-[55vh] object-cover" />
-        </motion.div>
       </motion.div>
     </div>
   )
@@ -475,10 +469,10 @@ const values = [
 ]
 
 const works = [
-  { num: '01', title: 'Lab Kimia Instrumen UPI', img: '/image/gbi.jpg' },
-  { num: '02', title: 'PT Gudang Belanja Indonesia', img: '/image/lki.jpg' },
-  { num: '03', title: 'Leading University For International Cooperation (LUPIC)', img: '/image/lupic.jpg' },
-  { num: '04', title: 'Langkahsana', img: '/image/langkahsana.jpg' },
+  { num: '01', title: 'Lab Kimia Instrumen UPI', img: '/ourwork/1.png' },
+  { num: '02', title: 'Langkahsana Community', img: '/ourwork/4.png' },
+  { num: '03', title: 'Leading University For International Cooperation (LUPIC)', img: '/ourwork/3.png' },
+  { num: '04', title: 'Gudang Belanja Indonesia', img: '/ourwork/8.png' },
 ]
 
 const galleryImages = [
@@ -536,7 +530,7 @@ export default function Home() {
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
         className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] md:mb-[-2vh] mb-[-12vh] flex items-end relative"
       >
-        <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-5 pointer-events-none" />
+        <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
           <motion.p
             variants={badgeVariants}
@@ -656,7 +650,7 @@ export default function Home() {
               {works.map((w, i) => (
                 <RevealDiv key={i} delay={i * 0.08}>
                   <div className="flex flex-col gap-3 cursor-pointer group">
-                    <div className="w-full overflow-hidden bg-gray-200" style={{ aspectRatio: '4/3' }}>
+                    <div className="w-full overflow-hidden bg-gray-200 aspect-video">
                       <img
                         src={w.img}
                         alt={w.title}

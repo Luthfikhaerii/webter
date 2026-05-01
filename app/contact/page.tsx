@@ -76,8 +76,8 @@ function HeroWord({ word, delay }: { word: string; delay: number }) {
 const contactItems = [
   {
     label: "WhatsApp",
-    href: "https://wa.me/6281234567890",
-    display: "+62 812 3456 7890",
+    href: "https://wa.me/6281563862944",
+    display: "+62815-6386-2944",
     delay: 0.1,
   },
   {
@@ -94,8 +94,8 @@ const contactItems = [
   },
   {
     label: "Email",
-    href: "mailto:hello@webter.id",
-    display: "hello@webter.id",
+    href: "mailto:webterid@gmail.com",
+    display: "webterid@gmail.com",
     delay: 0.46,
   },
 ];

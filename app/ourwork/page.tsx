@@ -81,7 +81,7 @@ const projects = [
     title: "Lab Kimia Instrument Universitas Komputer Indonesia",
     description:
       "Platform digital untuk mengelola dan melacak pemesanan jasa analisis kimia secara terintegrasi, dilengkapi dengan sistem inventory untuk mendukung kebutuhan operasional laboratorium dan penelitian secara efisien.",
-    image: "/image/lki.jpg",
+    image: "/ourwork/1.png",
     alt: "Project 1",
     imageLeft: true,
     delay: 0.1,
@@ -90,7 +90,7 @@ const projects = [
     title: "Langkahsana Community",
     description:
       "Website komunitas outdoor yang berfungsi sebagai media profil komunitas sekaligus dokumentasi perjalanan, memperkuat identitas dan interaksi antar anggota.",
-    image: "/image/langkahsana.jpg",
+    image: "/ourwork/4.png",
     alt: "Project 2",
     imageLeft: false,
     delay: 0.22,
@@ -99,7 +99,7 @@ const projects = [
     title: "Leading University Project for International Cooperation",
     description:
       "Website berbasis CMS untuk mendukung program peningkatan pendidikan kimia/sains di wilayah Jawa dan Bali Utara, serta publikasi kegiatan kolaborasi internasional dan pengabdian masyarakat.",
-    image: "/image/lupic.jpg",
+    image: "/ourwork/3.png",
     alt: "Project 3",
     imageLeft: true,
     delay: 0.34,
@@ -108,7 +108,7 @@ const projects = [
     title: "Gudang Belanja Indonesia",
     description:
       "Pembuatan sistem inventory untuk membantu pengelolaan stok barang secara lebih terstruktur, akurat, dan mudah diakses.",
-    image: "/image/gbi.jpg",
+    image: "/ourwork/8.png",
     alt: "Project 4",
     imageLeft: false,
     delay: 0.46,
@@ -117,7 +117,7 @@ const projects = [
     title: "Cabang Dinas Pendidikan Wilayah III Provinsi Jawa Tengah",
     description:
       "Sistem Informasi Cabang Dinas Pendidikan Wilayah III Provinsi Jawa Tengah untuk mendukung pengelolaan data, administrasi, dan operasional secara terpusat dan efisien.",
-    image: "/image/gbi.jpg",
+    image: "/ourwork/6.png",
     alt: "Project 5",
     imageLeft: true,
     delay: 0.58,
@@ -126,9 +126,9 @@ const projects = [
     title: "Gudang Tani",
     description:
       "Pengembangan dan optimalisasi konten landing page untuk meningkatkan kejelasan pesan brand serta efektivitas konversi pengunjung.",
-    image: "/image/gbi.jpg",
-    alt: "Project 5",
-    imageLeft: true,
+    image: "/ourwork/5.png",
+    alt: "Project 6",
+    imageLeft: false,
     delay: 0.58,
   },
 ];
@@ -211,7 +211,7 @@ export default function OurWorkPage() {
                     <motion.img
                       src={project.image}
                       alt={project.alt}
-                      className="w-full h-[220px] md:h-[360px] object-cover"
+                      className="aspect-video object-cover"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
                     />

@@ -10,7 +10,7 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
 
   useEffect(() => {
     let start: number | null = null
-    const duration = 3400
+    const duration = 2400
 
     const step = (timestamp: number) => {
       if (!start) start = timestamp
