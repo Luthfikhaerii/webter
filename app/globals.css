@@ -107,3 +107,28 @@ html.lenis body {
 }
 .strip-img-item { flex-shrink: 0; width: 75vw; }
 @media (min-width: 768px) { .strip-img-item { width: 50vw; } }
+
+
+.whatsapp-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+
+  background-color: #25d366;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}

@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import LoadingProvider from '@/providers/LoadingProvider'
 import { LenisProvider } from '@/providers/LenisProvider'
+import WhatsappButton from '@/components/WhatsappButton'
 
 const inter = Plus_Jakarta_Sans({ subsets: ['latin'], weight: ['400', '500', '600'] })
 
@@ -18,6 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <LenisProvider>
           {children}
+          <WhatsappButton/>
           </LenisProvider>
           <Footer />
         </LoadingProvider>
