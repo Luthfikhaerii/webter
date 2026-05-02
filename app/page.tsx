@@ -58,7 +58,7 @@ function QuoteSection() {
               <div className="overflow-hidden">
                 <motion.blockquote
                   style={{ x, pointerEvents: 'auto' }}
-                  className="text-gray-900 font-medium leading-[1.45] text-2xl md:text-4xl"
+                  className="text-gray-900 font-medium leading-[1.45] text-2xl md:text-3xl"
                 >
                   "Solusi digital yang baik bukan hanya terlihat menarik, tapi mampu menyelesaikan masalah dan menciptakan peluang baru"
                 </motion.blockquote>
@@ -529,7 +529,7 @@ export default function Home() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
-        className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] md:mb-[-2vh] mb-[-30px] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[69vh] min-h-[50vh] flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
@@ -544,7 +544,7 @@ export default function Home() {
           </motion.p>
           <h1
             className="font-semibold leading-[0.92]"
-            style={{ fontSize: 'clamp(50px, 10vw, 120px)', letterSpacing: '-0.03em', pointerEvents: 'auto' }}
+            style={{ fontSize: 'clamp(45px, 10vw, 120px)', letterSpacing: '-0.03em', pointerEvents: 'auto' }}
           >
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
@@ -568,8 +568,8 @@ export default function Home() {
       </motion.section>
 
       {/* ── GALLERY STRIP ── */}
-      <section ref={stripSectionRef} className='md:h-[400vh] h-[165vh] relative'>
-        <div className="sticky top-0 md:h-screen md:h-[90vh] h-[50vh] flex flex-col justify-center overflow-hidden">
+      <section ref={stripSectionRef} className='md:h-[400vh] h-[165vh] relative md:my-[-6vh] my-[-24vh]'>
+        <div className="sticky top-0 md:h-screen md:h-[90vh] h-[90vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img, idx) => (
               <div key={img.src} className="strip-img-item">
@@ -589,7 +589,7 @@ export default function Home() {
       {/* ── ABOUT TEXT ── */}
       <ScrollFadeSection className="relative z-20 overflow-visible">
         <FloatingCircle className="float-2 absolute left-[-250px] w-[600px] h-[600px] rounded-full border-[60px] border-gray-300 opacity-20 pointer-events-none" />
-        <div className="md:px-8 px-4 max-w-7xl mx-auto w-full md:pt-28 pt-6 relative z-50">
+        <div className="md:px-8 px-4 max-w-7xl mx-auto w-full md:pt-28 pt-16 relative z-50">
           <RevealDiv>
             <div className="md:gap-8">
               <div className="hidden mb-12 md:block col-span-2">
@@ -612,7 +612,7 @@ export default function Home() {
               <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400">(SERVICES)</p>
             </div>
             <div className="col-span-12 md:col-span-10">
-              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-2 md:hidden sticky top-4 bg-white py-2 z-[100]">(SERVICES)</p>
+              <p className="text-[10px] tracking-[0.3em] uppercase text-gray-400 mb-2 md:hidden sticky top-4 py-2 z-[100]">(SERVICES)</p>
               {[
                 {
                   num: 'a.', label: 'Company Profile',
