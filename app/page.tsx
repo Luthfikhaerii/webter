@@ -530,7 +530,7 @@ export default function Home() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
-        className="md:px-8 px-4 md:min-h-[69vh] min-h-[50vh] md:mb-[-2vh] mb-[-50px] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] md:mb-[-2vh] mb-[-30px] flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
@@ -569,8 +569,8 @@ export default function Home() {
       </motion.section>
 
       {/* ── GALLERY STRIP ── */}
-      <section ref={stripSectionRef} className='md:h-[400vh] h-[150vh] relative'>
-        <div className="sticky top-0 md:h-screen md:h-[90vh] h-[60vh] flex flex-col justify-center overflow-hidden">
+      <section ref={stripSectionRef} className='md:h-[400vh] h-[165vh] relative'>
+        <div className="sticky top-0 md:h-screen md:h-[90vh] h-[50vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img, idx) => (
               <div key={img.src} className="strip-img-item">
