@@ -64,30 +64,17 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
       </div>
 
       {/* ── CENTER: LOGO + BRAND NAME ── */}
-      <div className="flex flex-col items-center justify-center gap-5">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
-        >
-          <img
-            src="/logo.png"
-            alt="Webter logo"
-            className="w-16 h-16 md:w-20 md:h-20 object-contain"
-          />
-        </motion.div>
-
+      <div className="flex flex-col items-center justify-center">
         {/* Brand name */}
         <div className="overflow-hidden">
           <motion.p
-            initial={{ y: '110%' }}
+            initial={{ y: '100%' }}
             animate={{ y: 0 }}
             transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 }}
             className="font-semibold text-gray-900 tracking-tight flex items-center"
             style={{ fontSize: 'clamp(28px, 5vw, 36px)', letterSpacing: '-0.03em' }}
           >
-            <img src={'icon2.png'} className='md:w-24 w-12'/>Webter
+            <img src={'icon2.png'} className='md:w-24 w-14'/>Webter
           </motion.p>
         </div>
       </div>

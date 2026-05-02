@@ -478,11 +478,11 @@ const works = [
 ]
 
 const galleryImages = [
-  { src: '/strip/lki_strip.png', alt: 'lki' },
-  { src: '/strip/langkahsana_strip.png', alt: 'langkahsana' },
-  { src: '/strip/gbi_strip.png', alt: 'gbi' },
-  { src: '/strip/lupic_strip.png', alt: 'lupic' },
-  { src: '/strip/sicabdin_strip.png', alt: 'sicabdin' },
+  { src: '/strip/lki_strip.webp', alt: 'lki' },
+  { src: '/strip/langkahsana_strip.webp', alt: 'langkahsana' },
+  { src: '/strip/gbi_strip.webp', alt: 'gbi' },
+  { src: '/strip/lupic_strip.webp', alt: 'lupic' },
+  { src: '/strip/sicabdin_strip.webp', alt: 'sicabdin' },
 ]
 
 export default function Home() {
