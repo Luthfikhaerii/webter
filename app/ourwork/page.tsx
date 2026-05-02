@@ -174,7 +174,7 @@ export default function OurWorkPage() {
             >
               <HeroWord word="Our" delay={0.05} />
               {" "}
-              <HeroWord word="Work" delay={0.2} />
+              <HeroWord word="Works" delay={0.2} />
             </h1>
 
           </div>

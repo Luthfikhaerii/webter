@@ -2,6 +2,7 @@
 import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform, useInView, Variants } from 'framer-motion'
 import { useLoaded } from '@/providers/LoadingProvider'
+import { ChevronRight } from 'lucide-react';
 
 /* ── DESIGN TOKENS (mental model)
    Label     : text-[10px] tracking-[0.3em] uppercase text-gray-400
@@ -133,6 +134,9 @@ function ImageToValuesTransition() {
                   <motion.img
                     src="/section/section.png"
                     alt="Monitor workspace"
+                    loading="eager"
+                    decoding="async"
+                    fetchPriority="low"
                     style={{ y: imgY, height: '145%', top: '-20%' }}
                     className="absolute inset-x-0 w-full object-cover"
                   />
@@ -143,8 +147,8 @@ function ImageToValuesTransition() {
                   >
                     <p className="text-[10px] tracking-[0.3em] text-white/50 uppercase mb-3">Our Approach</p>
                     <p className="font-medium text-white leading-[1.1] text-2xl md:text-3xl">
-                      Crafting Digital <br className="hidden md:block" />
-                      Experiences That Matter.
+                      Membangun Pengalaman <br className="hidden md:block" />
+                      Digital yang Bermakna.
                     </p>
                   </motion.div>
                 </div>
@@ -255,6 +259,8 @@ function ParallaxImageSection() {
           <motion.img
             src="https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=1600&q=80"
             alt="Monitor workspace"
+            loading="lazy"
+            decoding="async"
             className="absolute inset-x-0 w-full object-cover pointer-events-none"
             style={{ y, height: '140%', top: '-20%' }}
           />
@@ -356,7 +362,7 @@ function ServiceItem({ s, i, total }: {
           style={{ y: yLabel, pointerEvents: 'auto' }}
           className="grid grid-cols-12 items-center py-6 md:py-8 group cursor-pointer"
         >
-          <p className="md:col-span-4 col-span-3 text-[10px] tracking-[0.3em] uppercase text-gray-400">
+          <p className="md:col-span-4 col-span-3 text-[10px] md:text-sm tracking-[0.3em] uppercase text-gray-400">
             {i + 1 < 10 ? `0${i + 1}` : i + 1}
           </p>
           <div className="md:col-span-7 col-span-8">
@@ -364,7 +370,7 @@ function ServiceItem({ s, i, total }: {
             <p className="text-sm text-gray-400 mt-1.5 leading-relaxed">{s.desc}</p>
           </div>
           <div className="col-span-1 flex justify-end text-gray-400 text-sm group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform tracking-widest">
-            {'↗'}
+            <ChevronRight className='w-4 md:w-8'/>
           </div>
         </motion.div>
       </motion.div>
@@ -402,23 +408,19 @@ function RevealDiv({ children, className, delay = 0, direction = 'up' }: {
 }
 
 /* ── SCROLL FADE SECTION ── */
+// Scroll fade effect dihapus — section sekarang langsung render tanpa opacity/y transform
 function ScrollFadeSection({ children, className, style }: {
   children: React.ReactNode
   className?: string
   style?: React.CSSProperties
 }) {
-  const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
-  const opacity = useTransform(scrollYProgress, [0.3, 0.85], [1, 0])
-  const y = useTransform(scrollYProgress, [0.3, 0.85], [0, -40])
   return (
-    <motion.section
-      ref={ref}
-      style={{ opacity, y, pointerEvents: 'auto', ...style }}
+    <section
+      style={{ pointerEvents: 'auto', ...style }}
       className={className}
     >
       {children}
-    </motion.section>
+    </section>
   )
 }
 
@@ -426,7 +428,7 @@ const wordVariants: Variants = {
   hidden: { y: '100%', opacity: 0 },
   visible: (delay: number) => ({
     y: 0, opacity: 1,
-    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94], delay }
+    transition: { duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94], delay }
   })
 }
 
@@ -469,10 +471,10 @@ const values = [
 ]
 
 const works = [
-  { num: '01', title: 'Lab Kimia Instrumen UPI', img: '/ourwork/1.png' },
-  { num: '02', title: 'Langkahsana Community', img: '/ourwork/4.png' },
-  { num: '03', title: 'Leading University For International Cooperation (LUPIC)', img: '/ourwork/3.png' },
-  { num: '04', title: 'Gudang Belanja Indonesia', img: '/ourwork/8.png' },
+  { num: '01', title: 'Lab Kimia Instrumen UPI', img: '/project/lki.png' },
+  { num: '02', title: 'Langkahsana Community', img: '/project/langkahsana.png' },
+  { num: '03', title: 'Leading University For International Cooperation (LUPIC)', img: '/project/lupic.png' },
+  { num: '04', title: 'Gudang Belanja Indonesia', img: '/project/gbi.png' },
 ]
 
 const galleryImages = [
@@ -528,7 +530,7 @@ export default function Home() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
-        className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] md:mb-[-2vh] mb-[-12vh] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[69vh] min-h-[50vh] md:mb-[-2vh] mb-[-50px] flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
@@ -567,12 +569,18 @@ export default function Home() {
       </motion.section>
 
       {/* ── GALLERY STRIP ── */}
-      <section ref={stripSectionRef} style={{ height: '400vh', position: 'relative' }}>
-        <div className="sticky top-0 md:h-screen h-[90vh] flex flex-col justify-center overflow-hidden">
+      <section ref={stripSectionRef} className='md:h-[400vh] h-[150vh] relative'>
+        <div className="sticky top-0 md:h-screen md:h-[90vh] h-[60vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
-            {galleryImages.map((img) => (
+            {galleryImages.map((img, idx) => (
               <div key={img.src} className="strip-img-item">
-                <img src={img.src} alt={img.alt} className="w-full md:h-[80vh] h-[60vh] object-cover pointer-events-none" />
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="w-full md:h-[80vh] h-[40vh] object-cover pointer-events-none"
+                />
               </div>
             ))}
           </div>
@@ -654,10 +662,12 @@ export default function Home() {
                       <img
                         src={w.img}
                         alt={w.title}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 pointer-events-none"
                       />
                     </div>
-                    <p className="text-xl font-semibold text-gray-900 leading-snug">{w.title}</p>
+                    <p className="md:text-xl text-lg font-semibold text-gray-900 leading-snug">{w.title}</p>
                   </div>
                 </RevealDiv>
               ))}

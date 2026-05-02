@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [count, setCount] = useState(0)
   const [done, setDone] = useState(false)
-  const [shouldRemove, setShouldRemove] = useState(false) // ← Tambahkan state baru
+  const [shouldRemove, setShouldRemove] = useState(false)
 
   useEffect(() => {
     let start: number | null = null
@@ -23,18 +23,16 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         setCount(100)
         setTimeout(() => {
           setDone(true)
-          // Tunggu animasi exit selesai sebelum memanggil onComplete
           setTimeout(() => {
-            setShouldRemove(true) // ← Tandai untuk dihapus
+            setShouldRemove(true)
             setTimeout(onComplete, 100)
-          }, 800) // ← Sesuaikan dengan durasi animasi
+          }, 800)
         }, 300)
       }
     }
     requestAnimationFrame(step)
   }, [onComplete])
 
-  // Jangan render apapun jika harus dihapus
   if (shouldRemove) return null
 
   return (
@@ -42,10 +40,10 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
       className="fixed inset-0 z-[9999] bg-white flex flex-col justify-between overflow-hidden"
       initial={{ opacity: 1, y: 0 }}
       animate={done ? { opacity: 0, y: -24 } : { opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -24 }} // ← Tambahkan exit animation
+      exit={{ opacity: 0, y: -24 }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-      // ← Hapus pointerEvents jika ada
     >
+      {/* ── TOP BAR ── */}
       <div className="flex items-center justify-between px-6 md:px-10 pt-8 md:pt-10">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -65,32 +63,36 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
         </motion.p>
       </div>
 
-      <div className="px-6 md:px-10 flex flex-col items-center text-center gap-4">
+      {/* ── CENTER: LOGO + BRAND NAME ── */}
+      <div className="flex flex-col items-center justify-center gap-5">
+        {/* Logo */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
+        >
+          <img
+            src="/logo.png"
+            alt="Webter logo"
+            className="w-16 h-16 md:w-20 md:h-20 object-contain"
+          />
+        </motion.div>
+
+        {/* Brand name */}
         <div className="overflow-hidden">
           <motion.p
             initial={{ y: '110%' }}
             animate={{ y: 0 }}
-            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.15 }}
-            className="text-xs tracking-[0.25em] text-gray-400 uppercase mb-2"
+            transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.3 }}
+            className="font-semibold text-gray-900 tracking-tight flex items-center"
+            style={{ fontSize: 'clamp(28px, 5vw, 36px)', letterSpacing: '-0.03em' }}
           >
-            We craft
+            <img src={'icon2.png'} className='md:w-24 w-12'/>Webter
           </motion.p>
         </div>
-        {['Websites & Software', 'That Work For You.'].map((line, i) => (
-          <div key={line} className="overflow-hidden">
-            <motion.p
-              initial={{ y: '110%' }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1], delay: 0.2 + i * 0.13 }}
-              className="font-semibold text-gray-900 leading-[0.95]"
-              style={{ fontSize: 'clamp(24px, 4.5vw, 40px)', letterSpacing: '-0.03em' }}
-            >
-              {line}
-            </motion.p>
-          </div>
-        ))}
       </div>
 
+      {/* ── BOTTOM BAR ── */}
       <div className="px-6 md:px-10 pb-8 md:pb-10 flex items-end justify-between">
         <div className="flex flex-col gap-3 w-full max-w-xs">
           <div className="w-full h-[1px] bg-gray-200 overflow-hidden rounded-full">
