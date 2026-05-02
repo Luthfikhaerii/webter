@@ -481,7 +481,6 @@ const galleryImages = [
   { src: '/strip/lki_strip.webp', alt: 'lki' },
   { src: '/strip/langkahsana_strip.webp', alt: 'langkahsana' },
   { src: '/strip/gbi_strip.webp', alt: 'gbi' },
-  { src: '/strip/lupic_strip.webp', alt: 'lupic' },
   { src: '/strip/sicabdin_strip.webp', alt: 'sicabdin' },
 ]
 
