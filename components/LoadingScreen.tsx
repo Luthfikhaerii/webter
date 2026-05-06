@@ -74,7 +74,8 @@ export default function LoadingScreen({ onComplete }: { onComplete: () => void }
             className="font-semibold text-gray-900 tracking-tight flex items-center"
             style={{ fontSize: 'clamp(28px, 5vw, 30px)', letterSpacing: '-0.03em' }}
           >
-            <img src={'icon2.png'} className='md:w-23 w-18 md:mt-[-3px]'/>WEBTER
+            <img src={'icon2.png'} className='md:w-20 w-18 font-extra
+            bold md:mt-[-3px]'/>WEBTER
           </motion.p>
         </div>
       </div>

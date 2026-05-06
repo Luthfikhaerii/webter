@@ -42,7 +42,7 @@ function QuoteSection() {
   return (
     <div
       ref={sectionRef}
-      style={{ height: '250vh', isolation: 'isolate', position: 'relative', zIndex: 20 }}
+      style={{ height: '180vh', isolation: 'isolate', position: 'relative', zIndex: 20 }}
     >
       <div
         className="sticky top-0 h-screen flex items-center overflow-hidden bg-white"
@@ -89,19 +89,19 @@ function ImageToValuesTransition() {
     offset: ['start start', 'end end'],
   })
 
-  const imageScale = useTransform(scrollYProgress, [0.25, 0.6], [1, 0.88])
-  const imageBrightness = useTransform(scrollYProgress, [0.25, 0.6], [1, 0.4])
-  const imageY = useTransform(scrollYProgress, [0.25, 0.6], ['0%', '-6%'])
-  const valuesY = useTransform(scrollYProgress, [0.25, 0.6], [100, 0])
-  const valuesOpacity = useTransform(scrollYProgress, [0.25, 0.4], [0, 1])
+const imageScale = useTransform(scrollYProgress, [0, 0.4], [1, 0.88])
+const imageBrightness = useTransform(scrollYProgress, [0, 0.4], [1, 0.4])
+const imageY = useTransform(scrollYProgress, [0, 0.4], ['0%', '-6%'])
+const valuesY = useTransform(scrollYProgress, [0.3, 0.55], [100, 0])
+const valuesOpacity = useTransform(scrollYProgress, [0.3, 0.5], [0, 1])
 
-  const { scrollYProgress: pxProgress } = useScroll({
-    target: wrapperRef,
-    offset: ['start end', 'center start'],
-  })
-  const imgY = useTransform(pxProgress, [0, 1], ['-20%', '20%'])
-  const textY = useTransform(pxProgress, [0.2, 0.6], ['60px', '-60px'])
-  const textOpacity = useTransform(pxProgress, [0.25, 0.4, 0.7, 0.85], [0, 1, 1, 0])
+const { scrollYProgress: pxProgress } = useScroll({
+  target: wrapperRef,
+  offset: ['start end', 'center start'],
+})
+const imgY = useTransform(pxProgress, [0, 1], ['-10%', '10%'])  // diperkecil
+const textY = useTransform(pxProgress, [0.1, 0.5], ['40px', '-40px'])
+const textOpacity = useTransform(pxProgress, [0.15, 0.3, 0.6, 0.75], [0, 1, 1, 0])
 
   useEffect(() => {
     const unsubY = valuesY.on('change', (v) => {
@@ -119,7 +119,7 @@ function ImageToValuesTransition() {
   }, [valuesY, valuesOpacity])
 
   return (
-    <div ref={wrapperRef} style={{ height: '280vh' }} className="relative md:mt-32 mt-24">
+<div ref={wrapperRef} style={{ height: '220vh' }} className="relative md:mt-32 mt-[-100px]">
 
       {/* IMAGE */}
       <div
@@ -129,7 +129,7 @@ function ImageToValuesTransition() {
         <motion.div style={{ scale: imageScale, y: imageY }} className="w-full h-full">
           <BrightnessWrapper brightness={imageBrightness}>
             <div className="w-full h-full flex items-center">
-              <div className="w-full relative" style={{ height: 'clamp(90vh, 80vh, 90vh)' }}>
+              <div className="w-full relative h-[55vh] md:h-[80vh]">
                 <div className="w-full h-full overflow-hidden relative">
                   <motion.img
                     src="/section/section.png"
@@ -137,7 +137,7 @@ function ImageToValuesTransition() {
                     loading="eager"
                     decoding="async"
                     fetchPriority="low"
-                    style={{ y: imgY, height: '145%', top: '-20%' }}
+                    style={{ y: imgY, height: '125%', top: '-20%' }}
                     className="absolute inset-x-0 w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
@@ -160,13 +160,13 @@ function ImageToValuesTransition() {
 
       {/* VALUES */}
       <div
-        className="sticky top-0 w-full bg-white md:px-8 px-4 md:pt-16 pt-12 pb-20"
+        className="sticky top-0 w-full bg-white md:px-8 px-4 md:pt-32 pt-28 pb-16"
         style={{
           zIndex: 10,
           transform: 'translateY(100%)',
           opacity: 0,
           willChange: 'transform, opacity',
-          minHeight: '100vh',
+          minHeight: '90vh',
           pointerEvents: 'none',
         }}
         ref={valuesRef}
@@ -187,7 +187,7 @@ function ImageToValuesTransition() {
                   dalam setiap kerja.
                 </h2>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed max-w-[220px] md:text-right tracking-tight">
+              <p className="text-sm text-gray-500 leading-relaxed md:max-w-[220px] md:text-right tracking-tight">
                 Prinsip-prinsip ini bukan sekadar kata — melainkan fondasi dari setiap
                 solusi digital yang kami hadirkan.
               </p>
@@ -447,7 +447,7 @@ function HeroWord({ word, delay, pb, isLoaded }: {
         variants={wordVariants}
         initial="hidden"
         animate={isLoaded ? 'visible' : 'hidden'}
-        className="inline-block"
+        className="inline-block uppercase"
         style={{ pointerEvents: 'auto' }}
       >
         {word}
@@ -529,7 +529,7 @@ export default function Home() {
       <motion.section
         ref={heroRef}
         style={{ opacity: heroOpacity, overflowX: 'clip', pointerEvents: 'auto' }}
-        className="md:px-8 px-4 md:min-h-[69vh] min-h-[40vh] flex items-end relative"
+        className="md:px-8 px-4 md:min-h-[70vh] min-h-[50vh] mb-8 flex items-end relative"
       >
         <div className="absolute right-[-120px] top-[-80px] w-[280px] h-[280px] border-[50px] md:right-[-200px] md:top-[-200px] md:w-[600px] md:h-[600px] md:border-[80px] rounded-full border-gray-600 opacity-10 pointer-events-none" />
         <motion.div style={{ y: heroY, pointerEvents: 'auto' }} className="relative z-50 max-w-7xl mx-auto w-full">
@@ -543,8 +543,8 @@ export default function Home() {
             Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
           </motion.p>
           <h1
-            className="font-semibold leading-[0.92]"
-            style={{ fontSize: 'clamp(45px, 10vw, 120px)', letterSpacing: '-0.03em', pointerEvents: 'auto' }}
+            className="md:leading-[0.92] leading-[1.3]"
+            style={{ fontSize: 'clamp(44px, 10vw, 120px)', fontWeight: '900', pointerEvents: 'auto' }}
           >
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
@@ -560,15 +560,15 @@ export default function Home() {
               </motion.span>
             </div>
             <div className="flex items-baseline flex-wrap" style={{ gap: '0 0.2em' }}>
-              <HeroWord word="Digital" delay={0.32} pb={6} isLoaded={loaded} />
-              <HeroWord word="Future" delay={0.46} pb={6} isLoaded={loaded} />
+              <HeroWord word="Digital" delay={0.32} pb={0} isLoaded={loaded} />
+              <HeroWord word="Future" delay={0.46} pb={0} isLoaded={loaded} />
             </div>
           </h1>
         </motion.div>
       </motion.section>
 
       {/* ── GALLERY STRIP ── */}
-      <section ref={stripSectionRef} className='md:h-[400vh] h-[165vh] relative md:my-[-6vh] my-[-24vh]'>
+      <section ref={stripSectionRef} className='md:h-[400vh] h-[190vh] relative md:my-[-6vh] my-[-20vh]'>
         <div className="sticky top-0 md:h-screen md:h-[90vh] h-[90vh] flex flex-col justify-center overflow-hidden">
           <div ref={stripTrackRef} id="stripTrack" className="md:px-8 px-4">
             {galleryImages.map((img, idx) => (
@@ -578,7 +578,7 @@ export default function Home() {
                   alt={img.alt}
                   loading={idx === 0 ? 'eager' : 'lazy'}
                   decoding="async"
-                  className="w-full md:h-[80vh] h-[40vh] object-cover pointer-events-none"
+                  className="w-full md:h-[80vh] h-[50vh] object-cover pointer-events-none"
                 />
               </div>
             ))}
