@@ -119,7 +119,7 @@ const textOpacity = useTransform(pxProgress, [0.15, 0.3, 0.6, 0.75], [0, 1, 1, 0
   }, [valuesY, valuesOpacity])
 
   return (
-<div ref={wrapperRef} style={{ height: '220vh' }} className="relative md:mt-32 mt-[-100px]">
+<div ref={wrapperRef} style={{ height: '240vh' }} className="relative md:mt-32 mt-[-100px]">
 
       {/* IMAGE */}
       <div
@@ -201,14 +201,14 @@ const textOpacity = useTransform(pxProgress, [0.15, 0.3, 0.6, 0.75], [0, 1, 1, 0
                 <div className="grid grid-cols-1 md:grid-cols-2 items-start gap-0 py-6 border-b border-gray-300 group">
 
                   {/* Title */}
-                  <h3 className={`text-2xl md:text-3xl leading-tight transition-colors duration-300 group-hover:text-gray-900 relative z-10 ${
+                  <h3 className={`text-2xl md:text-2xl leading-tight transition-colors duration-300 group-hover:text-gray-900 relative z-10 ${
                     i === 0 ? 'text-gray-900 font-medium' : 'text-gray-400 font-normal'
                   }`}>
                     {v.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="hidden md:block text-sm text-gray-500 leading-relaxed pl-6 border-l border-gray-300 max-w-[260px] tracking-tight">
+                  <p className="hidden md:block text-sm text-gray-500 leading-relaxed pl-6 border-gray-300 max-w-[260px] tracking-tight">
                     {v.desc}
                   </p>
 
@@ -544,7 +544,7 @@ export default function Home() {
           </motion.p>
           <h1
             className="md:leading-[0.92] leading-[1.3]"
-            style={{ fontSize: 'clamp(44px, 10vw, 120px)', fontWeight: '900', pointerEvents: 'auto' }}
+            style={{ fontSize: 'clamp(44px, 10vw, 110px)', fontWeight: '900', pointerEvents: 'auto' }}
           >
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
@@ -554,7 +554,7 @@ export default function Home() {
                 initial="hidden"
                 animate={loaded ? 'visible' : 'hidden'}
                 className="hidden md:inline-block font-normal leading-relaxed text-gray-500 pb-[0.15em]"
-                style={{ fontSize: '10px', letterSpacing: '0', width: '11rem', marginLeft: '0.3em', pointerEvents: 'auto' }}
+                style={{ fontSize: '12px', letterSpacing: '0', width: '13rem', marginLeft: '0.3em', pointerEvents: 'auto' }}
               >
                 Menggabungkan teknologi modern untuk menghadirkan solusi digital yang relevan
               </motion.span>

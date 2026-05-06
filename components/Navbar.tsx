@@ -43,13 +43,14 @@ export default function Navbar() {
       <motion.nav
         animate={{ y: hidden ? '-100%' : '0%' }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className={`fixed w-full md:px-10 px-4 md:py-3 py-3 z-[99999] transition-colors duration-500 ${
-          scrolled ? 'bg-[rgba(244,244,244,0.85)] backdrop-blur-lg' : ''
-        } ${!loaded ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
+        className={`fixed w-full md:px-10 px-4 md:py-3 py-3 z-[99999] transition-colors duration-500 ${scrolled || menuOpen   // ← tambah menuOpen
+          ? 'bg-[rgba(244,244,244,0.95)] backdrop-blur-lg'
+          : 'bg-transparent'
+          } ${!loaded ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
       >
         <div className="flex max-w-7xl mx-auto w-full justify-between items-center">
           <Link href="/" className="flex items-center text-[20px] font-semibold text-[#111] transition-colors duration-300">
-            <img src={"icon2.png"} className='object-cover w-12'/>Webter
+            <img src={"icon2.png"} className='object-cover w-12' />Webter
           </Link>
 
           {/* Desktop */}
@@ -60,9 +61,8 @@ export default function Navbar() {
                 <Link key={link.href} href={link.href}
                   className="relative font-medium text-[#111] transition-colors duration-300 group">
                   {link.label}
-                  <span className={`absolute -bottom-0.5 left-0 h-px bg-[#111] transition-all duration-300 ${
-                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`} />
+                  <span className={`absolute -bottom-0.5 left-0 h-px bg-[#111] transition-all duration-300 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
                 </Link>
               )
             })}
