@@ -533,7 +533,7 @@ export default function Home() {
 
           <h1
             className="md:leading-[1] leading-[1.3]"
-            style={{ fontSize: 'clamp(35px, 10vw, 110px)', fontWeight: '900', pointerEvents: 'auto' }}
+            style={{ fontSize: 'clamp(35px, 10vw, 100px)', fontWeight: '900', pointerEvents: 'auto' }}
           >
             <div className="flex items-end flex-wrap" style={{ gap: '0 0.2em' }}>
               <HeroWord word="Build" delay={0.05} pb={0} isLoaded={loaded} />
